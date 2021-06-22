@@ -1,0 +1,28 @@
+{
+  "name": "hand-drawn-component",
+  "version": "1.0.0",
+  "description": "hand-drawn component",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "server": "npx web-dev-server --node-resolve"
+  },
+  "keywords": [
+    "hand-drawn",
+    "js",
+    "webComponent"
+  ],
+  "author": "MissThee",
+  "license": "ISC",
+  "dependencies": {
+    "lit": "^2.0.0-rc.2",
+    "roughjs": "^4.4.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "@web/dev-server": "^0.1.17",
+    "eslint": "^7.29.0",
+    "typescript": "^4.3.4"
+  }
+}
