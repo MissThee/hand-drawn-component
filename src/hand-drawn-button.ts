@@ -1,138 +1,29 @@
-import {LitElement, css, TemplateResult, html, CSSResultArray, PropertyValues} from 'lit';
-import {Options} from 'roughjs/bin/core';
+import {css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import rough from 'roughjs';
-import {RoughCanvas} from 'roughjs/bin/canvas';
-import {RoughSVG} from 'roughjs/bin/svg';
+import {BaseCss, HandDrawnBase} from './base/hand-drawn-base';
 
 @customElement('hand-drawn-button')
-export class HandDrawnButton extends LitElement {
-  constructor() {
-    super();
-  }
-
-  @property() renderType: 'canvas' | 'svg' | undefined = 'canvas';
-  @property() renderEl: HTMLCanvasElement | SVGSVGElement | undefined;
-  @property() rc: RoughCanvas | RoughSVG | undefined;
-  @property() rcPadding: number = 2;
-  @property() drawOption: Options = {bowing: 3};
-  @property() drawInterval: NodeJS.Timeout | null = null;
-
-
+export class HandDrawnButton extends HandDrawnBase {
   @query('#button') protected button: HTMLElement | undefined;
-  @query('#overlay') protected overlay: HTMLElement | undefined;
 
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: Boolean, reflect: false}) isHover = false;
   @property({type: String, reflect: true}) value = '';
 
-  protected firstUpdated(_changedProperties: PropertyValues) {
-    super.firstUpdated(_changedProperties);
-    if (this.overlay) {
-      switch (this.renderType) {
-        case 'canvas':
-          this.renderEl = document.createElement('canvas');
-          this.rc = rough.canvas(<HTMLCanvasElement>this.renderEl);
-          break;
-        case 'svg':
-          this.renderEl = <SVGSVGElement>this.createSVGElement('svg');
-          this.rc = rough.svg(<SVGSVGElement>this.renderEl);
-          break;
-        default:
-          return;
-      }
-    }
-    this.draw();
-  }
-
-  connectedCallback() {
-    // setTimeout(() => {
-    //   this.disabled=true
-    // }, 2000);
-    super.connectedCallback();
-    this.addEventListener('mouseover', this.mouseHoverHandler);
-    this.addEventListener('mouseleave', this.mouseLeaveHandler);
-  }
-
-  disconnectedCallback() {
-    super.connectedCallback();
-    this.removeEventListener('mouseover', this.mouseHoverHandler);
-    this.removeEventListener('mouseleave', this.mouseLeaveHandler);
-  }
-
-  mouseHoverHandler() {
-    this.performAnimation(true);
-  }
-
-  mouseLeaveHandler() {
-    this.performAnimation(false);
-  }
-
-  performAnimation(isStart = true) {
-    if (isStart) {
-      if (!this.drawInterval) {
-        this.drawInterval = setInterval(() => {
-          this.draw();
-        }, 150);
-      }
-    } else {
-      if (this.drawInterval) {
-        clearInterval(this.drawInterval);
-        this.drawInterval = null;
-      }
-    }
-  }
-
-  draw() {
-    if (this.rc && this.overlay && this.renderEl && this.button) {
-      this.overlay.append(<HTMLCanvasElement>this.renderEl);
-      const rect = { // this.button.getBoundingClientRect();  //Will be affected by scale
-        width: this.button.clientWidth,
-        height: this.button.clientHeight
-      };
-      if (this.renderEl instanceof HTMLCanvasElement) {
-        this.renderEl.getContext('2d')?.clearRect(0, 0, rect.width, rect.height);
-        this.renderEl.width = rect.width;
-        this.renderEl.height = rect.height;
-        this.rc.rectangle(this.rcPadding, this.rcPadding, rect.width - this.rcPadding * 2, rect.height - this.rcPadding * 2, this.drawOption);
-      } else if (this.renderEl instanceof SVGSVGElement) {
-        if (this.renderEl.childNodes[0]) {
-          this.renderEl.removeChild(this.renderEl.childNodes[0]);
-        }
-        this.renderEl.style.width = rect.width + 'px';
-        this.renderEl.style.height = rect.height + 'px';
-        let node = this.rc.rectangle(this.rcPadding, this.rcPadding, rect.width - this.rcPadding * 2, rect.height - this.rcPadding * 2, this.drawOption);
-        this.renderEl.appendChild(<Node>node);
-      }
-    }
-  }
-
-  createSVGElement(tag: string) {
-    return document.createElementNS("http://www.w3.org/2000/svg", tag);
-  }
-
-  render(): TemplateResult {
+  protected render() {
     return html`
         <div id="button" ?disabled="${this.disabled}">
-            <slot></slot>
-            <div id="overlay"></div>
+            <slot @slotchange="${this.roughDraw}"></slot>
+            <div id="roughWrapperEl"></div>
         </div>
     `;
   }
 
-  static get styles(): CSSResultArray {
+  static get styles() {
     return [
+      BaseCss,
       css`
         :host {
-          display: inline-block;
-        }
-
-        #overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          cursor: pointer;
         }
 
         #button {
@@ -168,4 +59,24 @@ export class HandDrawnButton extends LitElement {
     ];
   }
 
+  protected roughDraw() {
+    const rect = { // this.button.getBoundingClientRect();  //Will be affected by scale
+      width: this.button?.clientWidth || 0,
+      height: this.button?.clientHeight || 0
+    };
+    if (this.roughDrawEl instanceof HTMLCanvasElement) {
+      this.roughDrawEl.getContext('2d')?.clearRect(0, 0, rect.width, rect.height);
+      this.roughDrawEl.width = rect.width;
+      this.roughDrawEl.height = rect.height;
+      this.roughDrawInstance?.rectangle(this.roughPadding, this.roughPadding, rect.width - this.roughPadding * 2, rect.height - this.roughPadding * 2, this.drawOption);
+    } else if (this.roughDrawEl instanceof SVGSVGElement) {
+      if (this.roughDrawEl.childNodes[0]) {
+        this.roughDrawEl.removeChild(this.roughDrawEl.childNodes[0]);
+      }
+      this.roughDrawEl.style.width = rect.width + 'px';
+      this.roughDrawEl.style.height = rect.height + 'px';
+      let node = this.roughDrawInstance?.rectangle(this.roughPadding, this.roughPadding, rect.width - this.roughPadding * 2, rect.height - this.roughPadding * 2, this.drawOption);
+      this.roughDrawEl.appendChild(<Node>node);
+    }
+  }
 }

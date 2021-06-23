@@ -4,22 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
     <script type="module" src="../lib/hand-drawn-button.js"></script>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 10px;
-            font-family: 'Gloria Hallelujah', sans-serif;
-        }
-    </style>
 </head>
 
 <body>
 
-<hand-drawn-button id="btn1" value="button">Submit</hand-drawn-button>
-
+<hand-drawn-button id="btn1" value="button" onclick="a()" renderType="svg">Submit(svg)</hand-drawn-button>
+<hand-drawn-button id="btn1" value="button" onclick="a()" renderType="canvas">Submit(canvas)</hand-drawn-button>
+<hand-drawn-button id="btn1" value="button" onclick="a()" renderType="svg">按钮(svg)</hand-drawn-button>
+<hand-drawn-button id="btn1" value="button" onclick="a()" renderType="canvas">按钮(canvas)</hand-drawn-button>
+<script>
+    function a() {
+        document.body.append(document.createTextNode('click！'))
+    }
+</script>
 </body>
 
 </html>
