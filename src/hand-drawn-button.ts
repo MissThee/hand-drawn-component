@@ -11,10 +11,9 @@ export class HandDrawnButton extends HandDrawnBase {
 
   protected render() {
     return html`
-<!--        <div style="width: 100px;height: 40px" class="rough"></div>-->
-        <div id="button" class="rough" ?disabled="${this.disabled}">
+        <button id="button" class="rough" ?disabled="${this.disabled}">
             <slot @slotchange="${this.roughDraw}"></slot>
-        </div>
+        </button>
     `;
   }
 
@@ -24,6 +23,7 @@ export class HandDrawnButton extends HandDrawnBase {
       css`
         :host {
           cursor: pointer;
+          vertical-align: middle;
         }
 
         #button {
@@ -40,6 +40,8 @@ export class HandDrawnButton extends HandDrawnBase {
           padding: 10px 12px;
           color: inherit;
           outline: none;
+          width: 100%;
+          height: 100%;
         }
 
         #button:active {

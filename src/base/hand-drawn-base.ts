@@ -31,12 +31,12 @@ interface RoughObjCanvas {
 
 export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') protected roughParentElArray: HTMLElement[] | undefined;
-  @property() protected drawOption: Options = {bowing: 3};
+  @property() protected drawOption: Options = {};
   @property() protected renderType: RenderType = RenderType.CANVAS;
   @property() protected animationTpe: AnimationTpe = AnimationTpe.HOVER;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
-  protected roughPadding: number = 5;
+  protected roughPadding: number = 2;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
@@ -140,7 +140,6 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   protected roughDraw() {
-
     for (let roughObj of this.roughObjArray) {
       const size = {
         width: roughObj.roughParentEl.clientWidth,
@@ -156,7 +155,6 @@ export abstract class HandDrawnBase extends LitElement {
       }
     }
   }
-
 }
 
 export const BaseCss = css`
