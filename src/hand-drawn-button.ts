@@ -11,9 +11,8 @@ export class HandDrawnButton extends HandDrawnBase {
 
   protected render() {
     return html`
-        <div id="button" ?disabled="${this.disabled}">
+        <div id="button" class="rough" ?disabled="${this.disabled}">
             <slot @slotchange="${this.roughDraw}"></slot>
-            <div id="roughWrapperEl"></div>
         </div>
     `;
   }
@@ -59,24 +58,5 @@ export class HandDrawnButton extends HandDrawnBase {
     ];
   }
 
-  protected roughDraw() {
-    const rect = { // this.button.getBoundingClientRect();  //Will be affected by scale
-      width: this.button?.clientWidth || 0,
-      height: this.button?.clientHeight || 0
-    };
-    if (this.roughDrawEl instanceof HTMLCanvasElement) {
-      this.roughDrawEl.getContext('2d')?.clearRect(0, 0, rect.width, rect.height);
-      this.roughDrawEl.width = rect.width;
-      this.roughDrawEl.height = rect.height;
-      this.roughDrawInstance?.rectangle(this.roughPadding, this.roughPadding, rect.width - this.roughPadding * 2, rect.height - this.roughPadding * 2, this.drawOption);
-    } else if (this.roughDrawEl instanceof SVGSVGElement) {
-      if (this.roughDrawEl.childNodes[0]) {
-        this.roughDrawEl.removeChild(this.roughDrawEl.childNodes[0]);
-      }
-      this.roughDrawEl.style.width = rect.width + 'px';
-      this.roughDrawEl.style.height = rect.height + 'px';
-      let node = this.roughDrawInstance?.rectangle(this.roughPadding, this.roughPadding, rect.width - this.roughPadding * 2, rect.height - this.roughPadding * 2, this.drawOption);
-      this.roughDrawEl.appendChild(<Node>node);
-    }
-  }
+
 }

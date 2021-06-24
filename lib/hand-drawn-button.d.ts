@@ -5,5 +5,4 @@ export declare class HandDrawnButton extends HandDrawnBase {
     value: string;
     protected render(): import("lit").TemplateResult<1>;
     static get styles(): import("lit").CSSResultGroup[];
-    protected roughDraw(): void;
 }

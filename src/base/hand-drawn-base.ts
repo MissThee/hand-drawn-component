@@ -1,5 +1,5 @@
 import {css, LitElement, PropertyValues} from 'lit';
-import {property, query} from 'lit/decorators.js';
+import {property, queryAll} from 'lit/decorators.js';
 
 import rough from 'roughjs';
 import {Options} from 'roughjs/bin/core';
@@ -17,21 +17,31 @@ enum AnimationTpe {
   NONE = 'none',
 }
 
-export abstract class HandDrawnBase extends LitElement {
-  @query('#roughWrapperEl') protected roughWrapperEl: HTMLElement | undefined;
-  @property() protected drawOption: Options = {bowing: 3};
-  @property() protected renderType: RenderType | undefined = RenderType.CANVAS;
-  @property() protected animationTpe: AnimationTpe = AnimationTpe.HOVER;
-  private drawInterval: NodeJS.Timeout | null = null;
-  protected roughDrawEl: HTMLCanvasElement | SVGSVGElement | undefined;
-  protected roughDrawInstance: RoughCanvas | RoughSVG | undefined;
-  protected roughPadding: number = 5;
+interface RoughObjSvg {
+  roughParentEl: HTMLElement
+  roughEl: SVGSVGElement
+  roughInstance: RoughSVG
+}
 
+interface RoughObjCanvas {
+  roughParentEl: HTMLElement
+  roughEl: HTMLCanvasElement
+  roughInstance: RoughCanvas
+}
+
+export abstract class HandDrawnBase extends LitElement {
+  @queryAll('.rough') protected roughParentElArray: HTMLElement[] | undefined;
+  @property() protected drawOption: Options = {bowing: 3};
+  @property() protected renderType: RenderType = RenderType.CANVAS;
+  @property() protected animationTpe: AnimationTpe = AnimationTpe.HOVER;
+  protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
+  private drawInterval: NodeJS.Timeout | null = null;
+  protected roughPadding: number = 5;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
-    this.roughDraw();
+    this.roughRefresh();
     if (this.animationTpe === AnimationTpe.ALWAYS) {
       this.performAnimation(true);
     }
@@ -62,20 +72,36 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   private roughInit() {
-    if (this.roughWrapperEl) {
-      switch (this.renderType) {
-        case RenderType.CANVAS:
-          this.roughDrawEl = document.createElement('canvas');
-          this.roughWrapperEl.append(<HTMLCanvasElement>this.roughDrawEl);
-          this.roughDrawInstance = rough.canvas(<HTMLCanvasElement>this.roughDrawEl);
-          break;
-        case RenderType.SVG:
-          this.roughDrawEl = <SVGSVGElement>document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-          this.roughWrapperEl.append(<SVGSVGElement>this.roughDrawEl);
-          this.roughDrawInstance = rough.svg(<SVGSVGElement>this.roughDrawEl);
-          break;
-        default:
-          return;
+    if (this.roughParentElArray && this.roughParentElArray.length > 0) {
+      for (let roughParentEl of this.roughParentElArray) {
+        switch (this.renderType) {
+          case RenderType.CANVAS: {
+            const roughDrawEl = document.createElement('canvas');
+            roughDrawEl.classList.add('rough-context');
+            roughParentEl.append(roughDrawEl);
+            const roughDrawInstance = rough.canvas(roughDrawEl);
+            this.roughObjArray.push({
+              roughParentEl: roughParentEl,
+              roughEl: roughDrawEl,
+              roughInstance: roughDrawInstance
+            });
+            break;
+          }
+          case RenderType.SVG: {
+            const roughDrawEl = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+            roughDrawEl.classList.add('rough-context');
+            roughParentEl.append(roughDrawEl);
+            const roughDrawInstance = rough.svg(roughDrawEl);
+            this.roughObjArray.push({
+              roughParentEl: roughParentEl,
+              roughEl: roughDrawEl,
+              roughInstance: roughDrawInstance
+            });
+            break;
+          }
+          default:
+            return;
+        }
       }
     }
   }
@@ -84,7 +110,7 @@ export abstract class HandDrawnBase extends LitElement {
     if (isStart) {
       if (!this.drawInterval) {
         this.drawInterval = setInterval(() => {
-          this.roughDraw();
+          this.roughRefresh();
         }, 150);
       }
     } else {
@@ -95,7 +121,35 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  protected abstract roughDraw(): void;
+  protected roughRefresh() {
+    this.roughSize();
+    this.roughDraw();
+  }
+
+  private roughSize() {
+    for (let roughObj of this.roughObjArray) {
+      roughObj.roughEl.style.width = roughObj.roughParentEl.clientWidth + 'px';
+      roughObj.roughEl.style.height = roughObj.roughParentEl.clientHeight + 'px';
+      if (roughObj.roughEl instanceof HTMLCanvasElement) {
+        roughObj.roughEl.width = this.clientWidth;
+        roughObj.roughEl.height = this.clientHeight;
+      }
+    }
+  }
+
+  protected roughDraw() {
+    for (let roughObj of this.roughObjArray) {
+      if (roughObj.roughEl instanceof HTMLCanvasElement) {
+        roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
+        roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, this.clientWidth - this.roughPadding * 2, this.clientHeight - this.roughPadding * 2, this.drawOption);
+      } else if (roughObj.roughEl instanceof SVGSVGElement) {
+        let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, this.clientWidth - this.roughPadding * 2, this.clientHeight - this.roughPadding * 2, this.drawOption);
+        roughObj.roughEl.innerHTML = '';
+        roughObj.roughEl.appendChild(<Node>node);
+      }
+    }
+  }
+
 }
 
 export const BaseCss = css`
@@ -108,7 +162,11 @@ export const BaseCss = css`
     position: relative;
   }
 
-  #roughWrapperEl {
+  .rough {
+    position: relative;
+  }
+
+  .rough > .rough-context {
     position: absolute;
     top: 0;
     left: 0;
