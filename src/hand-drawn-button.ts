@@ -11,6 +11,7 @@ export class HandDrawnButton extends HandDrawnBase {
 
   protected render() {
     return html`
+<!--        <div style="width: 100px;height: 40px" class="rough"></div>-->
         <div id="button" class="rough" ?disabled="${this.disabled}">
             <slot @slotchange="${this.roughDraw}"></slot>
         </div>
