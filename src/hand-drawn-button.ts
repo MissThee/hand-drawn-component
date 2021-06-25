@@ -4,26 +4,23 @@ import {BaseCss, HandDrawnBase} from './base/hand-drawn-base';
 
 @customElement('hand-drawn-button')
 export class HandDrawnButton extends HandDrawnBase {
-  @query('#button') protected button: HTMLElement | undefined;
-
+  @query('#slot')  slotEl: HTMLElement | undefined
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) value = '';
 
   protected render() {
     return html`
         <button id="button" class="rough" ?disabled="${this.disabled}">
-            <slot @slotchange="${this.roughDraw}"></slot>
+            <slot id="slot" @slotchange="${this.roughRefresh}"></slot>
         </button>
     `;
   }
-
   static get styles() {
     return [
       BaseCss,
       css`
         :host {
           cursor: pointer;
-          vertical-align: middle;
         }
 
         #button {

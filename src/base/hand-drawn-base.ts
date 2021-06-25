@@ -6,42 +6,49 @@ import {Options} from 'roughjs/bin/core';
 import {RoughCanvas} from 'roughjs/bin/canvas';
 import {RoughSVG} from 'roughjs/bin/svg';
 
-enum RenderType {
+export enum RenderType {
   CANVAS = 'canvas',
   SVG = 'svg'
 }
 
-enum AnimationTpe {
+export enum AnimationTpe {
   HOVER = 'hover',
   ALWAYS = 'always',
   NONE = 'none',
 }
 
-interface RoughObjSvg {
+export interface RoughObjSvg {
   roughParentEl: HTMLElement
   roughEl: SVGSVGElement
   roughInstance: RoughSVG
 }
 
-interface RoughObjCanvas {
+export interface RoughObjCanvas {
   roughParentEl: HTMLElement
   roughEl: HTMLCanvasElement
   roughInstance: RoughCanvas
 }
 
 export abstract class HandDrawnBase extends LitElement {
-  @queryAll('.rough') protected roughParentElArray: HTMLElement[] | undefined;
-  @property() protected drawOption: Options = {};
+  @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
+  @property() protected drawOption: Options = {
+    bowing: 1,
+    roughness: 1
+  };
   @property() protected renderType: RenderType = RenderType.CANVAS;
-  @property() protected animationTpe: AnimationTpe = AnimationTpe.HOVER;
+  @property() protected animationTpe: AnimationTpe = AnimationTpe.NONE;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
+  private resizeTimeout: NodeJS.Timeout | null = null;
   protected roughPadding: number = 2;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
-    this.roughRefresh();
+    // need wait slot render finished, but i don't know how.
+    setTimeout(() => {
+      this.roughRefresh();
+    }, 0);
     if (this.animationTpe === AnimationTpe.ALWAYS) {
       this.performAnimation(true);
     }
@@ -49,14 +56,26 @@ export abstract class HandDrawnBase extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    window.addEventListener('resize', this.resizeHandler.bind(this));
     this.addEventListener('mouseenter', this.mouseHoverHandler);
     this.addEventListener('mouseleave', this.mouseLeaveHandler);
   }
 
   disconnectedCallback() {
     super.connectedCallback();
+    window.removeEventListener('resize', this.resizeHandler.bind(this));
     this.removeEventListener('mouseenter', this.mouseHoverHandler);
     this.removeEventListener('mouseleave', this.mouseLeaveHandler);
+  }
+
+  private resizeHandler() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = null;
+    }
+    this.resizeTimeout = setTimeout(() => {
+      this.roughRefresh();
+    }, 30);
   }
 
   private mouseHoverHandler() {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" src="../lib/hand-drawn-button.js"></script>
+    <script type="module" src="../lib/hand-drawn-icon.js"></script>
+
+</head>
+<body>
+<hand-drawn-button style="width: 10%" renderType="svg">test1</hand-drawn-button>
+<hand-drawn-button style="width: 10%" renderType="canvas">test2</hand-drawn-button>
+
+<hand-drawn-button renderType="svg">
+    <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+    <span>Submit(svg)</span>
+</hand-drawn-button>
+<hand-drawn-button renderType="canvas">
+    <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+    <span>Submit(canvas)</span>
+</hand-drawn-button>
+</body>
+
+</html>
