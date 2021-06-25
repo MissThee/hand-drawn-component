@@ -4,22 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <script type="module" src="../lib/hand-drawn-button.js"></script>
     <script type="module" src="../lib/hand-drawn-icon.js"></script>
-
+    <script type="module" src="../lib/hand-drawn-pad.js"></script>
 </head>
 <body>
-<hand-drawn-button style="width: 10%" renderType="svg">test1</hand-drawn-button>
-<hand-drawn-button style="width: 10%" renderType="canvas">test2</hand-drawn-button>
 
-<hand-drawn-button renderType="svg">
-    <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
-    <span>Submit(svg)</span>
-</hand-drawn-button>
-<hand-drawn-button renderType="canvas">
-    <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
-    <span>Submit(canvas)</span>
-</hand-drawn-button>
+<hand-drawn-pad style="width: 100%;padding: 30px">
+    <hand-drawn-button style="width: 10%;min-width: 100px" renderType="svg">test1</hand-drawn-button>
+    <hand-drawn-button style="width: 10%;min-width: 100px" renderType="canvas">测试2</hand-drawn-button>
+    <hand-drawn-button style="width: 10%;min-width: 100px" renderType="canvas">中文字体测试</hand-drawn-button>
+    <hand-drawn-button renderType="svg">
+        <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+        <span>Loading(svg)</span>
+    </hand-drawn-button>
+    <hand-drawn-button renderType="canvas">
+        <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+        <span>Loading(canvas)</span>
+    </hand-drawn-button>
+</hand-drawn-pad>
+
 </body>
 
 </html>
