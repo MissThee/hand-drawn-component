@@ -45,7 +45,7 @@ export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property() protected fontFamily: string = 'FZMWFont';
   @property() protected fontSrc: string = '/src/assets/font/FZMWFont.woff2';
-  @property() protected drawOption: Options = {
+  static drawOption: Options = {
     bowing: 0.5,
     roughness: 1
   };
@@ -59,6 +59,7 @@ export abstract class HandDrawnBase extends LitElement {
   constructor() {
     super();
     this.setFont();
+    console.log(this.detectZoom())
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
@@ -89,6 +90,30 @@ export abstract class HandDrawnBase extends LitElement {
     window.removeEventListener('resize', this.resizeHandler.bind(this));
     this.removeEventListener('mouseenter', this.mouseHoverHandler);
     this.removeEventListener('mouseleave', this.mouseLeaveHandler);
+  }
+
+  private detectZoom() {
+    let ratio = 0,
+      screen = window.screen,
+      ua = navigator.userAgent.toLowerCase();
+
+    if (window.devicePixelRatio !== undefined) {
+      ratio = window.devicePixelRatio;
+    } else if (~ua.indexOf('msie')) {
+      // @ts-ignore
+      if (screen.deviceXDPI && screen.logicalXDPI) {
+        // @ts-ignore
+        ratio = screen.deviceXDPI / screen.logicalXDPI;
+      }
+    } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+      ratio = window.outerWidth / window.innerWidth;
+    }
+
+    if (ratio) {
+      ratio = Math.round(ratio * 100);
+    }
+
+    return ratio;
   }
 
   private setFont() {
@@ -178,7 +203,7 @@ export abstract class HandDrawnBase extends LitElement {
     if (isStart) {
       if (!this.drawInterval) {
         this.drawInterval = setInterval(() => {
-          this.roughRender();
+          this.roughRender(true);
         }, 150);
       }
     } else {
@@ -189,13 +214,13 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  protected roughRender() {
+  protected roughRender(isForce: boolean = false) {
     for (let roughObj of this.roughObjArray) {
       const size = {
         width: roughObj.roughParentEl.clientWidth,
         height: roughObj.roughParentEl.clientHeight
       };
-      if (!roughObj.roughFirstRendered || size.width !== roughObj.roughParentElSizePre.width || size.height !== roughObj.roughParentElSizePre.height) {
+      if (isForce || !roughObj.roughFirstRendered || size.width !== roughObj.roughParentElSizePre.width || size.height !== roughObj.roughParentElSizePre.height) {
         this.roughSizeOne(size, roughObj);
         this.roughDrawOne(size, roughObj);
         roughObj.roughFirstRendered = true;
@@ -215,9 +240,9 @@ export abstract class HandDrawnBase extends LitElement {
   protected roughDrawOne(size: RoughSize, roughObj: RoughObjSvg | RoughObjCanvas) {
     if (roughObj.roughEl instanceof HTMLCanvasElement) {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
-      roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption);
+      roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, HandDrawnBase.drawOption);
     } else if (roughObj.roughEl instanceof SVGSVGElement) {
-      let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption);
+      let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, HandDrawnBase.drawOption);
       roughObj.roughEl.innerHTML = '';
       roughObj.roughEl.appendChild(<Node>node);
     }
@@ -268,8 +293,8 @@ export const BaseCss = css`
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: inherit, 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
     position: relative;
+    font-family: inherit, 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
   }
 
   .rough {
