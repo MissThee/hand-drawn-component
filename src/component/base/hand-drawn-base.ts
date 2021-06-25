@@ -42,10 +42,15 @@ export interface RoughObjCanvas extends RoughObj {
 
 
 export abstract class HandDrawnBase extends LitElement {
+  private fontInfoArray = [
+    {fontFamily: 'comic', fontSrc: '/src/assets/font/comic.ttf'},
+    {fontFamily: 'comicbd', fontSrc: '/src/assets/font/comicbd.ttf'},
+    {fontFamily: 'comici', fontSrc: '/src/assets/font/comici.ttf'},
+    {fontFamily: 'comicz', fontSrc: '/src/assets/font/comicz.ttf'},
+    {fontFamily: 'FZMWFont', fontSrc: '/src/assets/font/FZMWFont.woff2'}
+  ];
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
-  @property() protected fontFamily: string = 'FZMWFont';
-  @property() protected fontSrc: string = '/src/assets/font/FZMWFont.woff2';
-  static drawOption: Options = {
+  @property({type: Object}) protected drawOption: Options = {
     bowing: 0.5,
     roughness: 1
   };
@@ -58,14 +63,13 @@ export abstract class HandDrawnBase extends LitElement {
 
   constructor() {
     super();
-    this.setFont();
-    console.log(this.detectZoom())
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
     this.roughRender();
+    this.setFont();
     if (this.animationType === AnimationType.ALWAYS) {
       this.performAnimation(true);
     }
@@ -92,44 +96,52 @@ export abstract class HandDrawnBase extends LitElement {
     this.removeEventListener('mouseleave', this.mouseLeaveHandler);
   }
 
-  private detectZoom() {
-    let ratio = 0,
-      screen = window.screen,
-      ua = navigator.userAgent.toLowerCase();
-
-    if (window.devicePixelRatio !== undefined) {
-      ratio = window.devicePixelRatio;
-    } else if (~ua.indexOf('msie')) {
-      // @ts-ignore
-      if (screen.deviceXDPI && screen.logicalXDPI) {
-        // @ts-ignore
-        ratio = screen.deviceXDPI / screen.logicalXDPI;
-      }
-    } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
-      ratio = window.outerWidth / window.innerWidth;
-    }
-
-    if (ratio) {
-      ratio = Math.round(ratio * 100);
-    }
-
-    return ratio;
-  }
+  // private detectZoom() {
+  //   let ratio = 0,
+  //     screen = window.screen,
+  //     ua = navigator.userAgent.toLowerCase();
+  //
+  //   if (window.devicePixelRatio !== undefined) {
+  //     ratio = window.devicePixelRatio;
+  //   } else if (~ua.indexOf('msie')) {
+  //     // @ts-ignore
+  //     if (screen.deviceXDPI && screen.logicalXDPI) {
+  //       // @ts-ignore
+  //       ratio = screen.deviceXDPI / screen.logicalXDPI;
+  //     }
+  //   } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+  //     ratio = window.outerWidth / window.innerWidth;
+  //   }
+  //
+  //   if (ratio) {
+  //     ratio = Math.round(ratio * 100);
+  //   }
+  //
+  //   return ratio;
+  // }
 
   private setFont() {
-    if (this.fontFamily && this.fontSrc) {
-      document.body.style.fontFamily = `'${this.fontFamily}','Comic Sans MS', 'Comic Sans', monospace, sans-serif`;
-      this.loadFonts().then();
+    let fontFamilyStr = ''
+    for (let fontInfo of this.fontInfoArray) {
+      if (fontInfo.fontFamily && fontInfo.fontSrc) {
+        fontFamilyStr += "'" + fontInfo.fontFamily + "',"
+        this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
+          this.roughRender();
+        });
+      }
     }
+    if (fontFamilyStr) {
+      document.body.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
+    }
+
   }
 
-  private async loadFonts(): Promise<void> {
+  private async loadFonts(fontFamily: string, fontSrc: string) {
     // @ts-ignore
-    const font = new FontFace(this.fontFamily, `url(${this.fontSrc})`);
+    const font = new FontFace(fontFamily, `url(${fontSrc})`);
     const loadFontFace: any = await font.load();
     // @ts-ignore
     document.fonts.add(loadFontFace);
-    this.roughRender();
   };
 
   private resizeHandler() {
@@ -142,15 +154,15 @@ export abstract class HandDrawnBase extends LitElement {
     }, 30);
   }
 
-  private mouseHoverHandler() {
+  protected mouseLeaveHandler() {
     if (this.animationType === AnimationType.HOVER) {
-      this.performAnimation(true);
+      this.performAnimation(false);
     }
   }
 
-  private mouseLeaveHandler() {
+  protected mouseHoverHandler() {
     if (this.animationType === AnimationType.HOVER) {
-      this.performAnimation(false);
+      this.performAnimation(true);
     }
   }
 
@@ -221,8 +233,8 @@ export abstract class HandDrawnBase extends LitElement {
         height: roughObj.roughParentEl.clientHeight
       };
       if (isForce || !roughObj.roughFirstRendered || size.width !== roughObj.roughParentElSizePre.width || size.height !== roughObj.roughParentElSizePre.height) {
-        this.roughSizeOne(size, roughObj);
-        this.roughDrawOne(size, roughObj);
+        this.roughSizeOne(roughObj);
+        this.roughDrawOne(roughObj);
         roughObj.roughFirstRendered = true;
       }
       roughObj.roughParentElSizePre.width = size.width;
@@ -230,21 +242,32 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  protected roughSizeOne(size: RoughSize, roughObj: RoughObjSvg | RoughObjCanvas) {
+  protected roughSizeOne(roughObj: RoughObjSvg | RoughObjCanvas) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    }
     roughObj.roughEl.style.width = size.width + 'px';
     roughObj.roughEl.style.height = size.height + 'px';
     roughObj.roughEl.setAttribute('width', String(size.width));
     roughObj.roughEl.setAttribute('height', String(size.height));
   }
 
-  protected roughDrawOne(size: RoughSize, roughObj: RoughObjSvg | RoughObjCanvas) {
+  protected roughDrawOne(roughObj: RoughObjSvg | RoughObjCanvas) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    }
     if (roughObj.roughEl instanceof HTMLCanvasElement) {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
-      roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, HandDrawnBase.drawOption);
-    } else if (roughObj.roughEl instanceof SVGSVGElement) {
-      let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, HandDrawnBase.drawOption);
+    }
+    const nodeArray = []
+    nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption));
+    if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
-      roughObj.roughEl.appendChild(<Node>node);
+      for (let node of nodeArray) {
+        roughObj.roughEl.appendChild(<Node>node);
+      }
     }
   }
 
@@ -277,36 +300,38 @@ export abstract class HandDrawnBase extends LitElement {
   //     }
   //   }
   // }
+  static get styles() {
+    return css`
+      //@font-face { // no effect
+      //  font-family: 'FZMWFont';
+      //  font-style: normal;
+      //  font-weight: 400;
+      //  font-display: swap;
+      //  src: url('../../assets/font/FZMWFont.ttf');
+      //}
+
+      :host {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        position: relative;
+        font-family: inherit, 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
+      }
+
+      .rough {
+        position: relative;
+      }
+
+      .rough > .rough-context {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    `
+  }
 }
 
-export const BaseCss = css`
-  //@font-face { // no effect
-  //  font-family: 'FZMWFont';
-  //  font-style: normal;
-  //  font-weight: 400;
-  //  font-display: swap;
-  //  src: url('../../assets/font/FZMWFont.ttf');
-  //}
-
-  :host {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    position: relative;
-    font-family: inherit, 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
-  }
-
-  .rough {
-    position: relative;
-  }
-
-  .rough > .rough-context {
-    position: absolute;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-`;

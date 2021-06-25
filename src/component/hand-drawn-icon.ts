@@ -1,6 +1,6 @@
 import {css, html, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import {AnimationType, BaseCss, HandDrawnBase, RoughObjCanvas, RoughObjSvg, RoughSize} from './base/hand-drawn-base';
+import {AnimationType, HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
 
 enum HandDrawnIconType {
   LOADING = 'loading'
@@ -21,7 +21,7 @@ export class HandDrawnIcon extends HandDrawnBase {
     super.firstUpdated(_changedProperties);
   }
 
-  protected roughDrawOne(_size: RoughSize, roughObj: RoughObjSvg | RoughObjCanvas) {
+  protected roughDrawOne(roughObj: RoughObjSvg | RoughObjCanvas) {
     if (roughObj.roughEl instanceof HTMLCanvasElement) {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
     }
@@ -82,13 +82,13 @@ export class HandDrawnIcon extends HandDrawnBase {
 
   protected render() {
     return html`
-        <div id="icon" class="rough"></div>
+      <div id="icon" class="icon rough"></div>
     `;
   }
 
   static get styles() {
     return [
-      BaseCss,
+      super.styles,
       css`
         :host {
           position: relative;
@@ -99,7 +99,7 @@ export class HandDrawnIcon extends HandDrawnBase {
           line-height: 0.5em;
         }
 
-        #icon {
+        .icon {
           display: inline-block;
           overflow: hidden;
           position: relative;

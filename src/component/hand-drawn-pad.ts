@@ -1,6 +1,6 @@
 import {css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {AnimationType, BaseCss, HandDrawnBase} from './base/hand-drawn-base';
+import {AnimationType, HandDrawnBase} from './base/hand-drawn-base';
 
 @customElement('hand-drawn-pad')
 export class HandDrawnPad extends HandDrawnBase {
@@ -8,24 +8,24 @@ export class HandDrawnPad extends HandDrawnBase {
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    this.animationType=AnimationType.NONE
+    this.animationType = AnimationType.NONE
   }
 
   protected render() {
     return html`
-        <div id="pad" class="rough"></div>
-        <slot id="slot" @slotchange="${this.roughRender}"></slot>
+      <div class="pad rough"></div>
+      <slot @slotchange="${this.roughRender}"></slot>
     `;
   }
 
   static get styles() {
     return [
-      BaseCss,
+      super.styles,
       css`
         :host {
         }
 
-        #pad {
+        .pad {
           overflow: hidden;
           user-select: none;
           border: none;

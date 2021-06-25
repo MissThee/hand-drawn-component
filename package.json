@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "lit": "^2.0.0-rc.2",
+    "lit-html": "^1.4.1",
     "roughjs": "^4.4.1"
   },
   "devDependencies": {
