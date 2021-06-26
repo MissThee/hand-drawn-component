@@ -1,37 +1,33 @@
 import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
 
 @customElement('hand-drawn-checkbox')
 export class HandDrawnCheckbox extends HandDrawnBase {
-  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({type: Boolean}) disabled = false;
   @property({type: Boolean, reflect: true}) checked = false;
+  @property({type: String}) value: string | null = null;
+  @query('input') private input?: HTMLInputElement;
 
   protected render() {
     return html`
-      <div class="checkbox" ?disabled="${this.disabled}">
+      <label class="checkbox" ?disabled="${this.disabled}">
+        <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
         <span class="checkbox-rect rough">
           <div id="tick" style=${this.checked ? 'display:inline-block' : 'display:none'} class="checkbox-tick rough"></div>
         </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
-      </div>
+      </label>
     `;
   }
 
   private checkSwitchHandler() {
-    if (!this.disabled) {
-      this.checked = !this.checked
-    }
-    console.log('this.checked', this.checked)
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('click', this.checkSwitchHandler)
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.removeEventListener('click', this.checkSwitchHandler)
+    this.checked = this.input!.checked;
+    this.dispatchEvent( new CustomEvent('change', {
+      detail: {
+        value:this.value,
+        checked:this.checked
+      }
+    }));
   }
 
   protected mouseHoverHandler() {
@@ -69,17 +65,14 @@ export class HandDrawnCheckbox extends HandDrawnBase {
       css`
         :host {
           cursor: pointer;
-          margin: 0 0.5em 0 0
         }
 
         .slot {
           display: inline-block;
           vertical-align: middle;
-          font-size: 1em;
         }
 
         .checkbox {
-          display: inline-block;
           overflow: hidden;
           position: relative;
           user-select: none;
@@ -87,6 +80,12 @@ export class HandDrawnCheckbox extends HandDrawnBase {
           background: none;
           cursor: pointer;
           outline: none;
+          height: 100%;
+        }
+
+        .checkbox-input {
+          opacity: 0;
+          position: absolute;
         }
 
         .checkbox-rect {
@@ -114,7 +113,6 @@ export class HandDrawnCheckbox extends HandDrawnBase {
           background: rgba(0, 0, 0, 0.03);
           cursor: not-allowed;
         }
-
       `
     ];
   }
