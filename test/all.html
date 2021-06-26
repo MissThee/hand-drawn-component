@@ -9,9 +9,19 @@
   <script type="module" src="../lib/hand-drawn-icon.js"></script>
   <script type="module" src="../lib/hand-drawn-pad.js"></script>
   <script type="module" src="../lib/hand-drawn-checkbox.js"></script>
+  <script type="module" src="../lib/hand-drawn-checkboxs.js"></script>
+  <script type="module" src="../lib/hand-drawn-radio.js"></script>
 </head>
 <body>
-
+<script>
+  const checkboxsData = JSON.stringify([
+    {value: "1", name: "test1", checked: false, disabled: false},
+    {value: "2", name: "test2", checked: true, disabled: false},
+    {value: "3", name: "test3", checked: false, disabled: true},
+    {value: "4", name: "test4", checked: true, disabled: true},
+  ])
+  console.log(checkboxsData)
+</script>
 <hand-drawn-pad style="width: 100%;padding: 20px">
   <div style="margin:0 0 20px 0">
     <div>button:</div>
@@ -38,9 +48,26 @@
   </div>
   <div style="margin:0 0 20px 0">
     <div>checkbox:</div>
-    <hand-drawn-checkbox  renderType="svg">checkbox(svg)</hand-drawn-checkbox>
+    <hand-drawn-checkbox renderType="svg">checkbox(svg)</hand-drawn-checkbox>
     <hand-drawn-checkbox renderType="canvas">checkbox(canvas)</hand-drawn-checkbox>
     <hand-drawn-checkbox renderType="svg" disabled>disabled(svg)</hand-drawn-checkbox>
+  </div>
+  <div style="margin:0 0 20px 0">
+    <div>checkboxs:</div>
+    <div>
+      <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">svg: </span>
+      <hand-drawn-checkboxs renderType="svg" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
+    </div>
+    <div>
+      <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">canvas: </span>
+      <hand-drawn-checkboxs renderType="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
+    </div>
+  </div>
+  <div style="margin:0 0 20px 0">
+    <div>radio:</div>
+    <hand-drawn-radio renderType="svg">checkbox(svg)</hand-drawn-radio>
+    <hand-drawn-radio renderType="canvas">checkbox(canvas)</hand-drawn-radio>
+    <hand-drawn-radio renderType="svg" disabled>disabled(svg)</hand-drawn-radio>
   </div>
 </hand-drawn-pad>
 
