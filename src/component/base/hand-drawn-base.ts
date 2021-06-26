@@ -60,6 +60,7 @@ export abstract class HandDrawnBase extends LitElement {
   private drawInterval: NodeJS.Timeout | null = null;
   private resizeTimeout: NodeJS.Timeout | null = null;
   protected roughPadding: number = 2;
+  private resizeHandler = this.resizeHandlerTmp.bind(this)
 
   constructor() {
     super();
@@ -84,14 +85,14 @@ export abstract class HandDrawnBase extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('resize', this.resizeHandler.bind(this));
+    window.addEventListener('resize', this.resizeHandler);
     this.addEventListener('mouseenter', this.mouseHoverHandler);
     this.addEventListener('mouseleave', this.mouseLeaveHandler);
   }
 
   disconnectedCallback() {
     super.connectedCallback();
-    window.removeEventListener('resize', this.resizeHandler.bind(this));
+    window.removeEventListener('resize', this.resizeHandler);
     this.removeEventListener('mouseenter', this.mouseHoverHandler);
     this.removeEventListener('mouseleave', this.mouseLeaveHandler);
   }
@@ -144,7 +145,7 @@ export abstract class HandDrawnBase extends LitElement {
     document.fonts.add(loadFontFace);
   };
 
-  private resizeHandler() {
+  private resizeHandlerTmp() {
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
       this.resizeTimeout = null;
