@@ -1,6 +1,7 @@
 import {css, html, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import {AnimationType, HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
+import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
+import {Options} from "roughjs/bin/core";
 
 enum HandDrawnIconType {
   LOADING = 'loading'
@@ -8,13 +9,16 @@ enum HandDrawnIconType {
 
 @customElement('hand-drawn-icon')
 export class HandDrawnIcon extends HandDrawnBase {
+  protected drawOptionDefault: Options = {
+    roughness: 0.5,
+  }
   @query('#icon') private icon: HTMLElement | undefined;
   @property({type: String, reflect: true}) type: HandDrawnIconType | undefined;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     switch (this.type) {
       case HandDrawnIconType.LOADING:
-        this.animationType = AnimationType.ALWAYS;
+        // this.animationType = AnimationType.HOVER;
         this.icon?.classList.add('rotate');
         break;
     }
@@ -28,7 +32,7 @@ export class HandDrawnIcon extends HandDrawnBase {
     let nodeArray;
     switch (this.type) {
       case HandDrawnIconType.LOADING:
-        nodeArray = HandDrawnIcon.iconLoading(roughObj);
+        nodeArray = this.iconLoading(roughObj);
         break;
     }
     if (roughObj.roughEl instanceof SVGSVGElement) {
@@ -39,7 +43,7 @@ export class HandDrawnIcon extends HandDrawnBase {
     }
   }
 
-  private static iconLoading(roughObj: RoughObjSvg | RoughObjCanvas) {
+  private iconLoading(roughObj: RoughObjSvg | RoughObjCanvas) {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
@@ -56,12 +60,7 @@ export class HandDrawnIcon extends HandDrawnBase {
         start: Math.PI / 2 * piece,
         stop: Math.PI / 2 * (piece + 1),
         closed: false,
-        options: {
-          stroke: 'black',
-          strokeWidth: 1,
-          roughness: 0.5,
-          bowing: 10,
-        }
+        options: this.drawOption
       };
       switch (piece) {
         case 1:

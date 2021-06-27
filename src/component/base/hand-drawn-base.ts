@@ -47,13 +47,19 @@ export abstract class HandDrawnBase extends LitElement {
     {fontFamily: 'comicbd', fontSrc: '/src/assets/font/comicbd.ttf'},
     {fontFamily: 'comici', fontSrc: '/src/assets/font/comici.ttf'},
     {fontFamily: 'comicz', fontSrc: '/src/assets/font/comicz.ttf'},
-    {fontFamily: 'FZMWFont', fontSrc: '/src/assets/font/FZMWFont.woff2'}
+    {fontFamily: 'FZMWFont', fontSrc: '/src/assets/font/FZMWFont.woff2'},
+    {fontFamily: 'monospace'},
+    {fontFamily: 'sans-serif'}
   ];
-  @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
-  @property({type: Object}) protected drawOption: Options = {
+  protected drawOptionDefault: Options = {
     bowing: 0.5,
-    roughness: 1
-  };
+    roughness: 1,
+    fillStyle:'zigzag',
+    fillWeight:0.3,
+  }
+
+  @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
+  @property({type: Object}) protected drawOption: Options = {};
   @property() protected renderType: RenderType = RenderType.CANVAS;
   @property() protected animationType: AnimationType = AnimationType.HOVER;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
@@ -61,10 +67,6 @@ export abstract class HandDrawnBase extends LitElement {
   private resizeTimeout: NodeJS.Timeout | null = null;
   protected roughPadding: number = 2;
   private resizeHandler = this.resizeHandlerTmp.bind(this)
-
-  constructor() {
-    super();
-  }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
@@ -76,8 +78,18 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
+  protected shouldUpdate(_changedProperties: PropertyValues): boolean {
+    for (let key of Object.keys(this.drawOptionDefault)) {
+      if (!this.drawOption[<keyof Options>key]) {
+        (<Options[keyof Options]>(this.drawOption[<keyof Options>key])) = this.drawOptionDefault[<keyof Options>key]
+      }
+    }
+    return super.shouldUpdate(_changedProperties);
+  }
+
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties);
+
     setTimeout(() => {
       this.roughRender();
     }, 0);
@@ -126,15 +138,16 @@ export abstract class HandDrawnBase extends LitElement {
     for (let fontInfo of this.fontInfoArray) {
       if (fontInfo.fontFamily && fontInfo.fontSrc) {
         fontFamilyStr += "'" + fontInfo.fontFamily + "',"
-        this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
-          this.roughRender();
-        });
+        if (fontInfo.fontFamily && fontInfo.fontSrc) {
+          this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
+            this.roughRender();
+          });
+        }
       }
     }
     if (fontFamilyStr) {
-      document.body.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
+      this.style.fontFamily=fontFamilyStr.substr(0, fontFamilyStr.length - 1);
     }
-
   }
 
   private async loadFonts(fontFamily: string, fontSrc: string) {
@@ -310,14 +323,22 @@ export abstract class HandDrawnBase extends LitElement {
       //  font-display: swap;
       //  src: url('../../assets/font/FZMWFont.ttf');
       //}
+      * {
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        color: inherit;
+      }
 
       :host {
+        //color:gray;
+        //text-stroke:1px white;
+        //-webkit-text-stroke:1px white;
         display: inline-block;
         padding: 0;
         margin: 0;
         box-sizing: border-box;
         position: relative;
-        font-family: inherit, 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
       }
 
       .rough {
@@ -331,6 +352,7 @@ export abstract class HandDrawnBase extends LitElement {
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: -1;
       }
     `
   }

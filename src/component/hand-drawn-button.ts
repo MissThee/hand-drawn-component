@@ -34,13 +34,10 @@ export class HandDrawnButton extends HandDrawnBase {
           user-select: none;
           border: none;
           background: none;
-          font-family: inherit;
-          font-size: inherit;
           cursor: pointer;
           letter-spacing: 1.25px;
           text-align: center;
           padding: 10px 12px;
-          color: inherit;
           outline: none;
           width: 100%;
           height: 100%;

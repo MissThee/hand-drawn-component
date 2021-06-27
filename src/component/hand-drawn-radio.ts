@@ -37,6 +37,12 @@ export class HandDrawnRadio extends HandDrawnBase {
 
   private checkSwitchHandler() {
     this.checked = this.input!.checked;
+    this.dispatchEvent( new CustomEvent('change', {
+      detail: {
+        value:this.value,
+        checked:this.checked
+      }
+    }));
   }
 
   protected mouseHoverHandler() {

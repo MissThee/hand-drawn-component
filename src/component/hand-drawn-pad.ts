@@ -30,10 +30,7 @@ export class HandDrawnPad extends HandDrawnBase {
           user-select: none;
           border: none;
           background: none;
-          font-family: inherit;
-          font-size: inherit;
           //padding: 5px;
-          color: inherit;
           outline: none;
           position: absolute;
           top: 0;
