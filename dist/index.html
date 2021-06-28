@@ -1,75 +1,95 @@
+<!doctype html>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>rollup bundle</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <script type="module" src="./index.js"></script>
+    <title>bundle by rollup</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
 </head>
 <body>
 <style>
-
+    * {
+        /*font-family: monospace, serif;*/
+    }
 </style>
 abcdefghijklmnopqrstuvwxyz1234567890
-<hand-drawn-pad style="width: 100%;padding: 20px" roughOps='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}'>
+<hand-drawn-pad style="width: 100%;padding: 20px" roughops='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}'>
     <div style="margin:0 0 20px 0">
         <div>button:</div>
-        <hand-drawn-button style="width: 20%;min-width: 140px" renderType="svg" roughOps='{"fill":"#409EFF"}'>test1(svg)</hand-drawn-button>
-        <hand-drawn-button style="width: 20%;min-width: 140px" renderType="canvas" roughOps='{"fill":"#F56C6C"}'>test2(canvas)</hand-drawn-button>
-        <hand-drawn-button renderType="canvas" roughOps='{"fill":"#67C23A"}'>中文字体</hand-drawn-button>
-        <hand-drawn-button disabled renderType="svg" roughOps='{"fill":"#E6A23C"}'>disabled(svg)</hand-drawn-button>
+        <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
+        <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="canvas" roughops='{"fill":"#F56C6C"}'><span>test2(canvas)</span></hand-drawn-button>
+        <hand-drawn-button rendertype="canvas" roughops='{"fill":"#67C23A"}'><span>中文字体</span></hand-drawn-button>
+        <hand-drawn-button disabled="disabled" rendertype="svg" roughops='{"fill":"#E6A23C"}'><span>disabled(svg)</span></hand-drawn-button>
     </div>
     <div style="margin:0 0 20px 0">
         <div>icon:</div>
-        <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
-        <hand-drawn-icon renderType="canvas" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
+        <hand-drawn-icon rendertype="svg" type="loading"></hand-drawn-icon>
+        <hand-drawn-icon rendertype="canvas" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
     </div>
     <div style="margin:0 0 20px 0">
         <div>button&icon:</div>
-        <hand-drawn-button renderType="svg" roughOps='{"fill":"#409EFF"}'>
-            <hand-drawn-icon renderType="svg" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
+        <hand-drawn-button rendertype="svg" roughops='{"fill":"#409EFF"}'>
+            <hand-drawn-icon rendertype="svg" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
             <span>Loading(svg)</span>
         </hand-drawn-button>
-        <hand-drawn-button renderType="canvas" roughOps='{"fill":"#F56C6C"}'>
-            <hand-drawn-icon renderType="canvas" type="loading"></hand-drawn-icon>
+        <hand-drawn-button rendertype="canvas" roughops='{"fill":"#F56C6C"}'>
+            <hand-drawn-icon rendertype="canvas" type="loading"></hand-drawn-icon>
             <span>Loading(canvas)</span>
         </hand-drawn-button>
     </div>
     <div style="margin:0 0 20px 0">
         <div>checkbox:</div>
-        <hand-drawn-checkbox renderType="svg">checkbox(svg)</hand-drawn-checkbox>
-        <hand-drawn-checkbox renderType="canvas">checkbox(canvas)</hand-drawn-checkbox>
-        <hand-drawn-checkbox renderType="svg" disabled>disabled(svg)</hand-drawn-checkbox>
+        <hand-drawn-checkbox rendertype="svg"><span>checkbox(svg)</span></hand-drawn-checkbox>
+        <hand-drawn-checkbox rendertype="canvas"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+        <hand-drawn-checkbox rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-checkbox>
     </div>
     <div style="margin:0 0 20px 0">
-        <div>checkboxs:</div>
+        <div>checkbox-group:</div>
+        <hand-drawn-checkbox-group id="hand-drawn-checkbox-group">
+            <hand-drawn-checkbox rendertype="svg" value="c1" checked="checked"><span>checkbox(svg)</span></hand-drawn-checkbox>
+            <hand-drawn-checkbox rendertype="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+            <hand-drawn-checkbox rendertype="svg" disabled="disabled" value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
+        </hand-drawn-checkbox-group>
+        
+    </div>
+    <div style="margin:0 0 20px 0">
+        <div>checkboxArray:</div>
         <div>
             <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">svg: </span>
-            <hand-drawn-checkboxs id="checkboxs" renderType="svg" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
-            <!-- document.getElementById("checkboxs").getAttribute('checkedItems') -->
+            <hand-drawn-checkboxs id="checkboxs" rendertype="svg" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
+            
         </div>
         <div>
             <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">canvas: </span>
-            <hand-drawn-checkboxs renderType="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
+            <hand-drawn-checkboxs rendertype="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-checkboxs>
         </div>
     </div>
     <div style="margin:0 0 20px 0">
         <div>radio:</div>
-        <hand-drawn-radio renderType="svg">checkbox(svg)</hand-drawn-radio>
-        <hand-drawn-radio renderType="canvas">checkbox(canvas)</hand-drawn-radio>
-        <hand-drawn-radio renderType="svg" disabled>disabled(svg)</hand-drawn-radio>
+        <hand-drawn-radio rendertype="svg"><span>checkbox(svg)</span></hand-drawn-radio>
+        <hand-drawn-radio rendertype="canvas"><span>checkbox(canvas)</span></hand-drawn-radio>
+        <hand-drawn-radio rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-radio>
     </div>
     <div style="margin:0 0 20px 0">
-        <div>radios:</div>
+        <div>radio-group:</div>
+        <hand-drawn-radio-group id="hand-drawn-radio-group">
+            <hand-drawn-radio rendertype="svg" value="r1"><span>checkbox(svg)</span></hand-drawn-radio>
+            <hand-drawn-radio rendertype="canvas" value="r2"><span>checkbox(canvas)</span></hand-drawn-radio>
+            <hand-drawn-radio rendertype="svg" disabled="disabled" value="r3"><span>disabled(svg)</span></hand-drawn-radio>
+        </hand-drawn-radio-group>
+        
+    </div>
+    <div style="margin:0 0 20px 0">
+        <div>radioArray:</div>
         <div>
             <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">svg: </span>
-            <hand-drawn-radios id="radios" renderType="svg" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-radios>
-            <!-- document.getElementById("radios").getAttribute('checkedItems') -->
+            <hand-drawn-radios id="radios" rendertype="svg" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-radios>
+            
         </div>
         <div>
             <span style="width: 55px;display: inline-block;margin: 0 0 0 20px">canvas: </span>
-            <hand-drawn-radios renderType="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-radios>
+            <hand-drawn-radios rendertype="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-radios>
         </div>
     </div>
 </hand-drawn-pad>
@@ -83,6 +103,7 @@ abcdefghijklmnopqrstuvwxyz1234567890
     // ])
     // console.log(checkboxsData)
 </script>
-</body>
+
+  <script src="index.js"></script></body>
 
 </html>
