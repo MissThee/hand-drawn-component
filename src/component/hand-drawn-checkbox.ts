@@ -46,8 +46,8 @@ export class HandDrawnCheckbox extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = []
-      nodeArray.push(roughObj.roughInstance.line(size.width / 5, size.height / 3, size.width / 5 * 2, size.height / 5 * 4, this.drawOption));
-      nodeArray.push(roughObj.roughInstance.line(size.width / 5 * 2, size.height / 5 * 4, size.width, 0, this.drawOption));
+      nodeArray.push(roughObj.roughInstance.line(size.width / 5, size.height / 3, size.width / 5 * 2, size.height / 5 * 4, this.roughOps));
+      nodeArray.push(roughObj.roughInstance.line(size.width / 5 * 2, size.height / 5 * 4, size.width, 0, this.roughOps));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
         for (let node of nodeArray) {

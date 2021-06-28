@@ -42,31 +42,32 @@ export interface RoughObjCanvas extends RoughObj {
 
 
 export abstract class HandDrawnBase extends LitElement {
+  // private readonly assetsParentPath = process.env.NODE_PACKAGED_PATH || '/src';
   private fontInfoArray = [
-    {fontFamily: 'comic', fontSrc: '/src/assets/font/comic.ttf'},
-    {fontFamily: 'comicbd', fontSrc: '/src/assets/font/comicbd.ttf'},
-    {fontFamily: 'comici', fontSrc: '/src/assets/font/comici.ttf'},
-    {fontFamily: 'comicz', fontSrc: '/src/assets/font/comicz.ttf'},
-    {fontFamily: 'FZMWFont', fontSrc: '/src/assets/font/FZMWFont.woff2'},
+    {fontFamily: 'comic', fontSrc: './assets/font/comic.ttf'},
+    {fontFamily: 'comicbd', fontSrc: './assets/font/comicbd.ttf'},
+    {fontFamily: 'comici', fontSrc: './assets/font/comici.ttf'},
+    {fontFamily: 'comicz', fontSrc: './assets/font/comicz.ttf'},
+    {fontFamily: 'FZMWFont', fontSrc: './assets/font/FZMWFont.woff2'},
     {fontFamily: 'monospace'},
     {fontFamily: 'sans-serif'}
   ];
-  protected drawOptionDefault: Options = {
+  protected roughOpsDefault: Options = {
     bowing: 0.5,
     roughness: 1,
-    fillStyle:'zigzag',
-    fillWeight:0.3,
-  }
+    fillStyle: 'zigzag',
+    fillWeight: 0.3,
+  };
 
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
-  @property({type: Object}) protected drawOption: Options = {};
+  @property({type: Object}) protected roughOps: Options = {};
   @property() protected renderType: RenderType = RenderType.CANVAS;
   @property() protected animationType: AnimationType = AnimationType.HOVER;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
   private resizeTimeout: NodeJS.Timeout | null = null;
   protected roughPadding: number = 2;
-  private resizeHandler = this.resizeHandlerTmp.bind(this)
+  private resizeHandler = this.resizeHandlerTmp.bind(this);
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
@@ -79,9 +80,9 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   protected shouldUpdate(_changedProperties: PropertyValues): boolean {
-    for (let key of Object.keys(this.drawOptionDefault)) {
-      if (!this.drawOption[<keyof Options>key]) {
-        (<Options[keyof Options]>(this.drawOption[<keyof Options>key])) = this.drawOptionDefault[<keyof Options>key]
+    for (let key of Object.keys(this.roughOpsDefault)) {
+      if (!this.roughOps[<keyof Options>key]) {
+        (<Options[keyof Options]>(this.roughOps[<keyof Options>key])) = this.roughOpsDefault[<keyof Options>key];
       }
     }
     return super.shouldUpdate(_changedProperties);
@@ -134,10 +135,10 @@ export abstract class HandDrawnBase extends LitElement {
   // }
 
   private setFont() {
-    let fontFamilyStr = ''
+    let fontFamilyStr = '';
     for (let fontInfo of this.fontInfoArray) {
       if (fontInfo.fontFamily && fontInfo.fontSrc) {
-        fontFamilyStr += "'" + fontInfo.fontFamily + "',"
+        fontFamilyStr += "'" + fontInfo.fontFamily + "',";
         if (fontInfo.fontFamily && fontInfo.fontSrc) {
           this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
             this.roughRender();
@@ -146,7 +147,7 @@ export abstract class HandDrawnBase extends LitElement {
       }
     }
     if (fontFamilyStr) {
-      this.style.fontFamily=fontFamilyStr.substr(0, fontFamilyStr.length - 1);
+      this.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
     }
   }
 
@@ -260,7 +261,7 @@ export abstract class HandDrawnBase extends LitElement {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
-    }
+    };
     roughObj.roughEl.style.width = size.width + 'px';
     roughObj.roughEl.style.height = size.height + 'px';
     roughObj.roughEl.setAttribute('width', String(size.width));
@@ -271,12 +272,12 @@ export abstract class HandDrawnBase extends LitElement {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
-    }
+    };
     if (roughObj.roughEl instanceof HTMLCanvasElement) {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
     }
-    const nodeArray = []
-    nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption));
+    const nodeArray = [];
+    nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps));
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
       for (let node of nodeArray) {
@@ -306,9 +307,9 @@ export abstract class HandDrawnBase extends LitElement {
   //     };
   //     if (roughObj.roughEl instanceof HTMLCanvasElement) {
   //       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
-  //       roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption);
+  //       roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps);
   //     } else if (roughObj.roughEl instanceof SVGSVGElement) {
-  //       let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.drawOption);
+  //       let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps);
   //       roughObj.roughEl.innerHTML = '';
   //       roughObj.roughEl.appendChild(<Node>node);
   //     }
@@ -324,9 +325,7 @@ export abstract class HandDrawnBase extends LitElement {
       //  src: url('../../assets/font/FZMWFont.ttf');
       //}
       * {
-        font-family: inherit;
-        font-weight: inherit;
-        font-size: inherit;
+        font: inherit;
         color: inherit;
       }
 
@@ -354,7 +353,7 @@ export abstract class HandDrawnBase extends LitElement {
         bottom: 0;
         z-index: -1;
       }
-    `
+    `;
   }
 }
 

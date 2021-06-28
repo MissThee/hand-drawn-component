@@ -1,0 +1,7 @@
+import "../src/component/hand-drawn-button.ts"
+import "../src/component/hand-drawn-icon.ts"
+import "../src/component/hand-drawn-pad.ts"
+import "../src/component/hand-drawn-checkbox.ts"
+import "../src/component/hand-drawn-checkboxs.ts"
+import "../src/component/hand-drawn-radio.ts"
+import "../src/component/hand-drawn-radios.ts"

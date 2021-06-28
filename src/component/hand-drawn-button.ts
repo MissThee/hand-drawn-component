@@ -8,15 +8,15 @@ export class HandDrawnButton extends HandDrawnBase {
 
   protected mouseHoverHandler() {
     if (!this.disabled) {
-      super.mouseHoverHandler()
+      super.mouseHoverHandler();
     }
   }
 
   protected render() {
     return html`
-      <button class="button rough" ?disabled="${this.disabled}">
-        <slot class="slot" @slotchange="${this.roughRender}"></slot>
-      </button>
+        <button class="button rough" ?disabled="${this.disabled}">
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
+        </button>
     `;
   }
 
@@ -24,11 +24,13 @@ export class HandDrawnButton extends HandDrawnBase {
     return [
       super.styles,
       css`
+
         :host {
           cursor: pointer;
         }
 
         .button {
+          font: inherit;
           overflow: hidden;
           position: relative;
           user-select: none;

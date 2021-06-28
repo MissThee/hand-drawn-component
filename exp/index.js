@@ -1,0 +1,7 @@
+import "../lib/hand-drawn-button.js"
+import "../lib/hand-drawn-icon.js"
+import "../lib/hand-drawn-pad.js"
+import "../lib/hand-drawn-checkbox.js"
+import "../lib/hand-drawn-checkboxs.js"
+import "../lib/hand-drawn-radio.js"
+import "../lib/hand-drawn-radios.js"

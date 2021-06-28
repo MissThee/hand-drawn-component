@@ -9,7 +9,7 @@ enum HandDrawnIconType {
 
 @customElement('hand-drawn-icon')
 export class HandDrawnIcon extends HandDrawnBase {
-  protected drawOptionDefault: Options = {
+  protected roughOpsDefault: Options = {
     roughness: 0.5,
   }
   @query('#icon') private icon: HTMLElement | undefined;
@@ -60,7 +60,7 @@ export class HandDrawnIcon extends HandDrawnBase {
         start: Math.PI / 2 * piece,
         stop: Math.PI / 2 * (piece + 1),
         closed: false,
-        options: this.drawOption
+        roughOps: this.roughOps
       };
       switch (piece) {
         case 1:
@@ -74,7 +74,7 @@ export class HandDrawnIcon extends HandDrawnBase {
           arcObj.x = arcObj.x + (size.width / max * (piece - 2)) / 2;
           break;
       }
-      nodeArray.push(roughObj.roughInstance.arc(arcObj.x, arcObj.y, arcObj.width, arcObj.height, arcObj.start, arcObj.stop, arcObj.closed, arcObj.options));
+      nodeArray.push(roughObj.roughInstance.arc(arcObj.x, arcObj.y, arcObj.width, arcObj.height, arcObj.start, arcObj.stop, arcObj.closed, arcObj.roughOps));
     }
     return nodeArray;
   }

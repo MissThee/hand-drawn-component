@@ -10,7 +10,7 @@ export class HandDrawnRadio extends HandDrawnBase {
   @property({type: String}) value: string | null = null;
 
   @query('input') private input?: HTMLInputElement;
-  @property({type: Object}) protected drawOption: Options = {
+  @property({type: Object}) protected roughOps: Options = {
     bowing: 0.5,
     roughness: 0.5
   };
@@ -62,7 +62,7 @@ export class HandDrawnRadio extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = []
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, {...this.drawOption, fill: 'black', fillStyle: 'solid'}));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, {...this.roughOps, fill: 'black', fillStyle: 'solid'}));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
         for (let node of nodeArray) {
@@ -74,7 +74,7 @@ export class HandDrawnRadio extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = []
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, this.drawOption));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, this.roughOps));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
         for (let node of nodeArray) {
