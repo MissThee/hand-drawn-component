@@ -6,15 +6,15 @@ import {HandDrawnBase} from './base/hand-drawn-base';
 export class HandDrawnButton extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
 
-  protected mouseHoverHandler() {
+  protected updateAnimationState() {
     if (!this.disabled) {
-      super.mouseHoverHandler();
+      super.updateAnimationState();
     }
   }
 
   protected render() {
     return html`
-        <button class="button rough" ?disabled="${this.disabled}">
+        <button type="button" class="button rough" ?disabled="${this.disabled}">
             <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </button>
     `;
@@ -24,11 +24,6 @@ export class HandDrawnButton extends HandDrawnBase {
     return [
       super.styles,
       css`
-
-        :host {
-          cursor: pointer;
-        }
-
         .button {
           font:inherit;
           overflow: hidden;

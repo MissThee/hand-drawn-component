@@ -8,13 +8,13 @@ export class HandDrawnPad extends HandDrawnBase {
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    this.animationType = AnimationType.NONE
+    this.animationType = AnimationType.NONE;
   }
 
   protected render() {
     return html`
-      <div class="pad rough"></div>
-      <slot @slotchange="${this.roughRender}"></slot>
+        <div class="pad rough"></div>
+        <slot @slotchange="${this.roughRender}"></slot>
     `;
   }
 
@@ -24,7 +24,7 @@ export class HandDrawnPad extends HandDrawnBase {
       css`
         :host {
         }
-        
+
         .pad {
           overflow: hidden;
           user-select: none;

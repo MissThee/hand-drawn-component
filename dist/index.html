@@ -14,7 +14,7 @@
     }
 </style>
 abcdefghijklmnopqrstuvwxyz1234567890
-<hand-drawn-pad style="width: 100%;padding: 20px" roughops='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}'>
+<hand-drawn-pad style="width: 100%;padding: 20px" roughops='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' disabled="disabled">
     <div style="margin:0 0 20px 0">
         <div>button:</div>
         <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
@@ -37,6 +37,10 @@ abcdefghijklmnopqrstuvwxyz1234567890
             <hand-drawn-icon rendertype="canvas" type="loading"></hand-drawn-icon>
             <span>Loading(canvas)</span>
         </hand-drawn-button>
+    </div>
+    <div style="margin:0 0 20px 0">
+        <div>input:</div>
+        <hand-drawn-input value="默认值" placeholder="在这打字儿"></hand-drawn-input>
     </div>
     <div style="margin:0 0 20px 0">
         <div>checkbox:</div>
@@ -92,6 +96,7 @@ abcdefghijklmnopqrstuvwxyz1234567890
             <hand-drawn-radios rendertype="canvas" data='[{"value":"1","name":"test1","checked":false,"disabled":false},{"value":"2","name":"test2","checked":true,"disabled":false},{"value":"3","name":"test3","checked":false,"disabled":true},{"value":"4","name":"test4","checked":true,"disabled":true}]'></hand-drawn-radios>
         </div>
     </div>
+
 </hand-drawn-pad>
 
 <script>

@@ -3,16 +3,19 @@ import {customElement, property} from 'lit/decorators.js';
 import {HandDrawnBase} from './base/hand-drawn-base';
 import './hand-drawn-checkbox';
 
+
 export interface CheckBoxItem {
   value: string
   name: string
   disabled: boolean
   checked: boolean
 }
-
+/**
+ * @deprecated
+ */
 @customElement('hand-drawn-checkboxs')
 export class HandDrawnCheckboxs extends HandDrawnBase {
-  @property({type: Boolean}) disabled = false;
+  @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String}) value: string | null = null;
   @property({type: Array}) data: CheckBoxItem[] = [];
   @property({type: Array, reflect: true}) checkedItems: CheckBoxItem[] = [];

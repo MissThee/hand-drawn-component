@@ -42,6 +42,7 @@ export interface RoughObjCanvas extends RoughObj {
 
 
 export abstract class HandDrawnBase extends LitElement {
+
   // private readonly assetsParentPath = process.env.NODE_PACKAGED_PATH || '/src';
   private fontInfoArray = [
     {fontFamily: 'comic', fontSrc: './assets/font/comic.ttf'},
@@ -68,6 +69,8 @@ export abstract class HandDrawnBase extends LitElement {
   private resizeTimeout: NodeJS.Timeout | null = null;
   protected roughPadding: number = 2;
   private resizeHandler = this.resizeHandlerTmp.bind(this);
+  private isFocus = false;
+  private isMouseIn = false;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
@@ -90,7 +93,6 @@ export abstract class HandDrawnBase extends LitElement {
 
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties);
-
     setTimeout(() => {
       this.roughRender();
     }, 0);
@@ -99,16 +101,21 @@ export abstract class HandDrawnBase extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this.resizeHandler);
-    this.addEventListener('mouseenter', this.mouseHoverHandler);
-    this.addEventListener('mouseleave', this.mouseLeaveHandler);
+    this.addEventListener('mouseenter', this.mouseInHandler);
+    this.addEventListener('focus', this.focusHandler);
+    this.addEventListener('mouseleave', this.mouseOutHandler);
+    this.addEventListener('blur', this.blurHandler);
   }
 
   disconnectedCallback() {
     super.connectedCallback();
     window.removeEventListener('resize', this.resizeHandler);
-    this.removeEventListener('mouseenter', this.mouseHoverHandler);
-    this.removeEventListener('mouseleave', this.mouseLeaveHandler);
+    this.removeEventListener('mouseenter', this.mouseInHandler);
+    this.removeEventListener('focus', this.focusHandler);
+    this.removeEventListener('mouseleave', this.mouseOutHandler);
+    this.removeEventListener('blur', this.blurHandler);
   }
+
 
   // private detectZoom() {
   //   let ratio = 0,
@@ -169,15 +176,35 @@ export abstract class HandDrawnBase extends LitElement {
     }, 30);
   }
 
-  protected mouseLeaveHandler() {
-    if (this.animationType === AnimationType.HOVER) {
-      this.performAnimation(false);
-    }
+  private mouseInHandler() {
+    this.isMouseIn = true;
+    this.updateAnimationState();
   }
 
-  protected mouseHoverHandler() {
-    if (this.animationType === AnimationType.HOVER) {
-      this.performAnimation(true);
+  private mouseOutHandler() {
+    this.isMouseIn = false;
+    this.updateAnimationState();
+  }
+
+  private focusHandler() {
+    this.isFocus = true;
+    this.updateAnimationState();
+  }
+
+  private blurHandler() {
+    this.isFocus = false;
+    this.updateAnimationState();
+  }
+
+  protected updateAnimationState(forceValue?: boolean) {
+    if (this.isFocus || this.isMouseIn) {
+      if (this.animationType === AnimationType.HOVER) {
+        this.performAnimation(forceValue !== undefined ? forceValue : true);
+      }
+    } else {
+      if (this.animationType === AnimationType.HOVER) {
+        this.performAnimation(forceValue !== undefined ? forceValue : false);
+      }
     }
   }
 

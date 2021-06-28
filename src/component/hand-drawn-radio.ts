@@ -5,7 +5,7 @@ import {Options} from "roughjs/bin/core";
 
 @customElement('hand-drawn-radio')
 export class HandDrawnRadio extends HandDrawnBase {
-  @property({type: Boolean}) disabled = false;
+  @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean, reflect: true}) checked = false;
   @property({type: String}) value: string | null = null;
 
@@ -47,9 +47,9 @@ export class HandDrawnRadio extends HandDrawnBase {
     }));
   }
 
-  protected mouseHoverHandler() {
+  protected updateAnimationState() {
     if (!this.disabled) {
-      super.mouseHoverHandler()
+      super.updateAnimationState();
     }
   }
 
