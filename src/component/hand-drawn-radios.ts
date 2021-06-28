@@ -1,7 +1,7 @@
 import {html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {HandDrawnBase} from './base/hand-drawn-base';
-import './hand-drawn-radio'
+import './hand-drawn-radio';
 
 export interface RadioItem {
   value: string
@@ -20,32 +20,32 @@ export class HandDrawnRadios extends HandDrawnBase {
 
   protected render() {
     return html`
-      ${this.data.map(item =>
-        html`
-          <hand-drawn-radio
-            @change="${this.change}"
-            renderType="${this.renderType}"
-            value="${item.value}"
-            ?checked="${item.checked}"
-            ?disabled="${this.disabled || item.disabled}">${item.name}
-          </hand-drawn-radio>
-        `
-      )}
+        ${this.data.map(item =>
+                html`
+                    <hand-drawn-radio
+                            @change="${this.change}"
+                            renderType="${this.renderType}"
+                            value="${item.value}"
+                            ?checked="${item.checked}"
+                            ?disabled="${this.disabled || item.disabled}">${item.name}
+                    </hand-drawn-radio>
+                `
+        )}
     `;
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    let preCheckedItem: RadioItem | null = null
+    let preCheckedItem: RadioItem | null = null;
     this.data.forEach(item => {
       if (item.checked) {
         if (preCheckedItem) {
-          preCheckedItem.checked = false
+          preCheckedItem.checked = false;
         }
-        preCheckedItem = item
+        preCheckedItem = item;
       }
-    })
-    this.checkedItems = this.data?.filter(e => e.checked) || []
+    });
+    this.checkedItems = this.data?.filter(e => e.checked) || [];
     // console.log('firstUpdated', this.checkedItems)
 
   }
@@ -54,13 +54,17 @@ export class HandDrawnRadios extends HandDrawnBase {
     // console.log(e);
     this.data.forEach(item => {
       if (e.detail.value === item.value) {
-        item.checked = e.detail.checked
+        item.checked = e.detail.checked;
       } else {
-        item.checked = false
+        item.checked = false;
       }
-    })
-    this.checkedItems = this.data?.filter(e => e.checked) || []
+    });
+    this.checkedItems = this.data?.filter(e => e.checked) || [];
     // console.log('change', this.checkedItems)
+  }
+
+  protected createRenderRoot(): ShadowRoot | Element {
+    return this;
   }
 
   static get styles() {

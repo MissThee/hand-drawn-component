@@ -30,7 +30,7 @@ export class HandDrawnButton extends HandDrawnBase {
         }
 
         .button {
-          font: inherit;
+          font:inherit;
           overflow: hidden;
           position: relative;
           user-select: none;

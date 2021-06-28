@@ -1,7 +1,7 @@
 import {html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {HandDrawnBase} from './base/hand-drawn-base';
-import './hand-drawn-checkbox'
+import './hand-drawn-checkbox';
 
 export interface CheckBoxItem {
   value: string
@@ -20,23 +20,23 @@ export class HandDrawnCheckboxs extends HandDrawnBase {
 
   protected render() {
     return html`
-      ${this.data.map(item =>
-          html`
-            <hand-drawn-checkbox
-              @change="${this.change}"
-              renderType="${this.renderType}"
-              value="${item.value}"
-              ?checked="${item.checked}"
-              ?disabled="${this.disabled || item.disabled}">${item.name}
-            </hand-drawn-checkbox>
-          `
-      )}
+        ${this.data.map(item =>
+                html`
+                    <hand-drawn-checkbox
+                            @change="${this.change}"
+                            renderType="${this.renderType}"
+                            value="${item.value}"
+                            ?checked="${item.checked}"
+                            ?disabled="${this.disabled || item.disabled}">${item.name}
+                    </hand-drawn-checkbox>
+                `
+        )}
     `;
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    this.checkedItems = this.data?.filter(e => e.checked) || []
+    this.checkedItems = this.data?.filter(e => e.checked) || [];
     // console.log('firstUpdated', this.checkedItems)
   }
 
@@ -44,12 +44,16 @@ export class HandDrawnCheckboxs extends HandDrawnBase {
     // console.log(e);
     this.data.forEach(item => {
       if (e.detail.value === item.value) {
-        item.checked = e.detail.checked
-        return
+        item.checked = e.detail.checked;
+        return;
       }
-    })
-    this.checkedItems = this.data?.filter(e => e.checked) || []
+    });
+    this.checkedItems = this.data?.filter(e => e.checked) || [];
     // console.log('change', this.checkedItems)
+  }
+
+  protected createRenderRoot(): ShadowRoot | Element {
+    return this;
   }
 
   static get styles() {

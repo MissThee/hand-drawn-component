@@ -11,28 +11,30 @@ export class HandDrawnCheckbox extends HandDrawnBase {
 
   protected render() {
     return html`
-      <label class="checkbox" ?disabled="${this.disabled}">
-        <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-        <span class="checkbox-rect rough">
+        <label class="checkbox" ?disabled="${this.disabled}">
+            <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+            <span class="checkbox-rect rough">
           <div id="tick" style=${this.checked ? 'display:inline-block' : 'display:none'} class="checkbox-tick rough"></div>
         </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
-      </label>
+        </label>
     `;
   }
 
   private checkSwitchHandler() {
     this.checked = this.input!.checked;
-    this.dispatchEvent( new CustomEvent('change', {
+    this.dispatchEvent(new CustomEvent('change', {
+      composed: true,
+      bubbles: true,
       detail: {
-        value:this.value,
-        checked:this.checked
+        value: this.value,
+        checked: this.checked
       }
     }));
   }
 
   protected mouseHoverHandler() {
     if (!this.disabled) {
-      super.mouseHoverHandler()
+      super.mouseHoverHandler();
     }
   }
 
@@ -40,12 +42,12 @@ export class HandDrawnCheckbox extends HandDrawnBase {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
-    }
+    };
     if (roughObj.roughParentEl.id === 'tick') {
       if (roughObj.roughEl instanceof HTMLCanvasElement) {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
-      const nodeArray = []
+      const nodeArray = [];
       nodeArray.push(roughObj.roughInstance.line(size.width / 5, size.height / 3, size.width / 5 * 2, size.height / 5 * 4, this.roughOps));
       nodeArray.push(roughObj.roughInstance.line(size.width / 5 * 2, size.height / 5 * 4, size.width, 0, this.roughOps));
       if (roughObj.roughEl instanceof SVGSVGElement) {

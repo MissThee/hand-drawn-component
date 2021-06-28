@@ -137,8 +137,8 @@ export abstract class HandDrawnBase extends LitElement {
   private setFont() {
     let fontFamilyStr = '';
     for (let fontInfo of this.fontInfoArray) {
+      fontFamilyStr += "'" + fontInfo.fontFamily + "',";
       if (fontInfo.fontFamily && fontInfo.fontSrc) {
-        fontFamilyStr += "'" + fontInfo.fontFamily + "',";
         if (fontInfo.fontFamily && fontInfo.fontSrc) {
           this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
             this.roughRender();
@@ -324,11 +324,6 @@ export abstract class HandDrawnBase extends LitElement {
       //  font-display: swap;
       //  src: url('../../assets/font/FZMWFont.ttf');
       //}
-      * {
-        font: inherit;
-        color: inherit;
-      }
-
       :host {
         //color:gray;
         //text-stroke:1px white;
@@ -338,6 +333,10 @@ export abstract class HandDrawnBase extends LitElement {
         margin: 0;
         box-sizing: border-box;
         position: relative;
+      }
+
+      .slot {
+        font: inherit;
       }
 
       .rough {

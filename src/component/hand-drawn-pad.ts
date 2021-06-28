@@ -24,7 +24,7 @@ export class HandDrawnPad extends HandDrawnBase {
       css`
         :host {
         }
-
+        
         .pad {
           overflow: hidden;
           user-select: none;

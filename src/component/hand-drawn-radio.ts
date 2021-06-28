@@ -38,6 +38,8 @@ export class HandDrawnRadio extends HandDrawnBase {
   private checkSwitchHandler() {
     this.checked = this.input!.checked;
     this.dispatchEvent( new CustomEvent('change', {
+      composed: true,
+      bubbles: true,
       detail: {
         value:this.value,
         checked:this.checked
