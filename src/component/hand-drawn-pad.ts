@@ -30,7 +30,6 @@ export class HandDrawnPad extends HandDrawnBase {
           user-select: none;
           border: none;
           background: none;
-          //padding: 5px;
           outline: none;
           position: absolute;
           top: 0;

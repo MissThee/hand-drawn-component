@@ -317,17 +317,7 @@ export abstract class HandDrawnBase extends LitElement {
   // }
   static get styles() {
     return css`
-      //@font-face { // no effect
-      //  font-family: 'FZMWFont';
-      //  font-style: normal;
-      //  font-weight: 400;
-      //  font-display: swap;
-      //  src: url('../../assets/font/FZMWFont.ttf');
-      //}
       :host {
-        //color:gray;
-        //text-stroke:1px white;
-        //-webkit-text-stroke:1px white;
         display: inline-block;
         padding: 0;
         margin: 0;

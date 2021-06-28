@@ -74,10 +74,13 @@ export class HandDrawnCheckboxGroup extends HandDrawnBase {
   static get styles() {
     return [
       super.styles,
+      //all children of slot, in this html root level
       css`
-        ::slotted(*) { //all children of slot, in this html root level
+        ::slotted(*) {
+          
           margin: 0 1em 0 0
         }
+        
       `
     ];
   }

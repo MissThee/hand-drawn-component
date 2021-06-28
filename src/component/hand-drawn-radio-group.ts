@@ -56,7 +56,7 @@ export class HandDrawnRadioGroup extends HandDrawnBase {
   }
 
   private change(e: Event) {
-    console.log('change', e);
+    // console.log('change', e);
     if (e instanceof CustomEvent) {
       this.checkedValue = e.detail.value;
     }
@@ -65,8 +65,9 @@ export class HandDrawnRadioGroup extends HandDrawnBase {
   static get styles() {
     return [
       super.styles,
+      //all children of slot, in this html root level
       css`
-        ::slotted(*) { //all children of slot, in this html root level
+        ::slotted(*) {
           margin: 0 1em 0 0
         }
       `

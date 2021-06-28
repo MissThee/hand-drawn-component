@@ -286,17 +286,7 @@ class HandDrawnBase extends h$1 {
   }
   static get styles() {
     return i$4`
-      //@font-face { // no effect
-      //  font-family: 'FZMWFont';
-      //  font-style: normal;
-      //  font-weight: 400;
-      //  font-display: swap;
-      //  src: url('../../assets/font/FZMWFont.ttf');
-      //}
       :host {
-        //color:gray;
-        //text-stroke:1px white;
-        //-webkit-text-stroke:1px white;
         display: inline-block;
         padding: 0;
         margin: 0;
@@ -591,7 +581,6 @@ let HandDrawnPad = class extends HandDrawnBase {
           user-select: none;
           border: none;
           background: none;
-          //padding: 5px;
           outline: none;
           position: absolute;
           top: 0;
@@ -877,9 +866,11 @@ let HandDrawnCheckboxGroup = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        ::slotted(*) { //all children of slot, in this html root level
+        ::slotted(*) {
+          
           margin: 0 1em 0 0
         }
+        
       `
     ];
   }
@@ -1208,7 +1199,6 @@ let HandDrawnRadioGroup = class extends HandDrawnBase {
     return super.shouldUpdate(_changedProperties);
   }
   change(e) {
-    console.log("change", e);
     if (e instanceof CustomEvent) {
       this.checkedValue = e.detail.value;
     }
@@ -1217,7 +1207,7 @@ let HandDrawnRadioGroup = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        ::slotted(*) { //all children of slot, in this html root level
+        ::slotted(*) {
           margin: 0 1em 0 0
         }
       `
