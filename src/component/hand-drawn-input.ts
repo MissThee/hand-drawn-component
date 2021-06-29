@@ -5,22 +5,17 @@ import {HandDrawnBase} from './base/hand-drawn-base';
 @customElement('hand-drawn-input')
 export class HandDrawnInput extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: String}) value: string | undefined = '';
-  @property({type: String}) placeholder = '';
-  @property({type: String}) name?: string;
-  @property({type: String}) min?: string;
-  @property({type: String}) max?: string;
-  @property({type: String}) step?: string;
-  @property({type: String}) type = 'text';
   @property({type: String}) autocomplete = '';
-  @property({type: String}) autocapitalize = '';
-  @property({type: String}) autocorrect = '';
-  @property({type: Boolean}) required = false;
   @property({type: Boolean}) autofocus = false;
-  @property({type: Boolean}) readonly = false;
-  @property({type: Number}) minlength?: number;
+  @property({type: Number}) max?: number;
   @property({type: Number}) maxlength?: number;
-  @property({type: Number}) size?: number;
+  @property({type: Number}) min?: number;
+  @property({type: String}) name?: string;
+  @property({type: String}) placeholder = '';
+  @property({type: Boolean}) required = false;
+  @property({type: Boolean}) readonly = false;
+  @property({type: String}) type: 'text' | 'password' | 'tel' | 'number' = 'text';
+  @property({type: String}) value: string | null = '';
   @query('input') private inputEl?: HTMLInputElement;
 
   protected updateAnimationState() {
@@ -32,22 +27,33 @@ export class HandDrawnInput extends HandDrawnBase {
   protected render() {
     return html`
         <div class="rough input-wrapper">
-            <input class="input" .value="${this.value}" placeholder="${this.placeholder}" @input="${this.input}" @change="${this.change}" ?disabled="${this.disabled}"
-                   name="${this.name}" ?required="${this.required}" autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" minlength="${this.minlength}"
-                   maxlength="${this.maxlength}" min="${this.min}" max="${this.max}" step="${this.step}" ?readonly="${this.readonly}"
-                   size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}"
+            <input class="input"
+                   autocomplete="${this.autocomplete}"
+                   ?autofocus="${this.autofocus}"
+                   ?disabled="${this.disabled}"
+                   max="${this.max}"
+                   maxlength="${this.maxlength}"
+                   min="${this.min}"
+                   name="${this.name}"
+                   placeholder="${this.placeholder}"
+                   ?required="${this.required}"
+                   ?readonly="${this.readonly}"
+                   type="${this.type}"
+                   .value="${this.value}"
+                   @input="${this.inputHandler}"
+                   @change="${this.changeHandler}"
             />
         </div>
     `;
   }
 
-  private input(e: Event) {
-    this.value = this.inputEl?.value;
+  private inputHandler(e: Event) {
+    this.value = this.inputEl?.value || null;
     this.emitEvent(e);
   }
 
-  private change(e: Event) {
-    this.value = this.inputEl?.value;
+  private changeHandler(e: Event) {
+    this.value = this.inputEl?.value || null;
     this.emitEvent(e);
   }
 
@@ -64,6 +70,7 @@ export class HandDrawnInput extends HandDrawnBase {
       super.styles,
       css`
         .input-wrapper {
+          overflow: hidden;
           padding: 10px;
         }
 
