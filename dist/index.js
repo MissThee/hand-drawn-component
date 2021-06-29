@@ -61,6 +61,21 @@ function t(t,e,s){if(t&&t.length){const[n,o]=e,a=Math.PI/180*s,r=Math.cos(a),h=M
 
 var __defProp$9 = Object.defineProperty;
 var __getOwnPropDesc$9 = Object.getOwnPropertyDescriptor;
+var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1.call(b, prop))
+      __defNormalProp$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1)
+    for (var prop of __getOwnPropSymbols$1(b)) {
+      if (__propIsEnum$1.call(b, prop))
+        __defNormalProp$1(a, prop, b[prop]);
+    }
+  return a;
+};
 var __decorateClass$9 = (decorators, target, key, kind) => {
   var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc$9(target, key) : target;
   for (var i = decorators.length - 1, decorator; i >= 0; i--)
@@ -83,7 +98,7 @@ var AnimationType;
 })(AnimationType || (AnimationType = {}));
 class HandDrawnBase extends h$1 {
   constructor() {
-    super(...arguments);
+    super();
     this.fontInfoArray = [
       { fontFamily: "comic", fontSrc: "./assets/font/comic.ttf" },
       { fontFamily: "comicbd", fontSrc: "./assets/font/comicbd.ttf" },
@@ -96,10 +111,14 @@ class HandDrawnBase extends h$1 {
     this.roughOpsDefault = {
       bowing: 0.5,
       roughness: 1,
+      stroke: "#666",
+      strokeWidth: 1,
       fillStyle: "zigzag",
-      fillWeight: 0.3
+      fillWeight: 0.3,
+      hachureGap: 4
     };
-    this.roughOps = {};
+    this.roughOpsOrigin = {};
+    this._roughOps = {};
     this.renderType = RenderType.SVG;
     this.animationType = AnimationType.ALWAYS;
     this.animationIntervalTime = 200;
@@ -111,6 +130,16 @@ class HandDrawnBase extends h$1 {
     this.resizeHandler = this.resizeHandlerTmp.bind(this);
     this.isFocus = false;
     this.isMouseIn = false;
+    this.roughOps = this.roughOps || {};
+  }
+  get roughOps() {
+    return this._roughOps;
+  }
+  set roughOps(value) {
+    const oldValue = this._roughOps;
+    this.roughOpsOrigin = __spreadValues$1(__spreadValues$1({}, this.roughOpsDefault), value);
+    this._roughOps = JSON.parse(JSON.stringify(this.roughOpsOrigin)) || {};
+    this.requestUpdate("roughOps", oldValue);
   }
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
@@ -122,11 +151,6 @@ class HandDrawnBase extends h$1 {
     }
   }
   shouldUpdate(_changedProperties) {
-    for (let key of Object.keys(this.roughOpsDefault)) {
-      if (!this.roughOps[key]) {
-        this.roughOps[key] = this.roughOpsDefault[key];
-      }
-    }
     return super.shouldUpdate(_changedProperties);
   }
   updated(_changedProperties) {
@@ -195,12 +219,24 @@ class HandDrawnBase extends h$1 {
     this.updateAnimationState();
   }
   focusHandler() {
-    this.isFocus = true;
-    this.updateAnimationState();
+    if (!this.isFocus) {
+      this.roughOps.stroke = "#000";
+      if (this.roughOps.strokeWidth !== void 0) {
+        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth || 0) + 0.5;
+      }
+      this.isFocus = true;
+      this.updateAnimationState();
+    }
   }
   blurHandler() {
-    this.isFocus = false;
-    this.updateAnimationState();
+    if (this.isFocus) {
+      this.isFocus = false;
+      this.roughOps.stroke = this.roughOpsOrigin.stroke;
+      if (this.roughOps.strokeWidth !== void 0) {
+        this.roughOps.strokeWidth = this.roughOpsOrigin.strokeWidth;
+      }
+      this.updateAnimationState();
+    }
   }
   updateAnimationState(forceValue) {
     if (this.isFocus || this.isMouseIn) {
@@ -355,7 +391,7 @@ __decorateClass$9([
 ], HandDrawnBase.prototype, "roughParentElArray", 2);
 __decorateClass$9([
   e$2({ type: Object })
-], HandDrawnBase.prototype, "roughOps", 2);
+], HandDrawnBase.prototype, "roughOps", 1);
 __decorateClass$9([
   e$2()
 ], HandDrawnBase.prototype, "renderType", 2);
@@ -386,9 +422,12 @@ let HandDrawnButton = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <button type="button" class="button rough" ?disabled="${this.disabled}">
-            <slot class="slot" @slotchange="${this.roughRender}"></slot>
-        </button>
+        <div class="rough button-wrapper" ?disabled="${this.disabled}">
+            <label class="button-label" ?disabled="${this.disabled}">
+                <input type="button" class="button" ?disabled="${this.disabled}"/>
+                <slot class="slot" @slotchange="${this.roughRender}"></slot>
+            </label>
+        </div>
     `;
   }
   static get styles() {
@@ -396,6 +435,22 @@ let HandDrawnButton = class extends HandDrawnBase {
       super.styles,
       i$4`
         .button {
+          opacity: 0;
+          position: absolute
+        }
+
+        .button-label {
+          position: relative;
+          display: block;
+          cursor: pointer;
+          padding: 10px 12px;
+        }
+
+        .button-label[disabled] {
+          cursor: not-allowed;
+        }
+
+        .button-wrapper {
           font: inherit;
           overflow: hidden;
           position: relative;
@@ -405,23 +460,22 @@ let HandDrawnButton = class extends HandDrawnBase {
           cursor: pointer;
           letter-spacing: 1.25px;
           text-align: center;
-          padding: 10px 12px;
           outline: none;
           width: 100%;
           height: 100%;
         }
 
-        .button:active {
+        .button-wrapper:active {
           transform: scale(0.95)
         }
 
-        .button[disabled] {
+        .button-wrapper[disabled] {
           opacity: 0.5;
           background: rgba(0, 0, 0, 0.08);
           cursor: not-allowed;
         }
 
-        .button[disabled]:active {
+        .button-wrapper[disabled]:active {
           transform: scale(1)
         }
       `
@@ -1174,9 +1228,6 @@ let HandDrawnCheckboxGroup = class extends HandDrawnBase {
     super.disconnectedCallback();
     this.removeEventListener("change", this.change);
   }
-  shouldUpdate(_changedProperties) {
-    return super.shouldUpdate(_changedProperties);
-  }
   change() {
     var _a;
     const els = ((_a = this.slotEl) == null ? void 0 : _a.assignedNodes()) || [];
@@ -1241,7 +1292,7 @@ let HandDrawnRadio = class extends HandDrawnBase {
     this.disabled = false;
     this.checked = false;
     this.value = null;
-    this.roughOps = {
+    this.roughOpsForce = {
       bowing: 0.5,
       roughness: 0.5
     };
@@ -1262,7 +1313,7 @@ let HandDrawnRadio = class extends HandDrawnBase {
     return super.createRenderRoot();
   }
   checkSwitchHandler() {
-    this.checked = this.input.checked;
+    this.checked = true;
     this.dispatchEvent(new CustomEvent("change", {
       composed: true,
       bubbles: true,
@@ -1288,7 +1339,7 @@ let HandDrawnRadio = class extends HandDrawnBase {
         (_a = roughObj.roughEl.getContext("2d")) == null ? void 0 : _a.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, __spreadProps(__spreadValues({}, this.roughOps), { fill: "black", fillStyle: "solid" })));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, __spreadProps(__spreadValues(__spreadValues({}, this.roughOps), this.roughOpsForce), { fill: this.roughOps.stroke, strokeWidth: this.roughOpsOrigin.strokeWidth, fillStyle: "solid" })));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = "";
         for (let node of nodeArray) {
@@ -1300,7 +1351,7 @@ let HandDrawnRadio = class extends HandDrawnBase {
         (_b = roughObj.roughEl.getContext("2d")) == null ? void 0 : _b.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, this.roughOps));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, __spreadValues(__spreadValues({}, this.roughOps), this.roughOpsForce)));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = "";
         for (let node of nodeArray) {
@@ -1377,9 +1428,6 @@ __decorateClass$1([
 __decorateClass$1([
   o$1("input")
 ], HandDrawnRadio.prototype, "input", 2);
-__decorateClass$1([
-  e$2({ type: Object })
-], HandDrawnRadio.prototype, "roughOps", 2);
 HandDrawnRadio = __decorateClass$1([
   n$1("hand-drawn-radio")
 ], HandDrawnRadio);
@@ -1408,17 +1456,7 @@ let HandDrawnRadioGroup = class extends HandDrawnBase {
   }
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
-  }
-  update(changedProperties) {
-    var _a;
-    super.update(changedProperties);
-    const els = ((_a = this.slotEl) == null ? void 0 : _a.assignedNodes()) || [];
-    els.forEach((radioEl) => {
-      radioEl.disabled = this.disabled || radioEl.disabled;
-      if (radioEl.tagName === "HAND-DRAWN-RADIO") {
-        radioEl.checked = this.checkedValue === radioEl.value;
-      }
-    });
+    this.setSubRadioState();
   }
   connectedCallback() {
     super.connectedCallback();
@@ -1428,13 +1466,22 @@ let HandDrawnRadioGroup = class extends HandDrawnBase {
     super.disconnectedCallback();
     this.removeEventListener("change", this.change);
   }
-  shouldUpdate(_changedProperties) {
-    return super.shouldUpdate(_changedProperties);
-  }
   change(e) {
     if (e instanceof CustomEvent) {
       this.checkedValue = e.detail.value;
     }
+    this.setSubRadioState();
+    this.requestUpdate();
+  }
+  setSubRadioState() {
+    var _a;
+    const els = ((_a = this.slotEl) == null ? void 0 : _a.assignedNodes()) || [];
+    els.forEach((radioEl) => {
+      radioEl.disabled = this.disabled || radioEl.disabled;
+      if (radioEl.tagName === "HAND-DRAWN-RADIO") {
+        radioEl.checked = this.checkedValue === radioEl.value;
+      }
+    });
   }
   static get styles() {
     return [

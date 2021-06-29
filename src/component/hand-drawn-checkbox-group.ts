@@ -46,10 +46,6 @@ export class HandDrawnCheckboxGroup extends HandDrawnBase {
     this.removeEventListener('change', this.change);
   }
 
-  protected shouldUpdate(_changedProperties: PropertyValues): boolean {
-    return super.shouldUpdate(_changedProperties);
-  }
-
   private change() {
     // two ways to update checked value
     // 1. collecting value of checked child

@@ -56,12 +56,28 @@ export abstract class HandDrawnBase extends LitElement {
   protected roughOpsDefault: Options = {
     bowing: 0.5,
     roughness: 1,
+    stroke: '#666',
+    strokeWidth: 1,
     fillStyle: 'zigzag',
     fillWeight: 0.3,
+    hachureGap: 4,
+  };
+  protected roughOpsOrigin: Options = {};
+  @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
+  private _roughOps: Options = {};
+  @property({type: Object})
+  get roughOps() {
+    return this._roughOps;
   };
 
-  @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
-  @property({type: Object}) protected roughOps: Options = {};
+  set roughOps(value: Options) {
+    const oldValue = this._roughOps;
+    this.roughOpsOrigin = {...this.roughOpsDefault, ...value};
+    // console.log('!!', this.roughOpsDefault, value, JSON.parse(JSON.stringify(this.roughOpsOrigin)));
+    this._roughOps = JSON.parse(JSON.stringify(this.roughOpsOrigin)) || {};
+    this.requestUpdate('roughOps', oldValue);
+  }
+
   @property() protected renderType: RenderType = RenderType.SVG;
   @property() protected animationType: AnimationType = AnimationType.ALWAYS;
   protected animationIntervalTime = 200;
@@ -74,6 +90,11 @@ export abstract class HandDrawnBase extends LitElement {
   private isFocus = false;
   private isMouseIn = false;
 
+  constructor() {
+    super();
+    this.roughOps = this.roughOps || {};
+  }
+
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
@@ -85,11 +106,7 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   protected shouldUpdate(_changedProperties: PropertyValues): boolean {
-    for (let key of Object.keys(this.roughOpsDefault)) {
-      if (!this.roughOps[<keyof Options>key]) {
-        (<Options[keyof Options]>(this.roughOps[<keyof Options>key])) = this.roughOpsDefault[<keyof Options>key];
-      }
-    }
+    // this.updateRoughOps();
     return super.shouldUpdate(_changedProperties);
   }
 
@@ -118,6 +135,14 @@ export abstract class HandDrawnBase extends LitElement {
     this.removeEventListener('blur', this.blurHandler);
   }
 
+  //
+  // private updateRoughOps() {
+  //   for (let key of Object.keys(this.roughOpsDefault)) {
+  //     if (!this.roughOps[<keyof Options>key]) {
+  //       (<Options[keyof Options]>(this.roughOps[<keyof Options>key])) = this.roughOpsDefault[<keyof Options>key];
+  //     }
+  //   }
+  // }
 
   // private detectZoom() {
   //   let ratio = 0,
@@ -194,13 +219,27 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   private focusHandler() {
-    this.isFocus = true;
-    this.updateAnimationState();
+    if (!this.isFocus) {
+      // console.log('focus', this.roughOps, this.roughOpsOrigin);
+      this.roughOps.stroke = '#000';
+      if (this.roughOps.strokeWidth !== undefined) {
+        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth||0) + 0.5;
+      }
+      this.isFocus = true;
+      this.updateAnimationState();
+    }
   }
 
   private blurHandler() {
-    this.isFocus = false;
-    this.updateAnimationState();
+    if (this.isFocus) {
+      this.isFocus = false;
+      // console.log('blur', this.roughOps, this.roughOpsOrigin);
+      this.roughOps.stroke = this.roughOpsOrigin.stroke;
+      if (this.roughOps.strokeWidth !== undefined) {
+        this.roughOps.strokeWidth = this.roughOpsOrigin.strokeWidth;
+      }
+      this.updateAnimationState();
+    }
   }
 
   protected updateAnimationState(forceValue?: boolean) {
