@@ -18,7 +18,7 @@ export class HandDrawnCheckboxs extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String}) value: string | null = null;
   @property({type: Array}) data: CheckBoxItem[] = [];
-  @property({type: Array, reflect: true}) checkedItems: CheckBoxItem[] = [];
+  @property({type: Array}) checkedItems: CheckBoxItem[] = [];
 
 
   protected render() {

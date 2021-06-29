@@ -17,7 +17,7 @@ export interface CheckboxEl extends CheckboxItem, HTMLElement {
 export class HandDrawnCheckboxGroup extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
   @query('slot') slotEl: HTMLSlotElement | undefined;
-  @property({type: Array, reflect: true}) checkedValues: string[] = [];
+  @property({type: Array}) checkedValues: string[] = [];
 
   protected render() {
     return html`

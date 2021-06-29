@@ -18,7 +18,7 @@ export class HandDrawnRadios extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String}) value: string | null = null;
   @property({type: Array}) data: RadioItem[] = [];
-  @property({type: Array, reflect: true}) checkedItems: RadioItem[] = [];
+  @property({type: Array}) checkedItems: RadioItem[] = [];
 
 
   protected render() {

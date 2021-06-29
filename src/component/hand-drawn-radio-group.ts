@@ -17,7 +17,7 @@ export interface RadioEl extends RadioItem, HTMLElement {
 export class HandDrawnRadioGroup extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
   @query('slot') slotEl: HTMLSlotElement | undefined;
-  @property({type: String, reflect: true}) checkedValue: string | null = null;
+  @property({type: String}) checkedValue: string | null = null;
 
   protected render() {
     return html`

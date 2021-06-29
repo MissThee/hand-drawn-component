@@ -555,7 +555,7 @@ __decorateClass$8([
   o$1("#icon")
 ], HandDrawnIcon.prototype, "icon", 2);
 __decorateClass$8([
-  e$2({ type: String, reflect: true })
+  e$2({ type: String })
 ], HandDrawnIcon.prototype, "type", 2);
 HandDrawnIcon = __decorateClass$8([
   n$1("hand-drawn-icon")
@@ -635,6 +635,13 @@ let HandDrawnInput = class extends HandDrawnBase {
     this.disabled = false;
     this.value = "";
     this.placeholder = "";
+    this.type = "text";
+    this.autocomplete = "";
+    this.autocapitalize = "";
+    this.autocorrect = "";
+    this.required = false;
+    this.autofocus = false;
+    this.readonly = false;
   }
   updateAnimationState() {
     if (!this.disabled) {
@@ -643,19 +650,40 @@ let HandDrawnInput = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <div class="rough">
-            <input class="input" .value="${this.value}" placeholder="${this.placeholder}" @input="${this.input}" @change="${this.input}" ?disabled="${this.disabled}"/>
+        <div class="rough input-wrapper">
+            <input class="input" .value="${this.value}" placeholder="${this.placeholder}" @input="${this.input}" @change="${this.change}" ?disabled="${this.disabled}"
+                   name="${this.name}" ?required="${this.required}" autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" minlength="${this.minlength}"
+                   maxlength="${this.maxlength}" min="${this.min}" max="${this.max}" step="${this.step}" ?readonly="${this.readonly}"
+                   size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}"
+            />
         </div>
     `;
   }
   input(e) {
     var _a;
     this.value = (_a = this.inputEl) == null ? void 0 : _a.value;
+    this.emitEvent(e);
+  }
+  change(e) {
+    var _a;
+    this.value = (_a = this.inputEl) == null ? void 0 : _a.value;
+    this.emitEvent(e);
+  }
+  emitEvent(event) {
+    this.dispatchEvent(new CustomEvent(event.type, {
+      composed: true,
+      bubbles: true,
+      detail: event
+    }));
   }
   static get styles() {
     return [
       super.styles,
       i$4`
+        .input-wrapper {
+          padding: 10px;
+        }
+
         .input {
           font: inherit;
           overflow: hidden;
@@ -663,9 +691,7 @@ let HandDrawnInput = class extends HandDrawnBase {
           border: none;
           background: none;
           outline: none;
-          height: 100%;
           width: 100%;
-          margin: 10px;
         }
 
         .input:active {
@@ -687,11 +713,53 @@ __decorateClass$6([
   e$2({ type: Boolean, reflect: true })
 ], HandDrawnInput.prototype, "disabled", 2);
 __decorateClass$6([
-  e$2({ type: String, reflect: true })
+  e$2({ type: String })
 ], HandDrawnInput.prototype, "value", 2);
 __decorateClass$6([
-  e$2({ type: String, reflect: true })
+  e$2({ type: String })
 ], HandDrawnInput.prototype, "placeholder", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "name", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "min", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "max", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "step", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "type", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "autocomplete", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "autocapitalize", 2);
+__decorateClass$6([
+  e$2({ type: String })
+], HandDrawnInput.prototype, "autocorrect", 2);
+__decorateClass$6([
+  e$2({ type: Boolean })
+], HandDrawnInput.prototype, "required", 2);
+__decorateClass$6([
+  e$2({ type: Boolean })
+], HandDrawnInput.prototype, "autofocus", 2);
+__decorateClass$6([
+  e$2({ type: Boolean })
+], HandDrawnInput.prototype, "readonly", 2);
+__decorateClass$6([
+  e$2({ type: Number })
+], HandDrawnInput.prototype, "minlength", 2);
+__decorateClass$6([
+  e$2({ type: Number })
+], HandDrawnInput.prototype, "maxlength", 2);
+__decorateClass$6([
+  e$2({ type: Number })
+], HandDrawnInput.prototype, "size", 2);
 __decorateClass$6([
   o$1("input")
 ], HandDrawnInput.prototype, "inputEl", 2);
@@ -828,7 +896,7 @@ __decorateClass$5([
   e$2({ type: Boolean, reflect: true })
 ], HandDrawnCheckbox.prototype, "disabled", 2);
 __decorateClass$5([
-  e$2({ type: Boolean, reflect: true })
+  e$2({ type: Boolean })
 ], HandDrawnCheckbox.prototype, "checked", 2);
 __decorateClass$5([
   e$2({ type: String })
@@ -906,7 +974,7 @@ __decorateClass$4([
   e$2({ type: Array })
 ], HandDrawnCheckboxs.prototype, "data", 2);
 __decorateClass$4([
-  e$2({ type: Array, reflect: true })
+  e$2({ type: Array })
 ], HandDrawnCheckboxs.prototype, "checkedItems", 2);
 HandDrawnCheckboxs = __decorateClass$4([
   n$1("hand-drawn-checkboxs")
@@ -981,7 +1049,7 @@ __decorateClass$3([
   o$1("slot")
 ], HandDrawnCheckboxGroup.prototype, "slotEl", 2);
 __decorateClass$3([
-  e$2({ type: Array, reflect: true })
+  e$2({ type: Array })
 ], HandDrawnCheckboxGroup.prototype, "checkedValues", 2);
 HandDrawnCheckboxGroup = __decorateClass$3([
   n$1("hand-drawn-checkbox-group")
@@ -1153,7 +1221,7 @@ __decorateClass$2([
   e$2({ type: Boolean, reflect: true })
 ], HandDrawnRadio.prototype, "disabled", 2);
 __decorateClass$2([
-  e$2({ type: Boolean, reflect: true })
+  e$2({ type: Boolean })
 ], HandDrawnRadio.prototype, "checked", 2);
 __decorateClass$2([
   e$2({ type: String })
@@ -1244,7 +1312,7 @@ __decorateClass$1([
   e$2({ type: Array })
 ], HandDrawnRadios.prototype, "data", 2);
 __decorateClass$1([
-  e$2({ type: Array, reflect: true })
+  e$2({ type: Array })
 ], HandDrawnRadios.prototype, "checkedItems", 2);
 HandDrawnRadios = __decorateClass$1([
   n$1("hand-drawn-radios")
@@ -1320,7 +1388,7 @@ __decorateClass([
   o$1("slot")
 ], HandDrawnRadioGroup.prototype, "slotEl", 2);
 __decorateClass([
-  e$2({ type: String, reflect: true })
+  e$2({ type: String })
 ], HandDrawnRadioGroup.prototype, "checkedValue", 2);
 HandDrawnRadioGroup = __decorateClass([
   n$1("hand-drawn-radio-group")

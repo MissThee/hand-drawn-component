@@ -5,7 +5,7 @@ import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base
 @customElement('hand-drawn-checkbox')
 export class HandDrawnCheckbox extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: Boolean, reflect: true}) checked = false;
+  @property({type: Boolean}) checked = false;
   @property({type: String}) value: string | null = null;
   @query('input') private input?: HTMLInputElement;
 

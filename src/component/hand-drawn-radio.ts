@@ -6,7 +6,7 @@ import {Options} from "roughjs/bin/core";
 @customElement('hand-drawn-radio')
 export class HandDrawnRadio extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: Boolean, reflect: true}) checked = false;
+  @property({type: Boolean}) checked = false;
   @property({type: String}) value: string | null = null;
 
   @query('input') private input?: HTMLInputElement;

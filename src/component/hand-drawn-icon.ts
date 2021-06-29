@@ -13,7 +13,7 @@ export class HandDrawnIcon extends HandDrawnBase {
     roughness: 0.5,
   }
   @query('#icon') private icon: HTMLElement | undefined;
-  @property({type: String, reflect: true}) type: HandDrawnIconType | undefined;
+  @property({type: String}) type: HandDrawnIconType | undefined;
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     switch (this.type) {
