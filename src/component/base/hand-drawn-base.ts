@@ -62,13 +62,15 @@ export abstract class HandDrawnBase extends LitElement {
 
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property({type: Object}) protected roughOps: Options = {};
-  @property() protected renderType: RenderType = RenderType.CANVAS;
+  @property() protected renderType: RenderType = RenderType.SVG;
   @property() protected animationType: AnimationType = AnimationType.HOVER;
+  protected animationIntervalTime = 200;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
   private resizeTimeout: NodeJS.Timeout | null = null;
+  private resizePreTimestamp: number = 0;
   protected roughPadding: number = 2;
-  private resizeHandler = this.resizeHandlerTmp.bind(this);
+  protected resizeHandler = this.resizeHandlerTmp.bind(this);
   private isFocus = false;
   private isMouseIn = false;
 
@@ -167,13 +169,18 @@ export abstract class HandDrawnBase extends LitElement {
   };
 
   private resizeHandlerTmp() {
+    const now = Date.now();
+    if (now - this.resizePreTimestamp > this.animationIntervalTime) {
+      this.roughRender();
+      this.resizePreTimestamp = now;
+    }
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
       this.resizeTimeout = null;
     }
     this.resizeTimeout = setTimeout(() => {
       this.roughRender();
-    }, 30);
+    }, this.animationIntervalTime);
   }
 
   private mouseInHandler() {
@@ -258,7 +265,7 @@ export abstract class HandDrawnBase extends LitElement {
       if (!this.drawInterval) {
         this.drawInterval = setInterval(() => {
           this.roughRender(true);
-        }, 150);
+        }, this.animationIntervalTime);
       }
     } else {
       if (this.drawInterval) {
