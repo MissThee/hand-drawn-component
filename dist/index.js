@@ -77,7 +77,7 @@ var RenderType;
 })(RenderType || (RenderType = {}));
 var AnimationType;
 (function(AnimationType2) {
-  AnimationType2["HOVER"] = "hover";
+  AnimationType2["ACTIVE"] = "active";
   AnimationType2["ALWAYS"] = "always";
   AnimationType2["NONE"] = "none";
 })(AnimationType || (AnimationType = {}));
@@ -101,7 +101,7 @@ class HandDrawnBase extends h$1 {
     };
     this.roughOps = {};
     this.renderType = RenderType.SVG;
-    this.animationType = AnimationType.HOVER;
+    this.animationType = AnimationType.ALWAYS;
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
     this.drawInterval = null;
@@ -204,11 +204,11 @@ class HandDrawnBase extends h$1 {
   }
   updateAnimationState(forceValue) {
     if (this.isFocus || this.isMouseIn) {
-      if (this.animationType === AnimationType.HOVER) {
+      if (this.animationType === AnimationType.ACTIVE) {
         this.performAnimation(forceValue !== void 0 ? forceValue : true);
       }
     } else {
-      if (this.animationType === AnimationType.HOVER) {
+      if (this.animationType === AnimationType.ACTIVE) {
         this.performAnimation(forceValue !== void 0 ? forceValue : false);
       }
     }

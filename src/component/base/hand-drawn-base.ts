@@ -12,7 +12,7 @@ export enum RenderType {
 }
 
 export enum AnimationType {
-  HOVER = 'hover',
+  ACTIVE = 'active',
   ALWAYS = 'always',
   NONE = 'none',
 }
@@ -63,7 +63,7 @@ export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property({type: Object}) protected roughOps: Options = {};
   @property() protected renderType: RenderType = RenderType.SVG;
-  @property() protected animationType: AnimationType = AnimationType.HOVER;
+  @property() protected animationType: AnimationType = AnimationType.ALWAYS;
   protected animationIntervalTime = 200;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
@@ -205,11 +205,11 @@ export abstract class HandDrawnBase extends LitElement {
 
   protected updateAnimationState(forceValue?: boolean) {
     if (this.isFocus || this.isMouseIn) {
-      if (this.animationType === AnimationType.HOVER) {
+      if (this.animationType === AnimationType.ACTIVE) {
         this.performAnimation(forceValue !== undefined ? forceValue : true);
       }
     } else {
-      if (this.animationType === AnimationType.HOVER) {
+      if (this.animationType === AnimationType.ACTIVE) {
         this.performAnimation(forceValue !== undefined ? forceValue : false);
       }
     }
