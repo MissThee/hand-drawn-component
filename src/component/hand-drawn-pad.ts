@@ -5,7 +5,7 @@ import {AnimationType, HandDrawnBase} from './base/hand-drawn-base';
 @customElement('hand-drawn-pad')
 export class HandDrawnPad extends HandDrawnBase {
   @property() bodyStyle: string = '';
-
+  @property({type:Boolean}) noBorder: boolean = false;
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.animationType = AnimationType.NONE;
@@ -13,7 +13,7 @@ export class HandDrawnPad extends HandDrawnBase {
 
   protected render() {
     return html`
-        <div class="pad rough"></div>
+        ${this.noBorder?'':html`<div class="pad rough"></div>`}
         <slot @slotchange="${this.roughRender}"></slot>
     `;
   }

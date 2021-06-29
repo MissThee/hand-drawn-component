@@ -576,6 +576,7 @@ let HandDrawnPad = class extends HandDrawnBase {
   constructor() {
     super(...arguments);
     this.bodyStyle = "";
+    this.noBorder = false;
   }
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
@@ -583,7 +584,7 @@ let HandDrawnPad = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <div class="pad rough"></div>
+        ${this.noBorder ? "" : T$1`<div class="pad rough"></div>`}
         <slot @slotchange="${this.roughRender}"></slot>
     `;
   }
@@ -614,6 +615,9 @@ let HandDrawnPad = class extends HandDrawnBase {
 __decorateClass$7([
   e$2()
 ], HandDrawnPad.prototype, "bodyStyle", 2);
+__decorateClass$7([
+  e$2({ type: Boolean })
+], HandDrawnPad.prototype, "noBorder", 2);
 HandDrawnPad = __decorateClass$7([
   n$1("hand-drawn-pad")
 ], HandDrawnPad);
