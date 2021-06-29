@@ -27,18 +27,7 @@ export class HandDrawnRadioGroup extends HandDrawnBase {
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-
-  }
-
-  protected update(changedProperties: PropertyValues) {
-    super.update(changedProperties);
-    const els = (this.slotEl?.assignedNodes() || []) as RadioEl[];
-    els.forEach(radioEl => {
-      radioEl.disabled = this.disabled || radioEl.disabled;
-      if (radioEl.tagName === 'HAND-DRAWN-RADIO') {
-        radioEl.checked = this.checkedValue === radioEl.value;
-      }
-    });
+    this.setSubRadioState();
   }
 
   connectedCallback() {
@@ -51,15 +40,23 @@ export class HandDrawnRadioGroup extends HandDrawnBase {
     this.removeEventListener('change', this.change);
   }
 
-  protected shouldUpdate(_changedProperties: PropertyValues): boolean {
-    return super.shouldUpdate(_changedProperties);
-  }
-
   private change(e: Event) {
     // console.log('change', e);
     if (e instanceof CustomEvent) {
       this.checkedValue = e.detail.value;
     }
+    this.setSubRadioState();
+    this.requestUpdate();
+  }
+
+  private setSubRadioState() {
+    const els = (this.slotEl?.assignedNodes() || []) as RadioEl[];
+    els.forEach(radioEl => {
+      radioEl.disabled = this.disabled || radioEl.disabled;
+      if (radioEl.tagName === 'HAND-DRAWN-RADIO') {
+        radioEl.checked = this.checkedValue === radioEl.value;
+      }
+    });
   }
 
   static get styles() {

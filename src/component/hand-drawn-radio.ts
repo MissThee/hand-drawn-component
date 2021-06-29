@@ -1,7 +1,6 @@
 import {css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
-import {Options} from "roughjs/bin/core";
 
 @customElement('hand-drawn-radio')
 export class HandDrawnRadio extends HandDrawnBase {
@@ -10,7 +9,8 @@ export class HandDrawnRadio extends HandDrawnBase {
   @property({type: String}) value: string | null = null;
 
   @query('input') private input?: HTMLInputElement;
-  @property({type: Object}) protected roughOps: Options = {
+
+  private roughOpsForce = {
     bowing: 0.5,
     roughness: 0.5
   };
@@ -37,7 +37,7 @@ export class HandDrawnRadio extends HandDrawnBase {
   }
 
   private checkSwitchHandler() {
-    this.checked = this.input!.checked;
+    this.checked = true;
     this.dispatchEvent(new CustomEvent('change', {
       composed: true,
       bubbles: true,
@@ -65,7 +65,7 @@ export class HandDrawnRadio extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, {...this.roughOps, fill: 'black', fillStyle: 'solid'}));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, {...this.roughOps, ...this.roughOpsForce, fill: this.roughOps.stroke, strokeWidth: this.roughOpsOrigin.strokeWidth, fillStyle: 'solid'}));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
         for (let node of nodeArray) {
@@ -77,7 +77,7 @@ export class HandDrawnRadio extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, this.roughOps));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, {...this.roughOps, ...this.roughOpsForce}));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
         for (let node of nodeArray) {
