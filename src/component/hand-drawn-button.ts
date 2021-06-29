@@ -14,17 +14,39 @@ export class HandDrawnButton extends HandDrawnBase {
 
   protected render() {
     return html`
-        <button type="button" class="button rough" ?disabled="${this.disabled}">
-            <slot class="slot" @slotchange="${this.roughRender}"></slot>
-        </button>
+        <div class="rough button-wrapper" ?disabled="${this.disabled}">
+            <label class="button-label" ?disabled="${this.disabled}">
+                <input type="button" class="button" ?disabled="${this.disabled}"/>
+                <slot class="slot" @slotchange="${this.roughRender}"></slot>
+            </label>
+        </div>
     `;
   }
 
+  //   <button type="button" class="button rough" ?disabled="${this.disabled}">
+  //             <slot class="slot" @slotchange="${this.roughRender}"></slot>
+  //         </button>
   static get styles() {
     return [
       super.styles,
       css`
         .button {
+          opacity: 0;
+          position: absolute
+        }
+
+        .button-label {
+          position: relative;
+          display: block;
+          cursor: pointer;
+          padding: 10px 12px;
+        }
+
+        .button-label[disabled] {
+          cursor: not-allowed;
+        }
+
+        .button-wrapper {
           font: inherit;
           overflow: hidden;
           position: relative;
@@ -34,23 +56,22 @@ export class HandDrawnButton extends HandDrawnBase {
           cursor: pointer;
           letter-spacing: 1.25px;
           text-align: center;
-          padding: 10px 12px;
           outline: none;
           width: 100%;
           height: 100%;
         }
 
-        .button:active {
+        .button-wrapper:active {
           transform: scale(0.95)
         }
 
-        .button[disabled] {
+        .button-wrapper[disabled] {
           opacity: 0.5;
           background: rgba(0, 0, 0, 0.08);
           cursor: not-allowed;
         }
 
-        .button[disabled]:active {
+        .button-wrapper[disabled]:active {
           transform: scale(1)
         }
       `
