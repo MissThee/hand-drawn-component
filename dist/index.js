@@ -111,7 +111,7 @@ class HandDrawnBase extends h$1 {
     this.roughOpsDefault = {
       bowing: 0.5,
       roughness: 1,
-      stroke: "#666",
+      stroke: "#363636",
       strokeWidth: 1,
       fillStyle: "zigzag",
       fillWeight: 0.3,
@@ -222,7 +222,7 @@ class HandDrawnBase extends h$1 {
     if (!this.isFocus) {
       this.roughOps.stroke = "#000";
       if (this.roughOps.strokeWidth !== void 0) {
-        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth || 0) + 0.5;
+        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth || 0) + 1;
       }
       this.isFocus = true;
       this.updateAnimationState();
@@ -1425,9 +1425,6 @@ __decorateClass$1([
 __decorateClass$1([
   e$2({ type: String })
 ], HandDrawnRadio.prototype, "value", 2);
-__decorateClass$1([
-  o$1("input")
-], HandDrawnRadio.prototype, "input", 2);
 HandDrawnRadio = __decorateClass$1([
   n$1("hand-drawn-radio")
 ], HandDrawnRadio);

@@ -1,5 +1,5 @@
 import {css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
 import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
 
 @customElement('hand-drawn-radio')
@@ -7,8 +7,6 @@ export class HandDrawnRadio extends HandDrawnBase {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean}) checked = false;
   @property({type: String}) value: string | null = null;
-
-  @query('input') private input?: HTMLInputElement;
 
   private roughOpsForce = {
     bowing: 0.5,

@@ -56,7 +56,7 @@ export abstract class HandDrawnBase extends LitElement {
   protected roughOpsDefault: Options = {
     bowing: 0.5,
     roughness: 1,
-    stroke: '#666',
+    stroke: '#363636',
     strokeWidth: 1,
     fillStyle: 'zigzag',
     fillWeight: 0.3,
@@ -223,7 +223,7 @@ export abstract class HandDrawnBase extends LitElement {
       // console.log('focus', this.roughOps, this.roughOpsOrigin);
       this.roughOps.stroke = '#000';
       if (this.roughOps.strokeWidth !== undefined) {
-        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth||0) + 0.5;
+        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth||0) + 1;
       }
       this.isFocus = true;
       this.updateAnimationState();
