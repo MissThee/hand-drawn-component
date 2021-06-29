@@ -5,7 +5,10 @@ import {AnimationType, HandDrawnBase} from './base/hand-drawn-base';
 @customElement('hand-drawn-pad')
 export class HandDrawnPad extends HandDrawnBase {
   @property() bodyStyle: string = '';
-  @property({type:Boolean}) noBorder: boolean = false;
+  @property({type: Boolean}) noBorder = false;
+  @property({type: Boolean}) realTimeResize = false;
+  private textareaResizeInterval: NodeJS.Timeout | null = null;
+
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.animationType = AnimationType.NONE;
@@ -13,9 +16,31 @@ export class HandDrawnPad extends HandDrawnBase {
 
   protected render() {
     return html`
-        ${this.noBorder?'':html`<div class="pad rough"></div>`}
+        ${this.noBorder ? '' : html`
+            <div class="pad rough"></div>`}
         <slot @slotchange="${this.roughRender}"></slot>
     `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.textareaResizeInterval) {
+      clearInterval(this.textareaResizeInterval);
+      this.textareaResizeInterval = null;
+    }
+    if (this.realTimeResize) {
+      this.textareaResizeInterval = setInterval(() => {
+        this.resizeHandler();
+      }, this.animationIntervalTime);
+    }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.textareaResizeInterval) {
+      clearInterval(this.textareaResizeInterval);
+      this.textareaResizeInterval = null;
+    }
   }
 
   static get styles() {
@@ -23,6 +48,7 @@ export class HandDrawnPad extends HandDrawnBase {
       super.styles,
       css`
         :host {
+          overflow: hidden;
         }
 
         .pad {
