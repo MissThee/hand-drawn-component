@@ -351,6 +351,12 @@ export abstract class HandDrawnBase extends LitElement {
   // }
   static get styles() {
     return css`
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
       :host {
         display: inline-block;
         padding: 0;

@@ -122,6 +122,8 @@ export class HandDrawnTextarea extends HandDrawnBase {
 
         .textarea {
           font: inherit;
+          word-break: break-all;
+          word-wrap: break-word;
           user-select: none;
           border: none;
           background: none;

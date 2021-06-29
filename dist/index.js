@@ -316,6 +316,12 @@ class HandDrawnBase extends h$1 {
   }
   static get styles() {
     return i$4`
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
       :host {
         display: inline-block;
         padding: 0;
@@ -916,6 +922,8 @@ let HandDrawnTextarea = class extends HandDrawnBase {
 
         .textarea {
           font: inherit;
+          word-break: break-all;
+          word-wrap: break-word;
           user-select: none;
           border: none;
           background: none;
