@@ -122,7 +122,6 @@ export class HandDrawnIcon extends HandDrawnBase {
             transform: rotate(-360deg);
           }
       `
-
     ];
   }
 }

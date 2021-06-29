@@ -84,16 +84,10 @@ export class HandDrawnInput extends HandDrawnBase {
           width: 100%;
         }
 
-        .input:active {
-        }
-
         .input[disabled] {
           opacity: 0.5;
           background: rgba(0, 0, 0, 0.08);
           cursor: not-allowed;
-        }
-
-        .input[disabled]:active {
         }
       `
     ];

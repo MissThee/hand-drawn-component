@@ -159,14 +159,8 @@ export class HandDrawnTextarea extends HandDrawnBase {
           background: #ddd;
         }
 
-        .textarea:active {
-        }
-
         .textarea[disabled] {
           cursor: not-allowed;
-        }
-
-        .textarea[disabled]:active {
         }
       `
     ];

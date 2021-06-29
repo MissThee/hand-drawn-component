@@ -65,10 +65,6 @@ export class HandDrawnCheckbox extends HandDrawnBase {
     return [
       super.styles,
       css`
-        :host {
-          cursor: pointer;
-        }
-
         .slot {
           display: inline-block;
           vertical-align: middle;
