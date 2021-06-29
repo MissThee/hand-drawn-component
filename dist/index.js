@@ -383,7 +383,7 @@ let HandDrawnButton = class extends HandDrawnBase {
       super.styles,
       i$4`
         .button {
-          font:inherit;
+          font: inherit;
           overflow: hidden;
           position: relative;
           user-select: none;
@@ -1098,12 +1098,13 @@ let HandDrawnRadio = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-      <label class="radio" ?disabled="${this.disabled}">
-        <input class="radio-input" @change="${this.checkSwitchHandler}" type="radio" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-        <span id="dot-wrapper" class="radio-rect rough">
+        <label class="radio" ?disabled="${this.disabled}">
+            <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
+            <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+            <span id="dot-wrapper" class="radio-rect rough">
           <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
         </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
-      </label>
+        </label>
     `;
   }
   createRenderRoot() {

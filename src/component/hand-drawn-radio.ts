@@ -22,12 +22,13 @@ export class HandDrawnRadio extends HandDrawnBase {
 
   protected render() {
     return html`
-      <label class="radio" ?disabled="${this.disabled}">
-        <input class="radio-input" @change="${this.checkSwitchHandler}" type="radio" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-        <span id="dot-wrapper" class="radio-rect rough">
+        <label class="radio" ?disabled="${this.disabled}">
+            <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
+            <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+            <span id="dot-wrapper" class="radio-rect rough">
           <div id="dot" style=${this.checked ? 'display:inline-block' : 'display:none'} class="radio-dot rough"></div>
         </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
-      </label>
+        </label>
     `;
   }
 
@@ -37,12 +38,12 @@ export class HandDrawnRadio extends HandDrawnBase {
 
   private checkSwitchHandler() {
     this.checked = this.input!.checked;
-    this.dispatchEvent( new CustomEvent('change', {
+    this.dispatchEvent(new CustomEvent('change', {
       composed: true,
       bubbles: true,
       detail: {
-        value:this.value,
-        checked:this.checked
+        value: this.value,
+        checked: this.checked
       }
     }));
   }
@@ -58,12 +59,12 @@ export class HandDrawnRadio extends HandDrawnBase {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
-    }
+    };
     if (roughObj.roughParentEl.id === 'dot') {
       if (roughObj.roughEl instanceof HTMLCanvasElement) {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
-      const nodeArray = []
+      const nodeArray = [];
       nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, {...this.roughOps, fill: 'black', fillStyle: 'solid'}));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
@@ -75,7 +76,7 @@ export class HandDrawnRadio extends HandDrawnBase {
       if (roughObj.roughEl instanceof HTMLCanvasElement) {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
-      const nodeArray = []
+      const nodeArray = [];
       nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, this.roughOps));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = '';
