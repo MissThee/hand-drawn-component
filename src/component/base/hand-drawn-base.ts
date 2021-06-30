@@ -47,7 +47,7 @@ export abstract class HandDrawnBase extends LitElement {
 
   protected roughOpsDefault: Options = {
     bowing: 0.5,
-    roughness: 1,
+    roughness: 0.8,
     stroke: '#363636',
     strokeWidth: 1,
     fillStyle: 'zigzag',
@@ -85,7 +85,6 @@ export abstract class HandDrawnBase extends LitElement {
   constructor() {
     super();
     this.fontLoadListener();
-    this.roughOps = this.roughOps || {};
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
@@ -105,6 +104,7 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   connectedCallback() {
+    this.roughOps = this.roughOps || {};
     super.connectedCallback();
     window.addEventListener('resize', this.resizeHandler);
     this.addEventListener('mouseenter', this.mouseInHandler);

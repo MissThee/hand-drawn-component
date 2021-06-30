@@ -101,7 +101,7 @@ class HandDrawnBase extends h$1 {
     super();
     this.roughOpsDefault = {
       bowing: 0.5,
-      roughness: 1,
+      roughness: 0.8,
       stroke: "#363636",
       strokeWidth: 1,
       fillStyle: "zigzag",
@@ -122,7 +122,6 @@ class HandDrawnBase extends h$1 {
     this.isFocus = false;
     this.isMouseIn = false;
     this.fontLoadListener();
-    this.roughOps = this.roughOps || {};
   }
   get roughOps() {
     return this._roughOps;
@@ -148,6 +147,7 @@ class HandDrawnBase extends h$1 {
     }, 0);
   }
   connectedCallback() {
+    this.roughOps = this.roughOps || {};
     super.connectedCallback();
     window.addEventListener("resize", this.resizeHandler);
     this.addEventListener("mouseenter", this.mouseInHandler);
@@ -1265,22 +1265,18 @@ let HandDrawnRadio = class extends HandDrawnBase {
     this.disabled = false;
     this.checked = false;
     this.value = null;
-    this.roughOpsForce = {
-      bowing: 0.5,
-      roughness: 0.5
-    };
     this.attachShadow({ mode: "open" });
   }
   render() {
     return T$1`
-        <label class="radio" ?disabled="${this.disabled}">
-            <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
-            <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <span id="dot-wrapper" class="radio-rect rough">
+            <label class="radio" ?disabled="${this.disabled}">
+                <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
+                <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+                <span id="dot-wrapper" class="radio-rect rough">
           <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
         </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
-        </label>
-    `;
+            </label>
+        `;
   }
   createRenderRoot() {
     return super.createRenderRoot();
@@ -1312,7 +1308,14 @@ let HandDrawnRadio = class extends HandDrawnBase {
         (_a = roughObj.roughEl.getContext("2d")) == null ? void 0 : _a.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, __spreadProps(__spreadValues(__spreadValues({}, this.roughOps), this.roughOpsForce), { fill: this.roughOps.stroke, strokeWidth: this.roughOpsOrigin.strokeWidth, fillStyle: "solid" })));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, __spreadProps(__spreadValues(__spreadValues({}, this.roughOps), {
+        roughness: (this.roughOps.roughness || 0) * 2 / 3,
+        bowing: (this.roughOps.bowing || 0) * 2 / 3
+      }), {
+        fill: this.roughOps.stroke,
+        strokeWidth: this.roughOpsOrigin.strokeWidth,
+        fillStyle: "solid"
+      })));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = "";
         for (let node of nodeArray) {
@@ -1324,7 +1327,10 @@ let HandDrawnRadio = class extends HandDrawnBase {
         (_b = roughObj.roughEl.getContext("2d")) == null ? void 0 : _b.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, __spreadValues(__spreadValues({}, this.roughOps), this.roughOpsForce)));
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, __spreadValues(__spreadValues({}, this.roughOps), {
+        roughness: (this.roughOps.roughness || 0) * 2 / 3,
+        bowing: (this.roughOps.bowing || 0) * 2 / 3
+      })));
       if (roughObj.roughEl instanceof SVGSVGElement) {
         roughObj.roughEl.innerHTML = "";
         for (let node of nodeArray) {
@@ -1339,53 +1345,53 @@ let HandDrawnRadio = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        .slot {
-          display: inline-block;
-          vertical-align: middle;
-        }
+              .slot {
+                display: inline-block;
+                vertical-align: middle;
+              }
 
-        .radio {
-          overflow: hidden;
-          position: relative;
-          user-select: none;
-          border: none;
-          background: none;
-          cursor: pointer;
-          outline: none;
-          height: 100%;
-        }
+              .radio {
+                overflow: hidden;
+                position: relative;
+                user-select: none;
+                border: none;
+                background: none;
+                cursor: pointer;
+                outline: none;
+                height: 100%;
+              }
 
-        .radio-input {
-          opacity: 0;
-          position: absolute;
-        }
+              .radio-input {
+                opacity: 0;
+                position: absolute;
+              }
 
-        .radio-rect {
-          display: inline-block;
-          overflow: hidden;
-          position: relative;
-          user-select: none;
-          border: none;
-          background: none;
-          outline: none;
-          width: 1em;
-          height: 1em;
-          line-height: 1em;
-          vertical-align: middle;
-        }
+              .radio-rect {
+                display: inline-block;
+                overflow: hidden;
+                position: relative;
+                user-select: none;
+                border: none;
+                background: none;
+                outline: none;
+                width: 1em;
+                height: 1em;
+                line-height: 1em;
+                vertical-align: middle;
+              }
 
-        .radio-dot {
-          height: 100%;
-          width: 100%;
-          position: relative;
-        }
+              .radio-dot {
+                height: 100%;
+                width: 100%;
+                position: relative;
+              }
 
-        .radio[disabled] {
-          opacity: 0.5;
-          background: rgba(0, 0, 0, 0.03);
-          cursor: not-allowed;
-        }
-      `
+              .radio[disabled] {
+                opacity: 0.5;
+                background: rgba(0, 0, 0, 0.03);
+                cursor: not-allowed;
+              }
+            `
     ];
   }
 };
