@@ -44,15 +44,7 @@ export interface RoughObjCanvas extends RoughObj {
 export abstract class HandDrawnBase extends LitElement {
 
   // private readonly assetsParentPath = process.env.NODE_PACKAGED_PATH || '/src';
-  private fontInfoArray = [
-    {fontFamily: 'comic', fontSrc: './assets/font/comic.ttf'},
-    {fontFamily: 'comicbd', fontSrc: './assets/font/comicbd.ttf'},
-    {fontFamily: 'comici', fontSrc: './assets/font/comici.ttf'},
-    {fontFamily: 'comicz', fontSrc: './assets/font/comicz.ttf'},
-    {fontFamily: 'FZMWFont', fontSrc: './assets/font/FZMWFont.woff2'},
-    {fontFamily: 'monospace'},
-    {fontFamily: 'sans-serif'}
-  ];
+
   protected roughOpsDefault: Options = {
     bowing: 0.5,
     roughness: 1,
@@ -92,6 +84,7 @@ export abstract class HandDrawnBase extends LitElement {
 
   constructor() {
     super();
+    this.fontLoadListener();
     this.roughOps = this.roughOps || {};
   }
 
@@ -99,15 +92,9 @@ export abstract class HandDrawnBase extends LitElement {
     super.firstUpdated(_changedProperties);
     this.roughInit();
     this.roughRender();
-    this.setFont();
     if (this.animationType === AnimationType.ALWAYS) {
       this.performAnimation(true);
     }
-  }
-
-  protected shouldUpdate(_changedProperties: PropertyValues): boolean {
-    // this.updateRoughOps();
-    return super.shouldUpdate(_changedProperties);
   }
 
   protected updated(_changedProperties: PropertyValues) {
@@ -135,15 +122,6 @@ export abstract class HandDrawnBase extends LitElement {
     this.removeEventListener('blur', this.blurHandler);
   }
 
-  //
-  // private updateRoughOps() {
-  //   for (let key of Object.keys(this.roughOpsDefault)) {
-  //     if (!this.roughOps[<keyof Options>key]) {
-  //       (<Options[keyof Options]>(this.roughOps[<keyof Options>key])) = this.roughOpsDefault[<keyof Options>key];
-  //     }
-  //   }
-  // }
-
   // private detectZoom() {
   //   let ratio = 0,
   //     screen = window.screen,
@@ -168,30 +146,12 @@ export abstract class HandDrawnBase extends LitElement {
   //   return ratio;
   // }
 
-  private setFont() {
-    let fontFamilyStr = '';
-    for (let fontInfo of this.fontInfoArray) {
-      fontFamilyStr += "'" + fontInfo.fontFamily + "',";
-      if (fontInfo.fontFamily && fontInfo.fontSrc) {
-        if (fontInfo.fontFamily && fontInfo.fontSrc) {
-          this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
-            this.roughRender();
-          });
-        }
-      }
-    }
-    if (fontFamilyStr) {
-      this.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
-    }
-  }
 
-  private async loadFonts(fontFamily: string, fontSrc: string) {
-    // @ts-ignore
-    const font = new FontFace(fontFamily, `url(${fontSrc})`);
-    const loadFontFace: any = await font.load();
-    // @ts-ignore
-    document.fonts.add(loadFontFace);
-  };
+  private fontLoadListener() {
+    (<any>document).fonts.ready.then(() => {
+      this.roughRender();
+    });
+  }
 
   private resizeHandlerTmp() {
     const now = Date.now();
@@ -223,7 +183,7 @@ export abstract class HandDrawnBase extends LitElement {
       // console.log('focus', this.roughOps, this.roughOpsOrigin);
       this.roughOps.stroke = '#000';
       if (this.roughOps.strokeWidth !== undefined) {
-        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth||0) + 1;
+        this.roughOps.strokeWidth = (this.roughOpsOrigin.strokeWidth || 0) + 1;
       }
       this.isFocus = true;
       this.updateAnimationState();
@@ -238,7 +198,7 @@ export abstract class HandDrawnBase extends LitElement {
       if (this.roughOps.strokeWidth !== undefined) {
         this.roughOps.strokeWidth = this.roughOpsOrigin.strokeWidth;
       }
-      this.roughRender(true)
+      this.roughRender(true);
       this.updateAnimationState();
     }
   }

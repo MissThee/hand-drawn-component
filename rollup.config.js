@@ -5,7 +5,7 @@ import replace from '@rollup/plugin-replace';
 import serve from 'rollup-plugin-dev-server'
 import esbuild from 'rollup-plugin-esbuild'
 import html2 from 'rollup-plugin-html2'
-
+import alias from '@rollup/plugin-alias';
 const isProd = process.env.NODE_ENV === 'production'
 
 const outputPath = process.env.NODE_PACKAGED_PATH
@@ -27,6 +27,14 @@ const config = {
             'process.env.NODE_PACKAGED_PATH': JSON.stringify(outputPath),
             preventAssignment: true
         }),
+        alias({
+            entries: [
+                {
+                    find: 'src',
+                    replacement: path.resolve(__dirname, 'src')
+                }
+            ],
+        }),
         html2({
             template: 'public/index.html',
             minify: {
@@ -43,7 +51,7 @@ const config = {
         serve({
             contentBase: '.',
             port: 8000,
-            historyApiFallback: true
+            // historyApiFallback: true
         })
     ],
     preserveEntrySignatures: false,

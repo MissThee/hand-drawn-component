@@ -99,15 +99,6 @@ var AnimationType;
 class HandDrawnBase extends h$1 {
   constructor() {
     super();
-    this.fontInfoArray = [
-      { fontFamily: "comic", fontSrc: "./assets/font/comic.ttf" },
-      { fontFamily: "comicbd", fontSrc: "./assets/font/comicbd.ttf" },
-      { fontFamily: "comici", fontSrc: "./assets/font/comici.ttf" },
-      { fontFamily: "comicz", fontSrc: "./assets/font/comicz.ttf" },
-      { fontFamily: "FZMWFont", fontSrc: "./assets/font/FZMWFont.woff2" },
-      { fontFamily: "monospace" },
-      { fontFamily: "sans-serif" }
-    ];
     this.roughOpsDefault = {
       bowing: 0.5,
       roughness: 1,
@@ -130,6 +121,7 @@ class HandDrawnBase extends h$1 {
     this.resizeHandler = this.resizeHandlerTmp.bind(this);
     this.isFocus = false;
     this.isMouseIn = false;
+    this.fontLoadListener();
     this.roughOps = this.roughOps || {};
   }
   get roughOps() {
@@ -145,13 +137,9 @@ class HandDrawnBase extends h$1 {
     super.firstUpdated(_changedProperties);
     this.roughInit();
     this.roughRender();
-    this.setFont();
     if (this.animationType === AnimationType.ALWAYS) {
       this.performAnimation(true);
     }
-  }
-  shouldUpdate(_changedProperties) {
-    return super.shouldUpdate(_changedProperties);
   }
   updated(_changedProperties) {
     super.updated(_changedProperties);
@@ -175,26 +163,10 @@ class HandDrawnBase extends h$1 {
     this.removeEventListener("mouseleave", this.mouseOutHandler);
     this.removeEventListener("blur", this.blurHandler);
   }
-  setFont() {
-    let fontFamilyStr = "";
-    for (let fontInfo of this.fontInfoArray) {
-      fontFamilyStr += "'" + fontInfo.fontFamily + "',";
-      if (fontInfo.fontFamily && fontInfo.fontSrc) {
-        if (fontInfo.fontFamily && fontInfo.fontSrc) {
-          this.loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
-            this.roughRender();
-          });
-        }
-      }
-    }
-    if (fontFamilyStr) {
-      this.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
-    }
-  }
-  async loadFonts(fontFamily, fontSrc) {
-    const font = new FontFace(fontFamily, `url(${fontSrc})`);
-    const loadFontFace = await font.load();
-    document.fonts.add(loadFontFace);
+  fontLoadListener() {
+    document.fonts.ready.then(() => {
+      this.roughRender();
+    });
   }
   resizeHandlerTmp() {
     const now = Date.now();
@@ -235,6 +207,7 @@ class HandDrawnBase extends h$1 {
       if (this.roughOps.strokeWidth !== void 0) {
         this.roughOps.strokeWidth = this.roughOpsOrigin.strokeWidth;
       }
+      this.roughRender(true);
       this.updateAnimationState();
     }
   }

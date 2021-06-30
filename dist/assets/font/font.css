@@ -1,9 +1,15 @@
-/* latin */
 @font-face {
     font-family: 'FZMWFont';
-    font-style: normal;
-    font-weight: 400;
     font-display: swap;
-    src: url('./src/assets/font/FZMWFont.ttf');
+    src: url('FZMWFont.woff2');
+}
 
+@font-face {
+    font-family: 'comic';
+    font-display: swap;
+    src: url('comic.woff2');
+}
+
+* {
+    font-family: 'comic', 'FZMWFont', sans-serif;
 }
