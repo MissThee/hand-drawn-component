@@ -111,7 +111,7 @@ class HandDrawnBase extends h$1 {
     this.roughOpsOrigin = {};
     this._roughOps = {};
     this.renderType = RenderType.SVG;
-    this.animationType = AnimationType.ALWAYS;
+    this.animationType = AnimationType.ACTIVE;
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
     this.drawInterval = null;
@@ -1476,3 +1476,28 @@ __decorateClass([
 HandDrawnRadioGroup = __decorateClass([
   n$1("hand-drawn-radio-group")
 ], HandDrawnRadioGroup);
+
+window.onload = function() {
+  document.getElementById("loading");
+  const loadingText = document.getElementById("loadingText");
+  const content = document.getElementById("content");
+  content.style.transition = "opacity 1.2s steps(4,start) 0s";
+  content.style.opacity = "0";
+  loadingText.style.transformOrigin = "50% 50%";
+  loadingText.style.transition = "all 1.2s ease-out";
+  Promise.all([
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1e3);
+    }),
+    document.fonts.ready
+  ]).then(() => {
+    loadingText.innerText = "Done ~";
+    loadingText.style.opacity = "0";
+    loadingText.style.transform = "scale(2)";
+    setTimeout(() => {
+      content.style.opacity = "1";
+    }, 1e3);
+  });
+};

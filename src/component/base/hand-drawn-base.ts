@@ -71,7 +71,7 @@ export abstract class HandDrawnBase extends LitElement {
   }
 
   @property() protected renderType: RenderType = RenderType.SVG;
-  @property() protected animationType: AnimationType = AnimationType.ALWAYS;
+  @property() protected animationType: AnimationType = AnimationType.ACTIVE;
   protected animationIntervalTime = 200;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
@@ -148,9 +148,9 @@ export abstract class HandDrawnBase extends LitElement {
 
 
   private fontLoadListener() {
-    (<any>document).fonts.ready.then(() => {
-      this.roughRender();
-    });
+      (<any>document).fonts.ready.then(() => {
+        this.roughRender();
+      });
   }
 
   private resizeHandlerTmp() {
