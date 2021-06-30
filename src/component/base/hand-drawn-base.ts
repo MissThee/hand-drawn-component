@@ -238,6 +238,7 @@ export abstract class HandDrawnBase extends LitElement {
       if (this.roughOps.strokeWidth !== undefined) {
         this.roughOps.strokeWidth = this.roughOpsOrigin.strokeWidth;
       }
+      this.roughRender(true)
       this.updateAnimationState();
     }
   }
