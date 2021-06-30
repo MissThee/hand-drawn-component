@@ -111,7 +111,7 @@ class HandDrawnBase extends h$1 {
     this.roughOpsOrigin = {};
     this._roughOps = {};
     this.renderType = RenderType.SVG;
-    this.animationType = AnimationType.ACTIVE;
+    this.animationType = AnimationType.ALWAYS;
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
     this.drawInterval = null;
