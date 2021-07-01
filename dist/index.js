@@ -61,18 +61,18 @@ function t(t,e,s){if(t&&t.length){const[n,o]=e,a=Math.PI/180*s,r=Math.cos(a),h=M
 
 var __defProp$a = Object.defineProperty;
 var __getOwnPropDesc$a = Object.getOwnPropertyDescriptor;
-var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1 = (a, b) => {
+var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1.call(b, prop))
-      __defNormalProp$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1)
-    for (var prop of __getOwnPropSymbols$1(b)) {
-      if (__propIsEnum$1.call(b, prop))
-        __defNormalProp$1(a, prop, b[prop]);
+    if (__hasOwnProp$2.call(b, prop))
+      __defNormalProp$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2)
+    for (var prop of __getOwnPropSymbols$2(b)) {
+      if (__propIsEnum$2.call(b, prop))
+        __defNormalProp$2(a, prop, b[prop]);
     }
   return a;
 };
@@ -128,7 +128,7 @@ class HandDrawnBase extends h$1 {
   }
   set roughOps(value) {
     const oldValue = this._roughOps;
-    this.roughOpsOrigin = __spreadValues$1(__spreadValues$1({}, this.roughOpsDefault), value);
+    this.roughOpsOrigin = __spreadValues$2(__spreadValues$2({}, this.roughOpsDefault), value);
     this._roughOps = JSON.parse(JSON.stringify(this.roughOpsOrigin)) || {};
     this.requestUpdate("roughOps", oldValue);
   }
@@ -434,6 +434,10 @@ let HandDrawnButton = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
+        .rough-context {
+          background-color: white;
+        }
+
         .button {
           opacity: 0;
           position: absolute
@@ -456,7 +460,6 @@ let HandDrawnButton = class extends HandDrawnBase {
           position: relative;
           user-select: none;
           border: none;
-          background: none;
           cursor: pointer;
           letter-spacing: 1.25px;
           text-align: center;
@@ -490,7 +493,25 @@ HandDrawnButton = __decorateClass$9([
 ], HandDrawnButton);
 
 var __defProp$8 = Object.defineProperty;
+var __defProps$1 = Object.defineProperties;
 var __getOwnPropDesc$8 = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1.call(b, prop))
+      __defNormalProp$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1)
+    for (var prop of __getOwnPropSymbols$1(b)) {
+      if (__propIsEnum$1.call(b, prop))
+        __defNormalProp$1(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
 var __decorateClass$8 = (decorators, target, key, kind) => {
   var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc$8(target, key) : target;
   for (var i = decorators.length - 1, decorator; i >= 0; i--)
@@ -504,6 +525,7 @@ var HandDrawnIconType;
 (function(HandDrawnIconType2) {
   HandDrawnIconType2["LOADING"] = "loading";
   HandDrawnIconType2["CROSS"] = "cross";
+  HandDrawnIconType2["TICK"] = "tick";
 })(HandDrawnIconType || (HandDrawnIconType = {}));
 let HandDrawnIcon = class extends HandDrawnBase {
   constructor() {
@@ -519,6 +541,7 @@ let HandDrawnIcon = class extends HandDrawnBase {
         (_a = this.icon) == null ? void 0 : _a.classList.add("rotate");
         break;
       case HandDrawnIconType.CROSS:
+      case HandDrawnIconType.TICK:
         break;
     }
     super.firstUpdated(_changedProperties);
@@ -536,6 +559,9 @@ let HandDrawnIcon = class extends HandDrawnBase {
       case HandDrawnIconType.CROSS:
         nodeArray = this.iconCross(roughObj);
         break;
+      case HandDrawnIconType.TICK:
+        nodeArray = this.iconTick(roughObj);
+        break;
     }
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = "";
@@ -550,25 +576,42 @@ let HandDrawnIcon = class extends HandDrawnBase {
       height: roughObj.roughParentEl.clientHeight
     };
     const nodeArray = [];
-    const max = 9;
-    for (let i = 1; i <= max - 1; i++) {
-      let piece = i % 4;
-      const arcObj = {
-        x1: size.width / 10,
-        y1: size.height / 10,
-        x2: size.width / 10 * 9,
-        y2: size.height / 10 * 9,
-        roughOps: this.roughOps
-      };
-      switch (piece) {
-        case 1:
-          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
-          break;
-        case 2:
-          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y2, arcObj.x2, arcObj.y1, arcObj.roughOps));
-          break;
-      }
-    }
+    const arcObj = {
+      x1: 0,
+      y1: 0,
+      x2: size.width,
+      y2: size.height,
+      x3: size.width / 10,
+      y3: size.height / 10 * 9,
+      x4: size.width / 10 * 9,
+      y4: size.height / 10,
+      roughOps: __spreadProps$1(__spreadValues$1({}, this.roughOps), {
+        strokeWidth: this.roughOps.strokeWidth === void 0 ? 2 : this.roughOps.strokeWidth
+      })
+    };
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x3, arcObj.y3, arcObj.x4, arcObj.y4, arcObj.roughOps));
+    return nodeArray;
+  }
+  iconTick(roughObj) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    };
+    const nodeArray = [];
+    const arcObj = {
+      x1: size.width / 10 / 2,
+      y1: size.height / 10 * 4,
+      x2: size.width / 10 * 4,
+      y2: size.height / 10 * 9,
+      x3: size.width / 10 * 9.5,
+      y3: 0,
+      roughOps: __spreadProps$1(__spreadValues$1({}, this.roughOps), {
+        strokeWidth: this.roughOps.strokeWidth === void 0 ? 2 : this.roughOps.strokeWidth
+      })
+    };
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x2, arcObj.y2, arcObj.x3, arcObj.y3, arcObj.roughOps));
     return nodeArray;
   }
   iconLoading(roughObj) {
@@ -620,8 +663,12 @@ let HandDrawnIcon = class extends HandDrawnBase {
           width: 1em;
           height: 1em;
           overflow: hidden;
-          vertical-align: middle;
-          line-height: 0.5em;
+          vertical-align: -10%;
+          line-height: 1em;
+        }
+
+        .rough > .rough-context {
+          z-index: 0;
         }
 
         .icon {
@@ -686,10 +733,10 @@ let HandDrawnPad = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        ${this.noBorder ? "" : T$1`
-            <div class="pad rough"></div>`}
-        <div class="pad-content">
-            <slot @slotchange="${this.roughRender}"></slot>
+        <div class="pad ${this.noBorder ? "" : "rough"}">
+            <div class="pad-content">
+                <slot @slotchange="${this.roughRender}"></slot>
+            </div>
         </div>
     `;
   }
@@ -717,8 +764,9 @@ let HandDrawnPad = class extends HandDrawnBase {
       super.styles,
       i$4`
         .pad {
-          background-color: white;
-          overflow: auto;
+          padding: 3px;
+          background: none;
+          overflow: hidden;
           user-select: none;
           border: none;
           outline: none;
@@ -727,10 +775,10 @@ let HandDrawnPad = class extends HandDrawnBase {
           bottom: 0;
           left: 0;
           right: 0;
-          z-index: -1;
         }
 
         .pad-content {
+          position: relative;
           overflow: auto;
           height: 100%;
           z-index: 1000;
@@ -1613,8 +1661,7 @@ let HandDrawnDialog = class extends HandDrawnBase {
           left: 50%;
           width: 65%;
           min-width: 300px;
-          min-height: 50%;
-          max-height: 100%;
+          height: 60%;
           overflow: visible;
           background-color: white;
           transform: translate(-50%, 0);

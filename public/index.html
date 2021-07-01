@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>rollup bundle</title>
     <!--    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-    <meta name="viewport" content="width=375">
+    <meta name="viewport" content="width=600">
     <style>
         /*@font-face {*/
         /*    font-family: 'FZMWFont';*/
@@ -30,8 +30,13 @@
     <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">loading...</div>
 </div>
 <div id="content" style="transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
-    <hand-drawn-pad style="position: fixed;padding:5px;top: 10px;left:10px;right:10px;bottom: 10px" roughOps='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' realTimeResize>
+    <hand-drawn-pad style="position: fixed;top: 10px;left:10px;right:10px;bottom: 10px" roughOps='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realTimeResize>
         <div style="padding :10px">
+            <div style="text-align: center">
+                <a style="color: black;font-weight: bold" href="https://github.com/MissThee/hand-drawn-component">
+                    <hand-drawn-button roughOps='{"fill":"lightBlue"}'>Source Code (Go To GitHub)</hand-drawn-button>
+                </a>
+            </div>
             <div style="margin:0 0 20px 0">
                 <div>button:</div>
                 <hand-drawn-button style="width: 20%;min-width: 140px" renderType="svg" roughOps='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
@@ -45,16 +50,22 @@
                 <hand-drawn-icon renderType="canvas" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
                 <hand-drawn-icon renderType="svg" type="cross"></hand-drawn-icon>
                 <hand-drawn-icon renderType="canvas" type="cross" roughOps='{"stroke":"red"}'></hand-drawn-icon>
+                <hand-drawn-icon renderType="svg" type="tick"></hand-drawn-icon>
+                <hand-drawn-icon renderType="canvas" type="tick" roughOps='{"stroke":"lime"}'></hand-drawn-icon>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>button&icon:</div>
-                <hand-drawn-button renderType="svg" disabled roughOps='{"fill":"#409EFF"}'>
+                <hand-drawn-button renderType="svg" disabled roughOps='{"fill":"#409EFF","fillWeight":"0.1"}'>
                     <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
                     <span>Loading(svg)</span>
                 </hand-drawn-button>
-                <hand-drawn-button renderType="canvas" roughOps='{"fill":"#F56C6C"}'>
+                <hand-drawn-button renderType="canvas" roughOps='{"fill":"#F56C6C","fillWeight":"0.1"}'>
                     <hand-drawn-icon renderType="canvas" type="cross" roughOps='{"stroke":"red"}'></hand-drawn-icon>
-                    <span>danger(canvas)</span>
+                    <span>NO(canvas)</span>
+                </hand-drawn-button>
+                <hand-drawn-button renderType="canvas" roughOps='{"fill":"#67C23A","fillWeight":"0.1"}'>
+                    <hand-drawn-icon renderType="canvas" type="tick" roughOps='{"stroke":"lime"}'></hand-drawn-icon>
+                    <span>YES(canvas)</span>
                 </hand-drawn-button>
             </div>
             <div style="margin:0 0 20px 0">
@@ -65,9 +76,9 @@
             <div style="margin:0 0 20px 0">
                 <div>textarea:</div>
                 <hand-drawn-textarea value="You can resize this component on PC(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea resize="none" value="Can't be resized(canvas)" renderType="canvas" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea disabled value="Disabled(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea value="Auto height(canvas)" renderType="canvas" autoHeight placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea style="width: 250px" resize="none" value="Can't be resized(canvas)" renderType="canvas" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea style="width: 250px" disabled value="Disabled(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea style="width: 250px" value="Auto height(canvas)" renderType="canvas" autoHeight placeholder="you can input something"></hand-drawn-textarea>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>checkbox:</div>
@@ -104,19 +115,35 @@
                 <hand-drawn-button renderType="svg" roughOps='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>dialog(svg)</span></hand-drawn-button>
                 <hand-drawn-button renderType="canvas" roughOps='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>dialog(canvas)</span></hand-drawn-button>
                 <hand-drawn-dialog id="dialogSvg" renderType="svg" appendToBody closeOnClickMask>
-                    <div style="padding:10px">
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    <div style="padding:5px">
+                        long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.
                     </div>
                 </hand-drawn-dialog>
                 <hand-drawn-dialog id="dialogCanvas" renderType="canvas" appendToBody closeOnClickMask>
-                    <div style="padding:10px">
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    <div style="padding:5px">
+                        long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
+                        text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.
                     </div>
                 </hand-drawn-dialog>
             </div>
@@ -136,3 +163,4 @@
 
 </body>
 </html>
+
