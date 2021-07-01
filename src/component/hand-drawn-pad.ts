@@ -57,11 +57,11 @@ export class HandDrawnPad extends HandDrawnBase {
           user-select: none;
           border: none;
           outline: none;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          position: inherit;
+          top: inherit;
+          bottom: inherit;
+          left: inherit;
+          right: inherit;
         }
 
         .pad-content {
