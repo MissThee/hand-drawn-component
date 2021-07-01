@@ -5,6 +5,7 @@ import {AnimationType, HandDrawnBase} from './base/hand-drawn-base';
 @customElement('hand-drawn-pad')
 export class HandDrawnPad extends HandDrawnBase {
   @property() bodyStyle: string = '';
+  // @property({type: String}) style: CSSStyleDeclaration = <CSSStyleDeclaration>{};
   @property({type: Boolean}) noBorder = false;
   @property({type: Boolean}) realTimeResize = false;
   private textareaResizeInterval: NodeJS.Timeout | null = null;
@@ -18,7 +19,9 @@ export class HandDrawnPad extends HandDrawnBase {
     return html`
         ${this.noBorder ? '' : html`
             <div class="pad rough"></div>`}
-        <slot @slotchange="${this.roughRender}"></slot>
+        <div class="pad-content">
+            <slot @slotchange="${this.roughRender}"></slot>
+        </div>
     `;
   }
 
@@ -48,7 +51,7 @@ export class HandDrawnPad extends HandDrawnBase {
       super.styles,
       css`
         .pad {
-          overflow: hidden;
+          overflow: auto;
           user-select: none;
           border: none;
           background: none;
@@ -59,6 +62,12 @@ export class HandDrawnPad extends HandDrawnBase {
           left: 0;
           right: 0;
           z-index: -1;
+        }
+
+        .pad-content {
+          overflow: auto;
+          height: 100%;
+          z-index: 1000;
         }
       `
     ];
