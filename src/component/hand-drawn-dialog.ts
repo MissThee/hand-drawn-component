@@ -19,7 +19,7 @@ export class HandDrawnDialog extends HandDrawnBase {
           <div class="dialog-mask" @click="${this.maskClickHandler}"></div>
           <div class="dialog">
               <div class="dialog-close" @click="${this.closeClickHandler}">
-                  <hand-drawn-icon renderType="${this.renderType}" roughOps="${this.roughOps}" animationType="${this.animationType}" type="cross">
+                  <hand-drawn-icon class="dialog-close-icon" renderType="${this.renderType}" roughOps="${this.roughOps}" animationType="${this.animationType}" type="cross">
               </div>
               <hand-drawn-pad renderType="${this.renderType}" roughOps="${this.roughOps}" animationType="${this.animationType}" class="dialog-pad" realTimeResize>
                   <slot class="slot" @slotchange="${this.roughRender}"></slot>
@@ -73,9 +73,10 @@ export class HandDrawnDialog extends HandDrawnBase {
     return [
       super.styles,
       css`
-        :host{
+        :host {
           position: absolute;
         }
+
         .dialog-mask {
           position: fixed;
           background-color: rgba(255, 255, 255, 0.75);
@@ -116,6 +117,10 @@ export class HandDrawnDialog extends HandDrawnBase {
           right: -20px;
           z-index: 10002;
           cursor: pointer;
+        }
+
+        .dialog-close-icon {
+          pointer-events: none;
         }
       `
     ];
