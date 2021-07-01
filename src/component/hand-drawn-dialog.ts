@@ -73,6 +73,9 @@ export class HandDrawnDialog extends HandDrawnBase {
     return [
       super.styles,
       css`
+        :host{
+          position: absolute;
+        }
         .dialog-mask {
           position: fixed;
           background-color: rgba(255, 255, 255, 0.75);
