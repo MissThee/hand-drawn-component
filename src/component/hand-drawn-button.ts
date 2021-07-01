@@ -27,6 +27,10 @@ export class HandDrawnButton extends HandDrawnBase {
     return [
       super.styles,
       css`
+        .rough-context {
+          background-color: white;
+        }
+
         .button {
           opacity: 0;
           position: absolute
@@ -49,7 +53,6 @@ export class HandDrawnButton extends HandDrawnBase {
           position: relative;
           user-select: none;
           border: none;
-          background: none;
           cursor: pointer;
           letter-spacing: 1.25px;
           text-align: center;
