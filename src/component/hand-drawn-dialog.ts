@@ -89,8 +89,7 @@ export class HandDrawnDialog extends HandDrawnBase {
           left: 50%;
           width: 65%;
           min-width: 300px;
-          min-height: 50%;
-          max-height: 100%;
+          height: 60%;
           overflow: visible;
           background-color: white;
           transform: translate(-50%, 0);
