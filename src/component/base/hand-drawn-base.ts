@@ -148,9 +148,9 @@ export abstract class HandDrawnBase extends LitElement {
 
 
   private fontLoadListener() {
-      (<any>document).fonts.ready.then(() => {
-        this.roughRender();
-      });
+    (<any>document).fonts.ready.then(() => {
+      this.roughRender();
+    });
   }
 
   private resizeHandlerTmp() {
@@ -355,6 +355,32 @@ export abstract class HandDrawnBase extends LitElement {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+
+      ::-webkit-scrollbar-track {
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: #999;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #999;
+      }
+
+      ::-webkit-scrollbar-thumb:active {
+        background: #999;
+      }
+
+      ::-webkit-scrollbar-thumb:window-inactive {
+        background: #999;
       }
 
       :host {
