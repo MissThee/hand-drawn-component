@@ -5,7 +5,8 @@ import {Options} from "roughjs/bin/core";
 
 enum HandDrawnIconType {
   LOADING = 'loading',
-  CROSS = 'cross'
+  CROSS = 'cross',
+  TICK = 'tick',
 }
 
 @customElement('hand-drawn-icon')
@@ -23,6 +24,7 @@ export class HandDrawnIcon extends HandDrawnBase {
         this.icon?.classList.add('rotate');
         break;
       case HandDrawnIconType.CROSS:
+      case HandDrawnIconType.TICK:
         break;
     }
     super.firstUpdated(_changedProperties);
@@ -40,6 +42,9 @@ export class HandDrawnIcon extends HandDrawnBase {
       case HandDrawnIconType.CROSS:
         nodeArray = this.iconCross(roughObj);
         break;
+      case HandDrawnIconType.TICK:
+        nodeArray = this.iconTick(roughObj);
+        break;
     }
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
@@ -55,25 +60,47 @@ export class HandDrawnIcon extends HandDrawnBase {
       height: roughObj.roughParentEl.clientHeight
     };
     const nodeArray = [];
-    const max = 9;
-    for (let i = 1; i <= max - 1; i++) {
-      let piece = i % 4;
-      const arcObj = {
-        x1: size.width / 10,
-        y1: size.height / 10,
-        x2: size.width / 10 * 9,
-        y2: size.height / 10 * 9,
-        roughOps: this.roughOps
-      };
-      switch (piece) {
-        case 1:
-          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
-          break;
-        case 2:
-          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y2, arcObj.x2, arcObj.y1, arcObj.roughOps));
-          break;
+    const arcObj = {
+      x1: 0,
+      y1: 0,
+      x2: size.width,
+      y2: size.height,
+      x3: size.width / 10,
+      y3: size.height / 10 * 9,
+      x4: size.width / 10 * 9,
+      y4: size.height / 10,
+      roughOps: {
+        ...this.roughOps,
+        strokeWidth: (this.roughOps.strokeWidth === undefined ? 2 : this.roughOps.strokeWidth)
       }
-    }
+    };
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x3, arcObj.y3, arcObj.x4, arcObj.y4, arcObj.roughOps));
+    return nodeArray;
+  }
+
+  private iconTick(roughObj: RoughObjSvg | RoughObjCanvas) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    };
+    const nodeArray = [];
+    const arcObj = {
+      x1: size.width / 10 / 2,
+      y1: size.height / 10 * 4,
+      x2: size.width / 10 * 4,
+      y2: size.height / 10 * 9,
+      x3: size.width / 10 * 9.5,
+      y3: 0,
+      roughOps: {
+        ...this.roughOps,
+        strokeWidth: (this.roughOps.strokeWidth === undefined ? 2 : this.roughOps.strokeWidth)
+      }
+
+    };
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+    nodeArray.push(roughObj.roughInstance.line(arcObj.x2, arcObj.y2, arcObj.x3, arcObj.y3, arcObj.roughOps));
+
     return nodeArray;
   }
 
@@ -128,8 +155,12 @@ export class HandDrawnIcon extends HandDrawnBase {
           width: 1em;
           height: 1em;
           overflow: hidden;
-          vertical-align: middle;
-          line-height: 0.5em;
+          vertical-align: -10%;
+          line-height: 1em;
+        }
+
+        .rough > .rough-context {
+          z-index: 0;
         }
 
         .icon {
@@ -159,3 +190,4 @@ export class HandDrawnIcon extends HandDrawnBase {
     ];
   }
 }
+
