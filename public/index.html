@@ -30,91 +30,108 @@
     <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">loading...</div>
 </div>
 <div id="content" style="transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
-    <hand-drawn-pad style="width: 100%;padding: 10px;height: 400px" roughOps='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' realTimeResize>
-        <div style="margin:0 0 20px 0">
-            <div>button:</div>
-            <hand-drawn-button style="width: 20%;min-width: 140px" renderType="svg" roughOps='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
-            <hand-drawn-button style="width: 20%;min-width: 140px" renderType="canvas" roughOps='{"fill":"#F56C6C"}'><span>test2(canvas)</span></hand-drawn-button>
-            <hand-drawn-button renderType="canvas" roughOps='{"fill":"#67C23A"}'><span>OK</span></hand-drawn-button>
-            <hand-drawn-button disabled renderType="svg" roughOps='{"fill":"#E6A23C"}'><span>disabled(svg)</span></hand-drawn-button>
+    <hand-drawn-pad style="position: fixed;padding:5px;top: 10px;left:10px;right:10px;bottom: 10px" roughOps='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' realTimeResize>
+        <div style="padding :10px">
+            <div style="margin:0 0 20px 0">
+                <div>button:</div>
+                <hand-drawn-button style="width: 20%;min-width: 140px" renderType="svg" roughOps='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
+                <hand-drawn-button style="width: 20%;min-width: 140px" renderType="canvas" roughOps='{"fill":"#F56C6C"}'><span>test2(canvas)</span></hand-drawn-button>
+                <hand-drawn-button renderType="canvas" renderType="svg" roughOps='{"fill":"#67C23A"}'><span>OK(svg)</span></hand-drawn-button>
+                <hand-drawn-button disabled renderType="svg" roughOps='{"fill":"#E6A23C"}'><span>disabled(svg)</span></hand-drawn-button>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>icon:</div>
+                <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+                <hand-drawn-icon renderType="canvas" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
+                <hand-drawn-icon renderType="svg" type="cross"></hand-drawn-icon>
+                <hand-drawn-icon renderType="canvas" type="cross" roughOps='{"stroke":"red"}'></hand-drawn-icon>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>button&icon:</div>
+                <hand-drawn-button renderType="svg" disabled roughOps='{"fill":"#409EFF"}'>
+                    <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
+                    <span>Loading(svg)</span>
+                </hand-drawn-button>
+                <hand-drawn-button renderType="canvas" roughOps='{"fill":"#F56C6C"}'>
+                    <hand-drawn-icon renderType="canvas" type="cross" roughOps='{"stroke":"red"}'></hand-drawn-icon>
+                    <span>danger(canvas)</span>
+                </hand-drawn-button>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>input:</div>
+                <hand-drawn-input value="Hi (svg)" renderType="svg" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
+                <hand-drawn-input value="Input Some Thing (canvas)" renderType="canvas" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>textarea:</div>
+                <hand-drawn-textarea value="You can resize this component on PC(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea resize="none" value="Can't be resized(canvas)" renderType="canvas" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea disabled value="Disabled(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea value="Auto height(canvas)" renderType="canvas" autoHeight placeholder="you can input something"></hand-drawn-textarea>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>checkbox:</div>
+                <hand-drawn-checkbox renderType="svg"><span>checkbox(svg)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox renderType="canvas"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox renderType="svg" disabled><span>disabled(svg)</span></hand-drawn-checkbox>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>checkbox-group:</div>
+                <hand-drawn-checkbox-group checkedValues='["c2","c3"]' id="hand-drawn-checkbox-group">
+                    <hand-drawn-checkbox renderType="svg" value="c1" checked><span>checkbox(svg)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox renderType="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox renderType="svg" disabled value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
+                </hand-drawn-checkbox-group>
+                <!-- document.getElementById("hand-drawn-checkbox-group").checkedValues -->
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>radio:</div>
+                <hand-drawn-radio renderType="svg"><span>radio(svg)</span></hand-drawn-radio>
+                <hand-drawn-radio renderType="canvas"><span>radio(canvas)</span></hand-drawn-radio>
+                <hand-drawn-radio renderType="svg" disabled><span>disabled(svg)</span></hand-drawn-radio>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>radio-group:</div>
+                <hand-drawn-radio-group checkedValue="r2" id="hand-drawn-radio-group">
+                    <hand-drawn-radio renderType="svg" value="r1"><span>radio(svg)</span></hand-drawn-radio>
+                    <hand-drawn-radio renderType="canvas" value="r2"><span>radio(canvas)</span></hand-drawn-radio>
+                    <hand-drawn-radio renderType="svg" disabled value="r3"><span>disabled(svg)</span></hand-drawn-radio>
+                </hand-drawn-radio-group>
+                <!-- document.getElementById("hand-drawn-radio-group").checkedValue -->
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>dialog:</div>
+                <hand-drawn-button renderType="svg" roughOps='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>dialog(svg)</span></hand-drawn-button>
+                <hand-drawn-button renderType="canvas" roughOps='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>dialog(canvas)</span></hand-drawn-button>
+                <hand-drawn-dialog id="dialogSvg" renderType="svg" appendToBody closeOnClickMask>
+                    <div style="padding:10px">
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    </div>
+                </hand-drawn-dialog>
+                <hand-drawn-dialog id="dialogCanvas" renderType="canvas" appendToBody closeOnClickMask>
+                    <div style="padding:10px">
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                        长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    </div>
+                </hand-drawn-dialog>
+            </div>
         </div>
-        <div style="margin:0 0 20px 0">
-            <div>icon:</div>
-            <hand-drawn-icon renderType="svg" type="loading"></hand-drawn-icon>
-            <hand-drawn-icon renderType="canvas" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>button&icon:</div>
-            <hand-drawn-button renderType="svg" roughOps='{"fill":"#409EFF"}'>
-                <hand-drawn-icon renderType="svg" type="loading" roughOps='{"stroke":"#909399"}'></hand-drawn-icon>
-                <span>Loading(svg)</span>
-            </hand-drawn-button>
-            <hand-drawn-button renderType="canvas" roughOps='{"fill":"#F56C6C"}'>
-                <hand-drawn-icon renderType="canvas" type="loading"></hand-drawn-icon>
-                <span>Loading(canvas)</span>
-            </hand-drawn-button>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>input:</div>
-            <hand-drawn-input value="default text(svg)" renderType="svg" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
-            <hand-drawn-input value="default text(canvas)" renderType="canvas" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>textarea:</div>
-            <hand-drawn-textarea value="default text(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
-            <hand-drawn-textarea resize="none" value="resize is none(canvas)" renderType="canvas" placeholder="you can input something"></hand-drawn-textarea>
-            <hand-drawn-textarea disabled value="disabled(svg)" renderType="svg" placeholder="you can input something"></hand-drawn-textarea>
-            <hand-drawn-textarea value="auto height(canvas)" renderType="canvas" autoHeight placeholder="you can input something"></hand-drawn-textarea>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>checkbox:</div>
-            <hand-drawn-checkbox renderType="svg"><span>checkbox(svg)</span></hand-drawn-checkbox>
-            <hand-drawn-checkbox renderType="canvas"><span>checkbox(canvas)</span></hand-drawn-checkbox>
-            <hand-drawn-checkbox renderType="svg" disabled><span>disabled(svg)</span></hand-drawn-checkbox>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>checkbox-group:</div>
-            <hand-drawn-checkbox-group checkedValues='["c2","c3"]' id="hand-drawn-checkbox-group">
-                <hand-drawn-checkbox renderType="svg" value="c1" checked><span>checkbox(svg)</span></hand-drawn-checkbox>
-                <hand-drawn-checkbox renderType="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
-                <hand-drawn-checkbox renderType="svg" disabled value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
-            </hand-drawn-checkbox-group>
-            <!-- document.getElementById("hand-drawn-checkbox-group").checkedValues -->
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>radio:</div>
-            <hand-drawn-radio renderType="svg"><span>radio(svg)</span></hand-drawn-radio>
-            <hand-drawn-radio renderType="canvas"><span>radio(canvas)</span></hand-drawn-radio>
-            <hand-drawn-radio renderType="svg" disabled><span>disabled(svg)</span></hand-drawn-radio>
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>radio-group:</div>
-            <hand-drawn-radio-group checkedValue="r2" id="hand-drawn-radio-group">
-                <hand-drawn-radio renderType="svg" value="r1"><span>radio(svg)</span></hand-drawn-radio>
-                <hand-drawn-radio renderType="canvas" value="r2"><span>radio(canvas)</span></hand-drawn-radio>
-                <hand-drawn-radio renderType="svg" disabled value="r3"><span>disabled(svg)</span></hand-drawn-radio>
-            </hand-drawn-radio-group>
-            <!-- document.getElementById("hand-drawn-radio-group").checkedValue -->
-        </div>
-        <div style="margin:0 0 20px 0">
-            <div>radio-group:</div>
-            <hand-drawn-button renderType="canvas" roughOps='{"fill":"#409EFF"}' onclick="dialogShowHandler()"><span>dialog</span></hand-drawn-button>
-            <hand-drawn-dialog id="dialog">
-                <div style="padding:10px">
-                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
-                </div>
-            </hand-drawn-dialog>
-        </div>
-
     </hand-drawn-pad>
 </div>
 <script>
-    function dialogShowHandler() {
-        document.getElementById('dialog').visible = true
+    function dialogSvgShowHandler() {
+        document.getElementById('dialogSvg').visible = true
     }
+
+    function dialogCanvasShowHandler() {
+        document.getElementById('dialogCanvas').visible = true
+    }
+
 </script>
 
 </body>

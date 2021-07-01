@@ -99,19 +99,9 @@ var AnimationType;
 class HandDrawnBase extends h$1 {
   constructor() {
     super();
-    this.roughOpsDefault = {
-      bowing: 0.5,
-      roughness: 0.8,
-      stroke: "#363636",
-      strokeWidth: 1,
-      fillStyle: "zigzag",
-      fillWeight: 0.3,
-      hachureGap: 4
-    };
-    this.roughOpsOrigin = {};
-    this._roughOps = {};
     this.renderType = RenderType.SVG;
     this.animationType = AnimationType.ALWAYS;
+    this._roughOps = {};
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
     this.drawInterval = null;
@@ -121,6 +111,16 @@ class HandDrawnBase extends h$1 {
     this.resizeHandler = this.resizeHandlerTmp.bind(this);
     this.isFocus = false;
     this.isMouseIn = false;
+    this.roughOpsOrigin = {};
+    this.roughOpsDefault = {
+      bowing: 0.5,
+      roughness: 0.8,
+      stroke: "#363636",
+      strokeWidth: 1,
+      fillStyle: "zigzag",
+      fillWeight: 0.3,
+      hachureGap: 4
+    };
     this.fontLoadListener();
   }
   get roughOps() {
@@ -363,6 +363,7 @@ class HandDrawnBase extends h$1 {
         margin: 0;
         box-sizing: border-box;
         position: relative;
+
       }
 
       .slot {
@@ -389,14 +390,14 @@ __decorateClass$a([
   e$1(".rough")
 ], HandDrawnBase.prototype, "roughParentElArray", 2);
 __decorateClass$a([
-  e$2({ type: Object })
-], HandDrawnBase.prototype, "roughOps", 1);
-__decorateClass$a([
   e$2()
 ], HandDrawnBase.prototype, "renderType", 2);
 __decorateClass$a([
   e$2()
 ], HandDrawnBase.prototype, "animationType", 2);
+__decorateClass$a([
+  e$2({ type: Object })
+], HandDrawnBase.prototype, "roughOps", 1);
 
 var __defProp$9 = Object.defineProperty;
 var __getOwnPropDesc$9 = Object.getOwnPropertyDescriptor;
@@ -502,6 +503,7 @@ var __decorateClass$8 = (decorators, target, key, kind) => {
 var HandDrawnIconType;
 (function(HandDrawnIconType2) {
   HandDrawnIconType2["LOADING"] = "loading";
+  HandDrawnIconType2["CROSS"] = "cross";
 })(HandDrawnIconType || (HandDrawnIconType = {}));
 let HandDrawnIcon = class extends HandDrawnBase {
   constructor() {
@@ -516,6 +518,8 @@ let HandDrawnIcon = class extends HandDrawnBase {
       case HandDrawnIconType.LOADING:
         (_a = this.icon) == null ? void 0 : _a.classList.add("rotate");
         break;
+      case HandDrawnIconType.CROSS:
+        break;
     }
     super.firstUpdated(_changedProperties);
   }
@@ -529,6 +533,9 @@ let HandDrawnIcon = class extends HandDrawnBase {
       case HandDrawnIconType.LOADING:
         nodeArray = this.iconLoading(roughObj);
         break;
+      case HandDrawnIconType.CROSS:
+        nodeArray = this.iconCross(roughObj);
+        break;
     }
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = "";
@@ -536,6 +543,33 @@ let HandDrawnIcon = class extends HandDrawnBase {
         roughObj.roughEl.appendChild(node);
       }
     }
+  }
+  iconCross(roughObj) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    };
+    const nodeArray = [];
+    const max = 9;
+    for (let i = 1; i <= max - 1; i++) {
+      let piece = i % 4;
+      const arcObj = {
+        x1: size.width / 10,
+        y1: size.height / 10,
+        x2: size.width / 10 * 9,
+        y2: size.height / 10 * 9,
+        roughOps: this.roughOps
+      };
+      switch (piece) {
+        case 1:
+          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+          break;
+        case 2:
+          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y2, arcObj.x2, arcObj.y1, arcObj.roughOps));
+          break;
+      }
+    }
+    return nodeArray;
   }
   iconLoading(roughObj) {
     const size = {
@@ -574,7 +608,7 @@ let HandDrawnIcon = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-      <div id="icon" class="icon rough"></div>
+        <div id="icon" class="icon rough"></div>
     `;
   }
   static get styles() {
@@ -683,10 +717,10 @@ let HandDrawnPad = class extends HandDrawnBase {
       super.styles,
       i$4`
         .pad {
+          background-color: white;
           overflow: auto;
           user-select: none;
           border: none;
-          background: none;
           outline: none;
           position: absolute;
           top: 0;
@@ -1505,20 +1539,58 @@ let HandDrawnDialog = class extends HandDrawnBase {
   constructor() {
     super(...arguments);
     this.visible = false;
+    this.appendToBody = false;
+    this.closeOnClickMask = false;
+    this.keyDownHandler = this.keyDownHandlerTmp.bind(this);
+    this.isAppendToBodyDone = false;
   }
   render() {
     if (this.visible) {
       return T$1`
-          <div class="dialog-mask">
-              <div class="dialog">
-                  <hand-drawn-pad class="dialog-pad" realTimeResize>
-                      <slot class="slot" @slotchange="${this.roughRender}"></slot>
-                  </hand-drawn-pad>
+          <div class="dialog-mask" @click="${this.maskClickHandler}"></div>
+          <div class="dialog">
+              <div class="dialog-close" @click="${this.closeClickHandler}">
+                  <hand-drawn-icon renderType="${this.renderType}" roughOps="${this.roughOps}" animationType="${this.animationType}" type="cross">
               </div>
+              <hand-drawn-pad renderType="${this.renderType}" roughOps="${this.roughOps}" animationType="${this.animationType}" class="dialog-pad" realTimeResize>
+                  <slot class="slot" @slotchange="${this.roughRender}"></slot>
+              </hand-drawn-pad>
           </div>
       `;
     } else {
       return T$1``;
+    }
+  }
+  firstUpdated(_changedProperties) {
+    super.firstUpdated(_changedProperties);
+    if (this.appendToBody) {
+      document.body.insertBefore(this, document.body.childNodes[0]);
+      this.isAppendToBodyDone = true;
+    }
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("keydown", this.keyDownHandler);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("keydown", this.keyDownHandler);
+    this.visible = false;
+    if (this.appendToBody && this.isAppendToBodyDone && this && this.parentNode) {
+      this.parentNode.removeChild(this);
+    }
+  }
+  keyDownHandlerTmp(e) {
+    if (e.key === "Escape") {
+      this.visible = false;
+    }
+  }
+  closeClickHandler() {
+    this.visible = false;
+  }
+  maskClickHandler() {
+    if (this.closeOnClickMask) {
+      this.visible = false;
     }
   }
   static get styles() {
@@ -1532,19 +1604,22 @@ let HandDrawnDialog = class extends HandDrawnBase {
           bottom: 0;
           left: 0;
           right: 0;
+          z-index: 10000;
         }
 
         .dialog {
-          position: absolute;
-          top: 50%;
+          position: fixed;
+          top: 15%;
           left: 50%;
+          width: 65%;
+          min-width: 300px;
           min-height: 50%;
-          min-width: 50%;
           max-height: 100%;
-          overflow: hidden;
+          overflow: visible;
           background-color: white;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, 0);
           box-shadow: 2px 2px 10px #999999;
+          z-index: 10001;
         }
 
         .dialog-pad {
@@ -1555,13 +1630,28 @@ let HandDrawnDialog = class extends HandDrawnBase {
           right: 0;
           overflow: auto;
         }
+
+        .dialog-close {
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right: -20px;
+          z-index: 10002;
+          cursor: pointer;
+        }
       `
     ];
   }
 };
 __decorateClass([
-  e$2({ type: Boolean, reflect: true })
+  e$2({ type: Boolean })
 ], HandDrawnDialog.prototype, "visible", 2);
+__decorateClass([
+  e$2({ type: Boolean })
+], HandDrawnDialog.prototype, "appendToBody", 2);
+__decorateClass([
+  e$2({ type: Boolean })
+], HandDrawnDialog.prototype, "closeOnClickMask", 2);
 HandDrawnDialog = __decorateClass([
   n$1("hand-drawn-dialog")
 ], HandDrawnDialog);

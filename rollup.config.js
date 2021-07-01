@@ -19,6 +19,7 @@ const config = {
         copy({
             targets: [
                 {src: 'src/assets', dest: path.resolve(outputPath)},
+                {src: 'public/favicon.ico', dest: path.resolve(outputPath)},
             ]
         }),
         resolve(),
