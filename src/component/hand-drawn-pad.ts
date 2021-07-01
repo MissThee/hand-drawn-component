@@ -51,10 +51,10 @@ export class HandDrawnPad extends HandDrawnBase {
       super.styles,
       css`
         .pad {
+          background-color: white;
           overflow: auto;
           user-select: none;
           border: none;
-          background: none;
           outline: none;
           position: absolute;
           top: 0;

@@ -42,20 +42,9 @@ export interface RoughObjCanvas extends RoughObj {
 
 
 export abstract class HandDrawnBase extends LitElement {
-
-  // private readonly assetsParentPath = process.env.NODE_PACKAGED_PATH || '/src';
-
-  protected roughOpsDefault: Options = {
-    bowing: 0.5,
-    roughness: 0.8,
-    stroke: '#363636',
-    strokeWidth: 1,
-    fillStyle: 'zigzag',
-    fillWeight: 0.3,
-    hachureGap: 4,
-  };
-  protected roughOpsOrigin: Options = {};
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
+  @property() protected renderType: RenderType = RenderType.SVG;
+  @property() protected animationType: AnimationType = AnimationType.ALWAYS;
   private _roughOps: Options = {};
   @property({type: Object})
   get roughOps() {
@@ -70,8 +59,6 @@ export abstract class HandDrawnBase extends LitElement {
     this.requestUpdate('roughOps', oldValue);
   }
 
-  @property() protected renderType: RenderType = RenderType.SVG;
-  @property() protected animationType: AnimationType = AnimationType.ALWAYS;
   protected animationIntervalTime = 200;
   protected roughObjArray: (RoughObjSvg | RoughObjCanvas)[] = [];
   private drawInterval: NodeJS.Timeout | null = null;
@@ -81,6 +68,16 @@ export abstract class HandDrawnBase extends LitElement {
   protected resizeHandler = this.resizeHandlerTmp.bind(this);
   private isFocus = false;
   private isMouseIn = false;
+  protected roughOpsOrigin: Options = {};
+  protected roughOpsDefault: Options = {
+    bowing: 0.5,
+    roughness: 0.8,
+    stroke: '#363636',
+    strokeWidth: 1,
+    fillStyle: 'zigzag',
+    fillWeight: 0.3,
+    hachureGap: 4,
+  };
 
   constructor() {
     super();
@@ -389,6 +386,7 @@ export abstract class HandDrawnBase extends LitElement {
         margin: 0;
         box-sizing: border-box;
         position: relative;
+
       }
 
       .slot {

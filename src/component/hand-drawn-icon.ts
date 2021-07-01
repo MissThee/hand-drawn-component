@@ -4,14 +4,15 @@ import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base
 import {Options} from "roughjs/bin/core";
 
 enum HandDrawnIconType {
-  LOADING = 'loading'
+  LOADING = 'loading',
+  CROSS = 'cross'
 }
 
 @customElement('hand-drawn-icon')
 export class HandDrawnIcon extends HandDrawnBase {
   protected roughOpsDefault: Options = {
     roughness: 0.5,
-  }
+  };
   @query('#icon') private icon: HTMLElement | undefined;
   @property({type: String}) type: HandDrawnIconType | undefined;
 
@@ -20,6 +21,8 @@ export class HandDrawnIcon extends HandDrawnBase {
       case HandDrawnIconType.LOADING:
         // this.animationType = AnimationType.HOVER;
         this.icon?.classList.add('rotate');
+        break;
+      case HandDrawnIconType.CROSS:
         break;
     }
     super.firstUpdated(_changedProperties);
@@ -34,6 +37,9 @@ export class HandDrawnIcon extends HandDrawnBase {
       case HandDrawnIconType.LOADING:
         nodeArray = this.iconLoading(roughObj);
         break;
+      case HandDrawnIconType.CROSS:
+        nodeArray = this.iconCross(roughObj);
+        break;
     }
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
@@ -41,6 +47,34 @@ export class HandDrawnIcon extends HandDrawnBase {
         roughObj.roughEl.appendChild(<Node>node);
       }
     }
+  }
+
+  private iconCross(roughObj: RoughObjSvg | RoughObjCanvas) {
+    const size = {
+      width: roughObj.roughParentEl.clientWidth,
+      height: roughObj.roughParentEl.clientHeight
+    };
+    const nodeArray = [];
+    const max = 9;
+    for (let i = 1; i <= max - 1; i++) {
+      let piece = i % 4;
+      const arcObj = {
+        x1: size.width / 10,
+        y1: size.height / 10,
+        x2: size.width / 10 * 9,
+        y2: size.height / 10 * 9,
+        roughOps: this.roughOps
+      };
+      switch (piece) {
+        case 1:
+          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y1, arcObj.x2, arcObj.y2, arcObj.roughOps));
+          break;
+        case 2:
+          nodeArray.push(roughObj.roughInstance.line(arcObj.x1, arcObj.y2, arcObj.x2, arcObj.y1, arcObj.roughOps));
+          break;
+      }
+    }
+    return nodeArray;
   }
 
   private iconLoading(roughObj: RoughObjSvg | RoughObjCanvas) {
@@ -81,7 +115,7 @@ export class HandDrawnIcon extends HandDrawnBase {
 
   protected render() {
     return html`
-      <div id="icon" class="icon rough"></div>
+        <div id="icon" class="icon rough"></div>
     `;
   }
 
