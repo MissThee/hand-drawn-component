@@ -132,33 +132,6 @@ export class HandDrawnTextarea extends HandDrawnBase {
           height: 100%;
         }
 
-        .textarea::-webkit-scrollbar {
-          display: none;
-          width: 4px;
-          height: 4px;
-        }
-
-        .textarea::-webkit-scrollbar-track {
-          border-radius: 4px;
-        }
-
-        .textarea::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background: #ddd;
-        }
-
-        .textarea::-webkit-scrollbar-thumb:hover {
-          background: #ccc;
-        }
-
-        .textarea::-webkit-scrollbar-thumb:active {
-          background: #999;
-        }
-
-        .textarea ::-webkit-scrollbar-thumb:window-inactive {
-          background: #ddd;
-        }
-
         .textarea[disabled] {
           cursor: not-allowed;
         }

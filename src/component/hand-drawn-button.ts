@@ -23,9 +23,6 @@ export class HandDrawnButton extends HandDrawnBase {
     `;
   }
 
-  //   <button type="button" class="button rough" ?disabled="${this.disabled}">
-  //             <slot class="slot" @slotchange="${this.roughRender}"></slot>
-  //         </button>
   static get styles() {
     return [
       super.styles,

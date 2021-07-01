@@ -31,7 +31,7 @@
     <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">loading...</div>
 </div>
 <div id="content" style="transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
-    <hand-drawn-pad style="width: 100%;padding: 20px" roughops='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' realtimeresize>
+    <hand-drawn-pad style="width: 100%;padding: 10px;height: 400px" roughops='{"fill":"#e0e0e0","fillStyle": "cross-hatch"}' realtimeresize>
         <div style="margin:0 0 20px 0">
             <div>button:</div>
             <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
@@ -97,9 +97,26 @@
             </hand-drawn-radio-group>
             
         </div>
+        <div style="margin:0 0 20px 0">
+            <div>radio-group:</div>
+            <hand-drawn-button rendertype="canvas" roughops='{"fill":"#409EFF"}' onclick="dialogShowHandler()"><span>dialog</span></hand-drawn-button>
+            <hand-drawn-dialog id="dialog">
+                <div style="padding:10px">
+                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                    长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本长文本
+                </div>
+            </hand-drawn-dialog>
+        </div>
+
     </hand-drawn-pad>
 </div>
-
+<script>
+    function dialogShowHandler() {
+        document.getElementById('dialog').visible = true
+    }
+</script>
 
 
   <script src="index.js"></script></body>

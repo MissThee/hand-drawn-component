@@ -7,6 +7,9 @@ import "src/component/hand-drawn-checkbox.ts"
 import "src/component/hand-drawn-checkbox-group.ts"
 import "src/component/hand-drawn-radio.ts"
 import "src/component/hand-drawn-radio-group.ts"
+import "src/component/hand-drawn-dialog.ts"
+
+
 // import * as FontTool from "src/util/font.ts"
 //
 // const loading = document.getElementById('loading')
