@@ -17,10 +17,10 @@ export class HandDrawnPad extends HandDrawnBase {
 
   protected render() {
     return html`
-        ${this.noBorder ? '' : html`
-            <div class="pad rough"></div>`}
-        <div class="pad-content">
-            <slot @slotchange="${this.roughRender}"></slot>
+        <div class="pad ${this.noBorder ? "" : "rough"}">
+            <div class="pad-content">
+                <slot @slotchange="${this.roughRender}"></slot>
+            </div>
         </div>
     `;
   }
@@ -51,8 +51,9 @@ export class HandDrawnPad extends HandDrawnBase {
       super.styles,
       css`
         .pad {
-          background-color: white;
-          overflow: auto;
+          padding: 3px;
+          background: none;
+          overflow: hidden;
           user-select: none;
           border: none;
           outline: none;
@@ -61,10 +62,10 @@ export class HandDrawnPad extends HandDrawnBase {
           bottom: 0;
           left: 0;
           right: 0;
-          z-index: -1;
         }
 
         .pad-content {
+          position: relative;
           overflow: auto;
           height: 100%;
           z-index: 1000;
