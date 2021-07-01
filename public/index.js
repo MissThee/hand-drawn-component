@@ -49,6 +49,9 @@ window.onload = function () {
         loadingText.style.transform = 'scale(2)'
         setTimeout(() => {
             content.style.opacity = '1'
+            setTimeout(() => {
+                loading.style.display = 'none'
+            }, 1200)
         }, 1000)
     })
 }

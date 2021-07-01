@@ -770,11 +770,11 @@ let HandDrawnPad = class extends HandDrawnBase {
           user-select: none;
           border: none;
           outline: none;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          position: inherit;
+          top: inherit;
+          bottom: inherit;
+          left: inherit;
+          right: inherit;
         }
 
         .pad-content {
@@ -1645,6 +1645,9 @@ let HandDrawnDialog = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
+        :host{
+          position: absolute;
+        }
         .dialog-mask {
           position: fixed;
           background-color: rgba(255, 255, 255, 0.75);
@@ -1704,7 +1707,7 @@ HandDrawnDialog = __decorateClass([
 ], HandDrawnDialog);
 
 window.onload = function() {
-  document.getElementById("loading");
+  const loading = document.getElementById("loading");
   const loadingText = document.getElementById("loadingText");
   const content = document.getElementById("content");
   content.style.transition = "opacity 1.2s steps(4,start) 0s";
@@ -1724,6 +1727,9 @@ window.onload = function() {
     loadingText.style.transform = "scale(2)";
     setTimeout(() => {
       content.style.opacity = "1";
+      setTimeout(() => {
+        loading.style.display = "none";
+      }, 1200);
     }, 1e3);
   });
 };
