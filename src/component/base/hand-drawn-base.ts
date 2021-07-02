@@ -44,7 +44,7 @@ export interface RoughObjCanvas extends RoughObj {
 export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property() protected renderType: RenderType = RenderType.SVG;
-  @property() protected animationType: AnimationType = AnimationType.ALWAYS;
+  @property() protected animationType: AnimationType = AnimationType.ACTIVE;
   private _roughOps: Options = {};
   @property({type: Object})
   get roughOps() {
