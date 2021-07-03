@@ -43,7 +43,7 @@ const config = {
                 collapseWhitespace: isProd,
                 keepClosingSlash: isProd,
             },
-            title: 'bundle by rollup'
+            title: 'hand-drawn-component'
         }),
         esbuild({ // include rollup-plugin-terser & @rollup/plugin-typescript & rollup-plugin-ts
             sourceMap: true,
