@@ -30,92 +30,105 @@
 <div id="loading" style="position: fixed;left: 50%;top:40%;transform: translate(-50%,-50%);display: inline-block;pointer-events: none">
     <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">loading...</div>
 </div>
+
 <div id="content" style="text-align: center;transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
-    <hand-drawn-pad style="text-align: left" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
+    <div style="padding:15px">
+        <div>点击切换抖动状态：</div>
+        <label onclick="switchAnimateType('always')">
+            <input type="radio" checked="checked" name="animationType"><span>一直自动抖</span>
+        </label>
+        <label onclick="switchAnimateType('active')">
+            <input type="radio" name="animationType"><span>仅获取焦点或激活时自动抖动</span>
+        </label>
+        <label onclick="switchAnimateType('less')">
+            <input type="radio" name="animationType"><span>不自动抖</span>
+        </label>
+    </div>
+    <hand-drawn-pad class="hand-drawn" style="text-align: left" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
         <div style="padding :10px">
             <div style="text-align: center">
                 <a style="color: black;font-weight: bold" href="https://github.com/MissThee/hand-drawn-component">
-                    <hand-drawn-button roughops='{"fill":"lightBlue"}'>Source Code (Go To GitHub)</hand-drawn-button>
+                    <hand-drawn-button class="hand-drawn" roughops='{"fill":"lightBlue"}'>Source Code (Go To GitHub)</hand-drawn-button>
                 </a>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>button:</div>
-                <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
-                <hand-drawn-button style="width: 20%;min-width: 140px" rendertype="canvas" roughops='{"fill":"#F56C6C"}'><span>test2(canvas)</span></hand-drawn-button>
-                <hand-drawn-button rendertype="canvas" rendertype="svg" roughops='{"fill":"#67C23A"}'><span>OK(svg)</span></hand-drawn-button>
-                <hand-drawn-button disabled="disabled" rendertype="svg" roughops='{"fill":"#E6A23C"}'><span>disabled(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>test1(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="canvas" roughops='{"fill":"#F56C6C"}'><span>test2(canvas)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" rendertype="svg" roughops='{"fill":"#67C23A"}'><span>OK(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" disabled="disabled" rendertype="svg" roughops='{"fill":"#E6A23C"}'><span>disabled(svg)</span></hand-drawn-button>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>icon:</div>
-                <hand-drawn-icon rendertype="svg" type="loading"></hand-drawn-icon>
-                <hand-drawn-icon rendertype="canvas" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
-                <hand-drawn-icon rendertype="svg" type="cross"></hand-drawn-icon>
-                <hand-drawn-icon rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
-                <hand-drawn-icon rendertype="svg" type="tick"></hand-drawn-icon>
-                <hand-drawn-icon rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="cross"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="tick"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>button&icon:</div>
-                <hand-drawn-button rendertype="svg" disabled="disabled" roughops='{"fill":"#409EFF","fillWeight":"0.1"}'>
-                    <hand-drawn-icon rendertype="svg" type="loading"></hand-drawn-icon>
+                <hand-drawn-button class="hand-drawn" rendertype="svg" disabled="disabled" roughops='{"fill":"#409EFF","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
                     <span>Loading(svg)</span>
                 </hand-drawn-button>
-                <hand-drawn-button rendertype="canvas" roughops='{"fill":"#F56C6C","fillWeight":"0.1"}'>
-                    <hand-drawn-icon rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#F56C6C","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
                     <span>NO(canvas)</span>
                 </hand-drawn-button>
-                <hand-drawn-button rendertype="canvas" roughops='{"fill":"#67C23A","fillWeight":"0.1"}'>
-                    <hand-drawn-icon rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#67C23A","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
                     <span>YES(canvas)</span>
                 </hand-drawn-button>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>input:</div>
-                <hand-drawn-input value="Hi (svg)" rendertype="svg" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
-                <hand-drawn-input value="Input Some Thing (canvas)" rendertype="canvas" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
+                <hand-drawn-input class="hand-drawn" value="Hi (svg)" rendertype="svg" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
+                <hand-drawn-input class="hand-drawn" value="Input Some Thing (canvas)" rendertype="canvas" placeholder="you can input something" style="width: 300px"></hand-drawn-input>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>textarea:</div>
-                <hand-drawn-textarea value="You can resize this component on PC(svg)" rendertype="svg" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea style="width: 250px" resize="none" value="Can't be resized(canvas)" rendertype="canvas" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea style="width: 250px" disabled="disabled" value="Disabled(svg)" rendertype="svg" placeholder="you can input something"></hand-drawn-textarea>
-                <hand-drawn-textarea style="width: 250px" value="Auto height(canvas)" rendertype="canvas" autoheight placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" value="You can resize this component on PC(svg)" rendertype="svg" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" resize="none" value="Can't be resized(canvas)" rendertype="canvas" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" disabled="disabled" value="Disabled(svg)" rendertype="svg" placeholder="you can input something"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" value="Auto height(canvas)" rendertype="canvas" autoheight placeholder="you can input something"></hand-drawn-textarea>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>checkbox:</div>
-                <hand-drawn-checkbox rendertype="svg"><span>checkbox(svg)</span></hand-drawn-checkbox>
-                <hand-drawn-checkbox rendertype="canvas"><span>checkbox(canvas)</span></hand-drawn-checkbox>
-                <hand-drawn-checkbox rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="svg"><span>checkbox(svg)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="canvas"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-checkbox>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>checkbox-group:</div>
-                <hand-drawn-checkbox-group checkedvalues='["c2","c3"]' id="hand-drawn-checkbox-group">
-                    <hand-drawn-checkbox rendertype="svg" value="c1" checked="checked"><span>checkbox(svg)</span></hand-drawn-checkbox>
-                    <hand-drawn-checkbox rendertype="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
-                    <hand-drawn-checkbox rendertype="svg" disabled="disabled" value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox-group class="hand-drawn" checkedvalues='["c2","c3"]' id="hand-drawn-checkbox-group">
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="svg" value="c1" checked="checked"><span>checkbox(svg)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled" value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
                 </hand-drawn-checkbox-group>
                 
             </div>
             <div style="margin:0 0 20px 0">
                 <div>radio:</div>
-                <hand-drawn-radio rendertype="svg"><span>radio(svg)</span></hand-drawn-radio>
-                <hand-drawn-radio rendertype="canvas"><span>radio(canvas)</span></hand-drawn-radio>
-                <hand-drawn-radio rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-radio>
+                <hand-drawn-radio class="hand-drawn" rendertype="svg"><span>radio(svg)</span></hand-drawn-radio>
+                <hand-drawn-radio class="hand-drawn" rendertype="canvas"><span>radio(canvas)</span></hand-drawn-radio>
+                <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled"><span>disabled(svg)</span></hand-drawn-radio>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>radio-group:</div>
-                <hand-drawn-radio-group checkedvalue="r2" id="hand-drawn-radio-group">
-                    <hand-drawn-radio rendertype="svg" value="r1"><span>radio(svg)</span></hand-drawn-radio>
-                    <hand-drawn-radio rendertype="canvas" value="r2"><span>radio(canvas)</span></hand-drawn-radio>
-                    <hand-drawn-radio rendertype="svg" disabled="disabled" value="r3"><span>disabled(svg)</span></hand-drawn-radio>
+                <hand-drawn-radio-group class="hand-drawn" checkedvalue="r2" id="hand-drawn-radio-group">
+                    <hand-drawn-radio class="hand-drawn" rendertype="svg" value="r1"><span>radio(svg)</span></hand-drawn-radio>
+                    <hand-drawn-radio class="hand-drawn" rendertype="canvas" value="r2"><span>radio(canvas)</span></hand-drawn-radio>
+                    <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled" value="r3"><span>disabled(svg)</span></hand-drawn-radio>
                 </hand-drawn-radio-group>
                 
             </div>
             <div style="margin:0 0 20px 0">
                 <div>dialog:</div>
-                <hand-drawn-button rendertype="svg" roughops='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>dialog(svg)</span></hand-drawn-button>
-                <hand-drawn-button rendertype="canvas" roughops='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>dialog(canvas)</span></hand-drawn-button>
-                <hand-drawn-dialog id="dialogSvg" rendertype="svg" appendtobody closeonclickmask>
+                <hand-drawn-button class="hand-drawn" rendertype="svg" roughops='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>dialog(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>dialog(canvas)</span></hand-drawn-button>
+                <hand-drawn-dialog class="hand-drawn" id="dialogSvg" rendertype="svg" appendtobody closeonclickmask>
                     <div style="padding:5px">
                         long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
                         text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
@@ -131,7 +144,7 @@
                         text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.
                     </div>
                 </hand-drawn-dialog>
-                <hand-drawn-dialog id="dialogCanvas" rendertype="canvas" appendtobody closeonclickmask>
+                <hand-drawn-dialog class="hand-drawn" id="dialogCanvas" rendertype="canvas" appendtobody closeonclickmask>
                     <div style="padding:5px">
                         long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
                         text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long
@@ -160,6 +173,12 @@
         document.getElementById('dialogCanvas').visible = true
     }
 
+    function switchAnimateType(animationType) {
+        const handDrawnEls = document.getElementsByClassName("hand-drawn")
+        for (let i of handDrawnEls) {
+            i.animationType = animationType
+        }
+    }
 </script>
 
 

@@ -94,13 +94,13 @@ var AnimationType;
 (function(AnimationType2) {
   AnimationType2["ACTIVE"] = "active";
   AnimationType2["ALWAYS"] = "always";
-  AnimationType2["NONE"] = "none";
+  AnimationType2["LESS"] = "less";
 })(AnimationType || (AnimationType = {}));
 class HandDrawnBase extends h$1 {
   constructor() {
     super();
     this.renderType = RenderType.SVG;
-    this.animationType = AnimationType.ACTIVE;
+    this.animationType = AnimationType.ALWAYS;
     this._roughOps = {};
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
@@ -136,12 +136,10 @@ class HandDrawnBase extends h$1 {
     super.firstUpdated(_changedProperties);
     this.roughInit();
     this.roughRender();
-    if (this.animationType === AnimationType.ALWAYS) {
-      this.performAnimation(true);
-    }
   }
   updated(_changedProperties) {
     super.updated(_changedProperties);
+    this.updateAnimationState();
     setTimeout(() => {
       this.roughRender();
     }, 0);
@@ -212,13 +210,18 @@ class HandDrawnBase extends h$1 {
     }
   }
   updateAnimationState(forceValue) {
-    if (this.isFocus || this.isMouseIn) {
-      if (this.animationType === AnimationType.ACTIVE) {
+    if (this.animationType === AnimationType.ALWAYS) {
+      this.performAnimation(true);
+    } else if (this.animationType === AnimationType.ACTIVE) {
+      if (this.isFocus || this.isMouseIn) {
         this.performAnimation(forceValue !== void 0 ? forceValue : true);
-      }
-    } else {
-      if (this.animationType === AnimationType.ACTIVE) {
+      } else {
         this.performAnimation(forceValue !== void 0 ? forceValue : false);
+      }
+    } else if (this.animationType === AnimationType.LESS) {
+      this.performAnimation(false);
+      if (this.isFocus || this.isMouseIn) {
+        this.roughRender(true);
       }
     }
   }
@@ -325,65 +328,65 @@ class HandDrawnBase extends h$1 {
   }
   static get styles() {
     return i$4`
-      * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-      }
+          * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+          }
 
-      ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-      }
+          ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+          }
 
-      ::-webkit-scrollbar-track {
-        border-radius: 4px;
-      }
+          ::-webkit-scrollbar-track {
+            border-radius: 4px;
+          }
 
-      ::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-        background: #999;
-      }
+          ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background: #999;
+          }
 
-      ::-webkit-scrollbar-thumb:hover {
-        background: #999;
-      }
+          ::-webkit-scrollbar-thumb:hover {
+            background: #999;
+          }
 
-      ::-webkit-scrollbar-thumb:active {
-        background: #999;
-      }
+          ::-webkit-scrollbar-thumb:active {
+            background: #999;
+          }
 
-      ::-webkit-scrollbar-thumb:window-inactive {
-        background: #999;
-      }
+          ::-webkit-scrollbar-thumb:window-inactive {
+            background: #999;
+          }
 
-      :host {
-        display: inline-block;
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        position: relative;
+          :host {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            position: relative;
 
-      }
+          }
 
-      .slot {
-        font: inherit;
-      }
+          .slot {
+            font: inherit;
+          }
 
-      .rough {
-        position: relative;
-      }
+          .rough {
+            position: relative;
+          }
 
-      .rough > .rough-context {
-        position: absolute;
-        overflow: hidden;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-      }
-    `;
+          .rough > .rough-context {
+            position: absolute;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+          }
+        `;
   }
 }
 __decorateClass$a([
@@ -729,16 +732,22 @@ let HandDrawnPad = class extends HandDrawnBase {
   }
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
-    this.animationType = AnimationType.NONE;
+  }
+  updated(_changedProperties) {
+    super.updated(_changedProperties);
+    if (this.animationType === AnimationType.ACTIVE) {
+      this.animationType = AnimationType.LESS;
+    }
+    this.updateAnimationState();
   }
   render() {
     return T$1`
-        <div class="pad ${this.noBorder ? "" : "rough"}">
-            <div class="pad-content">
-                <slot @slotchange="${this.roughRender}"></slot>
+            <div class="pad ${this.noBorder ? "" : "rough"}">
+                <div class="pad-content">
+                    <slot @slotchange="${this.roughRender}"></slot>
+                </div>
             </div>
-        </div>
-    `;
+        `;
   }
   connectedCallback() {
     super.connectedCallback();
@@ -763,27 +772,27 @@ let HandDrawnPad = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        .pad {
-          padding: 3px;
-          background: none;
-          overflow: hidden;
-          user-select: none;
-          border: none;
-          outline: none;
-          position: inherit;
-          top: inherit;
-          bottom: inherit;
-          left: inherit;
-          right: inherit;
-        }
+              .pad {
+                padding: 3px;
+                background: none;
+                overflow: hidden;
+                user-select: none;
+                border: none;
+                outline: none;
+                position: inherit;
+                top: inherit;
+                bottom: inherit;
+                left: inherit;
+                right: inherit;
+              }
 
-        .pad-content {
-          position: relative;
-          overflow: auto;
-          height: 100%;
-          z-index: 1000;
-        }
-      `
+              .pad-content {
+                position: relative;
+                overflow: auto;
+                height: 100%;
+                z-index: 1000;
+              }
+            `
     ];
   }
 };
