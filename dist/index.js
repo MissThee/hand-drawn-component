@@ -2044,14 +2044,14 @@ window.onload = function() {
   const loadingText = document.getElementById("loadingText");
   const content = document.getElementById("content");
   content.style.transition = "opacity 1.2s ease-out";
-  content.style.opacity = "1";
+  content.style.opacity = "0";
   loadingText.style.transformOrigin = "50% 50%";
-  loadingText.style.transition = "all 1.2s ease-out";
+  loadingText.style.transition = "all 1s ease-out";
   Promise.all([
     new Promise((resolve) => {
       setTimeout(() => {
         resolve();
-      }, 1e3);
+      }, 500);
     }),
     document.fonts.ready
   ]).then(() => {
@@ -2062,7 +2062,7 @@ window.onload = function() {
       content.style.opacity = "1";
       setTimeout(() => {
         loading.style.display = "none";
-      }, 1200);
+      }, 1e3);
     }, 1e3);
   });
 };
