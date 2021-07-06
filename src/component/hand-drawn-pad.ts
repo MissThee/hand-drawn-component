@@ -18,7 +18,7 @@ export class HandDrawnPad extends HandDrawnBase {
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if (this.animationType === AnimationType.ACTIVE) {
-            this.animationType = AnimationType.LESS
+            this.animationType = AnimationType.NONE
         }
         this.updateAnimationState()
     }

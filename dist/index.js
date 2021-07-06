@@ -95,6 +95,7 @@ var AnimationType;
   AnimationType2["ACTIVE"] = "active";
   AnimationType2["ALWAYS"] = "always";
   AnimationType2["LESS"] = "less";
+  AnimationType2["NONE"] = "none";
 })(AnimationType || (AnimationType = {}));
 class HandDrawnBase extends h$1 {
   constructor() {
@@ -102,6 +103,7 @@ class HandDrawnBase extends h$1 {
     this.renderType = RenderType.SVG;
     this.animationType = AnimationType.ALWAYS;
     this._roughOps = {};
+    this.seed = Math.floor(Math.random() * 2 ** 31);
     this.animationIntervalTime = 200;
     this.roughObjArray = [];
     this.drawInterval = null;
@@ -211,8 +213,10 @@ class HandDrawnBase extends h$1 {
   }
   updateAnimationState(forceValue) {
     if (this.animationType === AnimationType.ALWAYS) {
+      this.roughOps.seed = 0;
       this.performAnimation(true);
     } else if (this.animationType === AnimationType.ACTIVE) {
+      this.roughOps.seed = 0;
       if (this.isFocus || this.isMouseIn) {
         this.performAnimation(forceValue !== void 0 ? forceValue : true);
       } else {
@@ -220,8 +224,28 @@ class HandDrawnBase extends h$1 {
       }
     } else if (this.animationType === AnimationType.LESS) {
       this.performAnimation(false);
-      if (this.isFocus || this.isMouseIn) {
+      this.roughRender(true);
+    } else if (this.animationType === AnimationType.NONE) {
+      this.performAnimation(false);
+      if (this.roughOps.seed !== this.seed) {
+        this.roughOps.seed = this.seed;
         this.roughRender(true);
+      } else {
+        this.roughRender();
+      }
+    }
+  }
+  performAnimation(isStart = true) {
+    if (isStart) {
+      if (!this.drawInterval) {
+        this.drawInterval = setInterval(() => {
+          this.roughRender(true);
+        }, this.animationIntervalTime);
+      }
+    } else {
+      if (this.drawInterval) {
+        clearInterval(this.drawInterval);
+        this.drawInterval = null;
       }
     }
   }
@@ -266,20 +290,6 @@ class HandDrawnBase extends h$1 {
           default:
             return;
         }
-      }
-    }
-  }
-  performAnimation(isStart = true) {
-    if (isStart) {
-      if (!this.drawInterval) {
-        this.drawInterval = setInterval(() => {
-          this.roughRender(true);
-        }, this.animationIntervalTime);
-      }
-    } else {
-      if (this.drawInterval) {
-        clearInterval(this.drawInterval);
-        this.drawInterval = null;
       }
     }
   }
@@ -328,65 +338,65 @@ class HandDrawnBase extends h$1 {
   }
   static get styles() {
     return i$4`
-          * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-          }
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-          ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-          }
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
 
-          ::-webkit-scrollbar-track {
-            border-radius: 4px;
-          }
+      ::-webkit-scrollbar-track {
+        border-radius: 4px;
+      }
 
-          ::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background: #999;
-          }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: #999;
+      }
 
-          ::-webkit-scrollbar-thumb:hover {
-            background: #999;
-          }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #999;
+      }
 
-          ::-webkit-scrollbar-thumb:active {
-            background: #999;
-          }
+      ::-webkit-scrollbar-thumb:active {
+        background: #999;
+      }
 
-          ::-webkit-scrollbar-thumb:window-inactive {
-            background: #999;
-          }
+      ::-webkit-scrollbar-thumb:window-inactive {
+        background: #999;
+      }
 
-          :host {
-            display: inline-block;
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            position: relative;
+      :host {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        position: relative;
 
-          }
+      }
 
-          .slot {
-            font: inherit;
-          }
+      .slot {
+        font: inherit;
+      }
 
-          .rough {
-            position: relative;
-          }
+      .rough {
+        position: relative;
+      }
 
-          .rough > .rough-context {
-            position: absolute;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-          }
-        `;
+      .rough > .rough-context {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+      }
+    `;
   }
 }
 __decorateClass$b([
@@ -736,7 +746,7 @@ let HandDrawnPad = class extends HandDrawnBase {
   updated(_changedProperties) {
     super.updated(_changedProperties);
     if (this.animationType === AnimationType.ACTIVE) {
-      this.animationType = AnimationType.LESS;
+      this.animationType = AnimationType.NONE;
     }
     this.updateAnimationState();
   }

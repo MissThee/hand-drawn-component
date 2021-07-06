@@ -33,15 +33,26 @@
 <div id="content" style="text-align: center;transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
     <div style="padding:15px">
         <div>Animation Type:</div>
-        <label onclick="switchAnimateType('always')">
-            <input type="radio" checked name="animationType"><span>always</span>
-        </label>
-        <label onclick="switchAnimateType('active')">
-            <input type="radio" name="animationType"><span>on active</span>
-        </label>
-        <label onclick="switchAnimateType('less')">
-            <input type="radio" name="animationType"><span>less</span>
-        </label>
+        <div>
+            <label onclick="switchAnimateType('always')">
+                <input type="radio" checked name="animationType"><span>always. always jitter animation</span>
+            </label>
+        </div>
+        <div>
+            <label onclick="switchAnimateType('active')">
+                <input type="radio" name="animationType"><span>on active. jitter animation when onfocus, mouseenter</span>
+            </label>
+        </div>
+        <div>
+            <label onclick="switchAnimateType('less')">
+                <input type="radio" name="animationType"><span>less. jitter animation only once when onfocus, mouseenter ,mouseleave</span>
+            </label>
+        </div>
+        <div>
+            <label onclick="switchAnimateType('none')">
+                <input type="radio" name="animationType"><span>none. no jitter animation</span>
+            </label>
+        </div>
     </div>
     <hand-drawn-pad class="hand-drawn" style="text-align: left" roughOps='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realTimeResize>
         <div style="padding :10px">
