@@ -164,19 +164,17 @@
             <div style="margin:0 0 20px 0">
                 <div>switch:</div>
                 <div style="margin: 0 20px 0 0;display: inline-block">
-                    <span>OFF</span>
-                    <hand-drawn-switch rendertype="svg" class="hand-drawn"></hand-drawn-switch>
-                    <span>ON</span>
+                    <hand-drawn-switch rendertype="svg" class="hand-drawn">
+                    </hand-drawn-switch>
                 </div>
                 <div style="margin: 0 20px 0 0;display: inline-block">
-                    <span>OFF</span>
-                    <hand-drawn-switch rendertype="canvas" class="hand-drawn"></hand-drawn-switch>
-                    <span>ON</span>
+                    <hand-drawn-switch rendertype="canvas" lefttogglefill="pink" righttogglefill="blue" leftbgfill="red" rightbgfill="lime" class="hand-drawn">
+                        <span slot="left">OFF</span>
+                        <span slot="right">ON</span>
+                    </hand-drawn-switch>
                 </div>
                 <div style="margin: 0 20px 0 0;display: inline-block">
-                    <span>OFF</span>
                     <hand-drawn-switch rendertype="svg" class="hand-drawn" disabled="disabled"></hand-drawn-switch>
-                    <span>ON</span>
                 </div>
             </div>
         </div>
