@@ -213,6 +213,7 @@ export abstract class HandDrawnBase extends LitElement {
         this.performAnimation(forceValue !== undefined ? forceValue : false);
       }
     } else if (this.animationType === AnimationType.LESS) {
+      this.roughOps.seed = 0;
       this.performAnimation(false);
       this.roughRender(true);
     } else if (this.animationType === AnimationType.NONE) {
