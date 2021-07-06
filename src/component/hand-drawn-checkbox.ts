@@ -14,8 +14,8 @@ export class HandDrawnCheckbox extends HandDrawnBase {
         <label class="checkbox" ?disabled="${this.disabled}">
             <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
             <span class="checkbox-rect rough">
-          <div id="tick" style=${this.checked ? 'display:inline-block' : 'display:none'} class="checkbox-tick rough"></div>
-        </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
+                <div id="tick" style=${this.checked ? 'display:inline-block' : 'display:none'} class="checkbox-tick rough"></div>
+            </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
         </label>
     `;
   }
@@ -82,6 +82,8 @@ export class HandDrawnCheckbox extends HandDrawnBase {
         }
 
         .checkbox-input {
+          width: 0;
+          height: 0;
           opacity: 0;
           position: absolute;
         }

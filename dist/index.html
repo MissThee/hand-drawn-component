@@ -4,11 +4,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>handDrawnComponent</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>hand-drawn-component</title>
+    
     <meta name="viewport" content="width=600">
-    <meta name="keywords" content="hand-drawn,component,hand-drawn-component" />
-    <meta name="description" content="hand-drawn-component" />
     <style>
         /*@font-face {*/
         /*    font-family: 'FZMWFont';*/
@@ -35,15 +33,15 @@
 
 <div id="content" style="text-align: center;transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
     <div style="padding:15px">
-        <div>点击切换抖动状态：</div>
+        <div>Animation Type:</div>
         <label onclick="switchAnimateType('always')">
-            <input type="radio" checked="checked" name="animationType"><span>一直自动抖</span>
+            <input type="radio" checked="checked" name="animationType"><span>always</span>
         </label>
         <label onclick="switchAnimateType('active')">
-            <input type="radio" name="animationType"><span>仅获取焦点或激活时自动抖动</span>
+            <input type="radio" name="animationType"><span>on active</span>
         </label>
         <label onclick="switchAnimateType('less')">
-            <input type="radio" name="animationType"><span>不自动抖</span>
+            <input type="radio" name="animationType"><span>less</span>
         </label>
     </div>
     <hand-drawn-pad class="hand-drawn" style="text-align: left" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
@@ -162,6 +160,24 @@
                         text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.long text.
                     </div>
                 </hand-drawn-dialog>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>switch:</div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <span>OFF</span>
+                    <hand-drawn-switch rendertype="svg" class="hand-drawn"></hand-drawn-switch>
+                    <span>ON</span>
+                </div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <span>OFF</span>
+                    <hand-drawn-switch rendertype="canvas" class="hand-drawn"></hand-drawn-switch>
+                    <span>ON</span>
+                </div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <span>OFF</span>
+                    <hand-drawn-switch rendertype="svg" class="hand-drawn" disabled="disabled"></hand-drawn-switch>
+                    <span>ON</span>
+                </div>
             </div>
         </div>
     </hand-drawn-pad>
