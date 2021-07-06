@@ -194,7 +194,16 @@
             </div>
             <div style="margin:0 0 20px 0">
                 <div>anchor:</div>
-                   click <hand-drawn-anchor target="_blank" lineColor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" renderType="svg" class="hand-drawn" disabled>the link</hand-drawn-anchor> go to source code
+                <span>click <hand-drawn-anchor target="_blank" lineColor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" renderType="svg" class="hand-drawn" disabled>the link</hand-drawn-anchor> go to source code</span>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>progress:</div>
+                <div style="width: 300px">
+                    <hand-drawn-progress id="progress1" renderType="svg" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 300px">
+                    <hand-drawn-progress id="progress2" renderType="canvas" roughOps='{"fill":"#E6A23C"}' isShowPercent completeColor="#67C23A" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
             </div>
         </div>
     </hand-drawn-pad>
@@ -214,6 +223,29 @@
             i.animationType = animationType
         }
     }
+
+    -function () {
+        const progressEl = document.getElementById('progress1')
+        let progressPercent = 0
+        setInterval(function () {
+            progressEl.value = progressPercent
+            progressPercent += 10
+            if (progressPercent > 100) {
+                progressPercent = 0
+            }
+        }, 1000)
+    }();
+    -function () {
+        const progressEl = document.getElementById('progress2')
+        let progressPercent = 0
+        setInterval(function () {
+            progressEl.value = Math.max(0, Math.min(progressPercent, 100))
+            progressPercent += 1
+            if (progressPercent > 120) {
+                progressPercent = -10
+            }
+        }, 100)
+    }();
 </script>
 
 </body>

@@ -221,7 +221,7 @@ export abstract class HandDrawnBase extends LitElement {
       if (this.roughOps.seed !== this.seed) {
         this.roughOps.seed = this.seed;
         this.roughRender(true);
-      }else{
+      } else {
         this.roughRender();
       }
     }
@@ -314,7 +314,7 @@ export abstract class HandDrawnBase extends LitElement {
     roughObj.roughEl.setAttribute('height', String(size.height));
   }
 
-  protected roughDrawOne(roughObj: RoughObjSvg | RoughObjCanvas) {
+  protected roughDrawOne(roughObj: RoughObjSvg | RoughObjCanvas, roughOps?: Options) {
     const size = {
       width: roughObj.roughParentEl.clientWidth,
       height: roughObj.roughParentEl.clientHeight
@@ -323,7 +323,7 @@ export abstract class HandDrawnBase extends LitElement {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
     }
     const nodeArray = [];
-    nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps));
+    nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, roughOps || this.roughOps));
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
       for (let node of nodeArray) {

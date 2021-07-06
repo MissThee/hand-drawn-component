@@ -9,10 +9,6 @@ export class HandDrawnAnchor extends HandDrawnBase {
   @property({type: String}) type = '';
   @property({type: String}) lineColor = '';
 
-  protected updateAnimationState() {
-    super.updateAnimationState();
-  }
-
   protected render() {
     return html`
         <a href="${this.href}" target="${this.target}" type="${this.type}">
