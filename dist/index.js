@@ -2102,6 +2102,7 @@ let HandDrawnProgress = class extends HandDrawnBase {
         }
 
         .progress-wrapper {
+          overflow: hidden;
           position: relative;
           width: 100%;
           height: 100%;
