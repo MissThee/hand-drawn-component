@@ -101,7 +101,6 @@ export class HandDrawnSwitch extends HandDrawnBase {
         .switch {
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           cursor: pointer;
@@ -111,7 +110,6 @@ export class HandDrawnSwitch extends HandDrawnBase {
 
         .switch-slot {
           cursor: pointer;
-          user-select: none;
         }
 
         .switch-input {
@@ -126,7 +124,6 @@ export class HandDrawnSwitch extends HandDrawnBase {
           border-radius: 1.5em;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -140,7 +137,8 @@ export class HandDrawnSwitch extends HandDrawnBase {
           width: 1.5em;
           position: absolute;
           top: 0;
-          transition: all 0.2s ease-out;
+          left: 0;
+          transition: left 0.2s ease-out;
         }
 
         .switch-toggle .rough-context {
@@ -150,8 +148,7 @@ export class HandDrawnSwitch extends HandDrawnBase {
         }
 
         .switch-toggle--active {
-          margin: 0 0 0 100%;
-          transform: translateX(-100%);
+          left: 2em;
         }
 
         .switch[disabled] {

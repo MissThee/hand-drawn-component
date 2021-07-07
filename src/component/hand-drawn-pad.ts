@@ -61,8 +61,7 @@ export class HandDrawnPad extends HandDrawnBase {
         .pad {
           padding: 3px;
           background: none;
-          overflow: hidden;
-          user-select: none;
+          overflow: hidden; 
           border: none;
           outline: none;
           position: inherit;

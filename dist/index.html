@@ -41,12 +41,7 @@
         </div>
         <div>
             <label onclick="switchAnimateType('active')">
-                <input type="radio" name="animationType"><span>active. jitter animation when onfocus, mouseenter</span>
-            </label>
-        </div>
-        <div>
-            <label onclick="switchAnimateType('less')">
-                <input type="radio" name="animationType"><span>less. jitter animation only once when onfocus, mouseenter ,mouseleave</span>
+                <input type="radio" name="animationType"><span>active. jitter animation when onfocus, mouseenter...</span>
             </label>
         </div>
         <div>
@@ -190,7 +185,9 @@
             </div>
             <div style="margin:0 0 20px 0">
                 <div>anchor:</div>
-                <span>click <hand-drawn-anchor target="_blank" linecolor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">the link</hand-drawn-anchor> go to source code</span>
+                <span>click <hand-drawn-anchor target="_blank" linecolor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">the link</hand-drawn-anchor> go to source code.</span>
+                <br>
+                <span>click <hand-drawn-anchor target="_blank" rendertype="canvas" linecolor="lightblue" style="color: mediumpurple" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">the link</hand-drawn-anchor> go to source code.</span>
             </div>
             <div style="margin:0 0 20px 0">
                 <div>progress:</div>
@@ -199,6 +196,12 @@
                 </div>
                 <div style="width: 300px">
                     <hand-drawn-progress id="progress2" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 60%">
+                    <hand-drawn-progress id="progress3" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 60%">
+                    <hand-drawn-progress id="progress4" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="100" class="hand-drawn"></hand-drawn-progress>
                 </div>
             </div>
         </div>

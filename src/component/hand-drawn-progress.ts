@@ -1,4 +1,4 @@
-import {css, html} from 'lit';
+import {css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base';
 import {Options} from 'roughjs/bin/core';
@@ -8,6 +8,12 @@ export class HandDrawnProgress extends HandDrawnBase {
   @property({type: Number}) value = 0;
   @property({type: Boolean}) isShowPercent = false;
   @property({type: String}) completeColor = '';
+  private isComplete: boolean;
+
+  constructor() {
+    super();
+    this.isComplete = this.value === 100;
+  }
 
   protected render() {
     return html`
@@ -35,6 +41,14 @@ export class HandDrawnProgress extends HandDrawnBase {
     hachureGap: 3,
   };
 
+  protected updated(_changedProperties: PropertyValues) {
+    super.updated(_changedProperties);
+    if ((this.isComplete && this.value !== 100) || (!this.isComplete && this.value === 100)) {
+      this.isComplete = this.value === 100;
+      this.roughRender(true);
+    }
+  }
+
   protected roughDrawOne(roughObj: RoughObjSvg | RoughObjCanvas) {
     if (roughObj.roughParentEl.id === 'progressBar') {
       const roughOpsTmp = {fill: this.roughOps.stroke, ...this.roughOps, stroke: 'transparent'};
@@ -43,7 +57,7 @@ export class HandDrawnProgress extends HandDrawnBase {
       }
       super.roughDrawOne(roughObj, roughOpsTmp);
     } else if (roughObj.roughParentEl.id === 'progressWrapper') {
-      super.roughDrawOne(roughObj,  { ...this.roughOps,fill:""});
+      super.roughDrawOne(roughObj, {...this.roughOps, fill: ""});
     } else {
       super.roughDrawOne(roughObj);
     }

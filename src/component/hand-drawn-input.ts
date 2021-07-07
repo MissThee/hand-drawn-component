@@ -77,7 +77,6 @@ export class HandDrawnInput extends HandDrawnBase {
         .input {
           font: inherit;
           overflow: hidden;
-          user-select: none;
           border: none;
           background: none;
           outline: none;

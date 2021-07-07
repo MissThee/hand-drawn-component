@@ -73,7 +73,6 @@ export class HandDrawnCheckbox extends HandDrawnBase {
         .checkbox {
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           cursor: pointer;
@@ -92,7 +91,6 @@ export class HandDrawnCheckbox extends HandDrawnBase {
           display: inline-block;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           outline: none;

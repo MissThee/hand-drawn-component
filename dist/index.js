@@ -94,7 +94,6 @@ var AnimationType;
 (function(AnimationType2) {
   AnimationType2["ACTIVE"] = "active";
   AnimationType2["ALWAYS"] = "always";
-  AnimationType2["LESS"] = "less";
   AnimationType2["NONE"] = "none";
 })(AnimationType || (AnimationType = {}));
 class HandDrawnBase extends h$1 {
@@ -137,7 +136,6 @@ class HandDrawnBase extends h$1 {
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
-    this.roughRender();
   }
   updated(_changedProperties) {
     super.updated(_changedProperties);
@@ -211,28 +209,20 @@ class HandDrawnBase extends h$1 {
       this.updateAnimationState();
     }
   }
-  updateAnimationState(forceValue) {
+  updateAnimationState() {
     if (this.animationType === AnimationType.ALWAYS) {
       this.roughOps.seed = 0;
       this.performAnimation(true);
     } else if (this.animationType === AnimationType.ACTIVE) {
       this.roughOps.seed = 0;
-      if (this.isFocus || this.isMouseIn) {
-        this.performAnimation(forceValue !== void 0 ? forceValue : true);
-      } else {
-        this.performAnimation(forceValue !== void 0 ? forceValue : false);
-      }
-    } else if (this.animationType === AnimationType.LESS) {
-      this.roughOps.seed = 0;
-      this.performAnimation(false);
-      this.roughRender(true);
+      this.performAnimation(this.isFocus || this.isMouseIn);
     } else if (this.animationType === AnimationType.NONE) {
       this.performAnimation(false);
       if (this.roughOps.seed !== this.seed) {
         this.roughOps.seed = this.seed;
         this.roughRender(true);
       } else {
-        this.roughRender();
+        this.roughRender(this.isFocus || this.isMouseIn);
       }
     }
   }
@@ -343,6 +333,7 @@ class HandDrawnBase extends h$1 {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color:rgba(255,0,0,0);
       }
 
       ::-webkit-scrollbar {
@@ -472,7 +463,6 @@ let HandDrawnButton = class extends HandDrawnBase {
           font: inherit;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           cursor: pointer;
           letter-spacing: 1.25px;
@@ -689,7 +679,6 @@ let HandDrawnIcon = class extends HandDrawnBase {
           display: inline-block;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           height: 100%;
@@ -746,7 +735,7 @@ let HandDrawnPad = class extends HandDrawnBase {
   }
   updated(_changedProperties) {
     super.updated(_changedProperties);
-    if (this.animationType === AnimationType.ACTIVE || this.animationType === AnimationType.LESS) {
+    if (this.animationType === AnimationType.ACTIVE) {
       this.animationType = AnimationType.NONE;
     }
     this.updateAnimationState();
@@ -786,8 +775,7 @@ let HandDrawnPad = class extends HandDrawnBase {
         .pad {
           padding: 3px;
           background: none;
-          overflow: hidden;
-          user-select: none;
+          overflow: hidden; 
           border: none;
           outline: none;
           position: inherit;
@@ -899,7 +887,6 @@ let HandDrawnInput = class extends HandDrawnBase {
         .input {
           font: inherit;
           overflow: hidden;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -1077,7 +1064,6 @@ let HandDrawnTextarea = class extends HandDrawnBase {
           font: inherit;
           word-break: break-all;
           word-wrap: break-word;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -1211,7 +1197,6 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
         .checkbox {
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           cursor: pointer;
@@ -1230,7 +1215,6 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
           display: inline-block;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -1464,7 +1448,6 @@ let HandDrawnRadio = class extends HandDrawnBase {
         .radio {
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           cursor: pointer;
@@ -1483,7 +1466,6 @@ let HandDrawnRadio = class extends HandDrawnBase {
           display: inline-block;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -1857,7 +1839,6 @@ let HandDrawnSwitch = class extends HandDrawnBase {
         .switch {
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           cursor: pointer;
@@ -1867,7 +1848,6 @@ let HandDrawnSwitch = class extends HandDrawnBase {
 
         .switch-slot {
           cursor: pointer;
-          user-select: none;
         }
 
         .switch-input {
@@ -1882,7 +1862,6 @@ let HandDrawnSwitch = class extends HandDrawnBase {
           border-radius: 1.5em;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
@@ -1896,7 +1875,8 @@ let HandDrawnSwitch = class extends HandDrawnBase {
           width: 1.5em;
           position: absolute;
           top: 0;
-          transition: all 0.2s ease-out;
+          left: 0;
+          transition: left 0.2s ease-out;
         }
 
         .switch-toggle .rough-context {
@@ -1906,8 +1886,7 @@ let HandDrawnSwitch = class extends HandDrawnBase {
         }
 
         .switch-toggle--active {
-          margin: 0 0 0 100%;
-          transform: translateX(-100%);
+          left: 2em;
         }
 
         .switch[disabled] {
@@ -2067,7 +2046,7 @@ var __decorateClass = (decorators, target, key, kind) => {
 };
 let HandDrawnProgress = class extends HandDrawnBase {
   constructor() {
-    super(...arguments);
+    super();
     this.value = 0;
     this.isShowPercent = false;
     this.completeColor = "";
@@ -2080,6 +2059,7 @@ let HandDrawnProgress = class extends HandDrawnBase {
       fillWeight: 0.3,
       hachureGap: 3
     };
+    this.isComplete = this.value === 100;
   }
   render() {
     return T$1`
@@ -2091,6 +2071,13 @@ let HandDrawnProgress = class extends HandDrawnBase {
                     ` : ""}
         </div>
     `;
+  }
+  updated(_changedProperties) {
+    super.updated(_changedProperties);
+    if (this.isComplete && this.value !== 100 || !this.isComplete && this.value === 100) {
+      this.isComplete = this.value === 100;
+      this.roughRender(true);
+    }
   }
   roughDrawOne(roughObj) {
     if (roughObj.roughParentEl.id === "progressBar") {

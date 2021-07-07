@@ -167,7 +167,6 @@ export class HandDrawnIcon extends HandDrawnBase {
           display: inline-block;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           background: none;
           height: 100%;

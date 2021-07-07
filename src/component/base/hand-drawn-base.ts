@@ -88,8 +88,6 @@ export abstract class HandDrawnBase extends LitElement {
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
     this.roughInit();
-    this.roughRender();
-
   }
 
   protected updated(_changedProperties: PropertyValues) {
@@ -118,31 +116,6 @@ export abstract class HandDrawnBase extends LitElement {
     this.removeEventListener('mouseleave', this.mouseOutHandler);
     this.removeEventListener('blur', this.blurHandler);
   }
-
-  // private detectZoom() {
-  //   let ratio = 0,
-  //     screen = window.screen,
-  //     ua = navigator.userAgent.toLowerCase();
-  //
-  //   if (window.devicePixelRatio !== undefined) {
-  //     ratio = window.devicePixelRatio;
-  //   } else if (~ua.indexOf('msie')) {
-  //     // @ts-ignore
-  //     if (screen.deviceXDPI && screen.logicalXDPI) {
-  //       // @ts-ignore
-  //       ratio = screen.deviceXDPI / screen.logicalXDPI;
-  //     }
-  //   } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
-  //     ratio = window.outerWidth / window.innerWidth;
-  //   }
-  //
-  //   if (ratio) {
-  //     ratio = Math.round(ratio * 100);
-  //   }
-  //
-  //   return ratio;
-  // }
-
 
   private fontLoadListener() {
     (<any>document).fonts.ready.then(() => {
@@ -200,24 +173,20 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  protected updateAnimationState(forceValue?: boolean) {
+  protected updateAnimationState() {
     if (this.animationType === AnimationType.ALWAYS) {
       this.roughOps.seed = 0;
       this.performAnimation(true);
     } else if (this.animationType === AnimationType.ACTIVE) {
       this.roughOps.seed = 0;
-      if (this.isFocus || this.isMouseIn) {
-        this.performAnimation(forceValue !== undefined ? forceValue : true);
-      } else {
-        this.performAnimation(forceValue !== undefined ? forceValue : false);
-      }
+      this.performAnimation(this.isFocus || this.isMouseIn);
     } else if (this.animationType === AnimationType.NONE) {
       this.performAnimation(false);
       if (this.roughOps.seed !== this.seed) {
         this.roughOps.seed = this.seed;
         this.roughRender(true);
       } else {
-        this.roughRender();
+        this.roughRender(this.isFocus || this.isMouseIn);
       }
     }
   }
@@ -327,41 +296,13 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  // private roughSize() {
-  //   for (let roughObj of this.roughObjArray) {
-  //     const size = {
-  //       width: roughObj.roughParentEl.clientWidth,
-  //       height: roughObj.roughParentEl.clientHeight
-  //     };
-  //     roughObj.roughEl.style.width = size.width + 'px';
-  //     roughObj.roughEl.style.height = size.height + 'px';
-  //     roughObj.roughEl.setAttribute('width', String(size.width));
-  //     roughObj.roughEl.setAttribute('height', String(size.height));
-  //   }
-  // }
-
-  // protected roughDraw() {
-  //   for (let roughObj of this.roughObjArray) {
-  //     const size = {
-  //       width: roughObj.roughParentEl.clientWidth,
-  //       height: roughObj.roughParentEl.clientHeight
-  //     };
-  //     if (roughObj.roughEl instanceof HTMLCanvasElement) {
-  //       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
-  //       roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps);
-  //     } else if (roughObj.roughEl instanceof SVGSVGElement) {
-  //       let node = roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, this.roughOps);
-  //       roughObj.roughEl.innerHTML = '';
-  //       roughObj.roughEl.appendChild(<Node>node);
-  //     }
-  //   }
-  // }
   static get styles() {
     return css`
       * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color:rgba(255,0,0,0);
       }
 
       ::-webkit-scrollbar {

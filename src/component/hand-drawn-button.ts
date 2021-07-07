@@ -51,7 +51,6 @@ export class HandDrawnButton extends HandDrawnBase {
           font: inherit;
           overflow: hidden;
           position: relative;
-          user-select: none;
           border: none;
           cursor: pointer;
           letter-spacing: 1.25px;

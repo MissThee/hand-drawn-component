@@ -124,7 +124,6 @@ export class HandDrawnTextarea extends HandDrawnBase {
           font: inherit;
           word-break: break-all;
           word-wrap: break-word;
-          user-select: none;
           border: none;
           background: none;
           outline: none;
