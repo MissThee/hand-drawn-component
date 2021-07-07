@@ -14,7 +14,6 @@ export enum RenderType {
 export enum AnimationType {
   ACTIVE = 'active',
   ALWAYS = 'always',
-  LESS = 'less',
   NONE = 'none',
 }
 
@@ -212,10 +211,6 @@ export abstract class HandDrawnBase extends LitElement {
       } else {
         this.performAnimation(forceValue !== undefined ? forceValue : false);
       }
-    } else if (this.animationType === AnimationType.LESS) {
-      this.roughOps.seed = 0;
-      this.performAnimation(false);
-      this.roughRender(true);
     } else if (this.animationType === AnimationType.NONE) {
       this.performAnimation(false);
       if (this.roughOps.seed !== this.seed) {
