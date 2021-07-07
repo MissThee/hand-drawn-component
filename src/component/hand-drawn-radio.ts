@@ -16,11 +16,12 @@ export class HandDrawnRadio extends HandDrawnBase {
   protected render() {
     return html`
         <label class="radio" ?disabled="${this.disabled}">
-            <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
+            <!-- note: using type="checkbox" to focus on unchecked node by Tab   -->
             <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <span id="dot-wrapper" class="radio-rect rough">
-          <div id="dot" style=${this.checked ? 'display:inline-block' : 'display:none'} class="radio-dot rough"></div>
-        </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
+            <div id="dotWrapper" class="radio-wrapper rough">
+                <div id="dot" style=${this.checked ? 'display:inline-block' : 'display:none'} class="radio-dot rough"></div>
+            </div>
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </label>
     `;
   }
@@ -58,13 +59,11 @@ export class HandDrawnRadio extends HandDrawnBase {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2,
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding*1.5) / 2,
         {
           ...this.roughOps,
-          ...{
-            roughness: (this.roughOps.roughness || 0) * 2 / 3,
-            bowing: (this.roughOps.bowing || 0) * 2 / 3
-          },
+          roughness: (this.roughOps.roughness || 0) / 3,
+          bowing: (this.roughOps.bowing || 0) / 3,
           fill: this.roughOps.stroke,
           strokeWidth: this.roughOpsOrigin.strokeWidth,
           fillStyle: 'solid'
@@ -76,18 +75,16 @@ export class HandDrawnRadio extends HandDrawnBase {
           roughObj.roughEl.appendChild(<Node>node);
         }
       }
-    } else if (roughObj.roughParentEl.id === 'dot-wrapper') {
+    } else if (roughObj.roughParentEl.id === 'dotWrapper') {
       if (roughObj.roughEl instanceof HTMLCanvasElement) {
         roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding,
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding*1.2,
         {
           ...this.roughOps,
-          ...{
-            roughness: (this.roughOps.roughness || 0) * 2 / 3,
-            bowing: (this.roughOps.bowing || 0) * 2 / 3
-          },
+          roughness: (this.roughOps.roughness || 0) * 2 / 3,
+          bowing: (this.roughOps.bowing || 0) * 2 / 3
         }
       ));
       if (roughObj.roughEl instanceof SVGSVGElement) {
@@ -106,6 +103,7 @@ export class HandDrawnRadio extends HandDrawnBase {
       super.styles,
       css`
         .slot {
+          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -127,7 +125,9 @@ export class HandDrawnRadio extends HandDrawnBase {
           position: absolute;
         }
 
-        .radio-rect {
+        .radio-wrapper {
+          margin: 0.25em 0 0 0;
+          float: left;
           display: inline-block;
           overflow: hidden;
           position: relative;

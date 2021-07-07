@@ -15,14 +15,14 @@ export class HandDrawnSwitch extends HandDrawnBase {
 
   protected render() {
     return html`
-        <slot name="left" class="switch-slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot>
+        <slot name="left" class="slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot>
         <label class="switch" ?disabled="${this.disabled}">
             <input class="switch-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}">
             <div id="switchWrapper" class="switch-wrapper rough ${this.checked ? 'switch-wrapper--active' : ''}">
                 <div id="switchToggle" class="switch-toggle rough ${this.checked ? 'switch-toggle--active' : ''}"></div>
             </div>
         </label>
-        <slot name="right" class="switch-slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
+        <slot name="right" class="slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
     `;
   }
 
@@ -94,6 +94,7 @@ export class HandDrawnSwitch extends HandDrawnBase {
       super.styles,
       css`
         .slot {
+          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -120,6 +121,7 @@ export class HandDrawnSwitch extends HandDrawnBase {
         }
 
         .switch-wrapper {
+          float: left;
           display: inline-block;
           border-radius: 1.5em;
           overflow: hidden;
