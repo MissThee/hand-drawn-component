@@ -1,0 +1,253 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>hand-drawn-component</title>
+
+    <meta name="viewport" content="width=600">
+    <style>
+        @font-face {
+            font-family: 'FZMWFont';
+            font-display: swap;
+            src: url('assets/font/FZMWFont.woff2');
+        }
+
+        @font-face {
+            font-family: 'comic';
+            font-display: swap;
+            src: url('assets/font/comic.woff2');
+        }
+
+        body {
+            font-family: 'comic', 'FZMWFont', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading" style="position: fixed;left: 50%;top:40%;transform: translate(-50%,-50%);display: inline-block;pointer-events: none">
+    <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">加载中...</div>
+</div>
+
+<div id="content" style="text-align: center;transition: opacity 1.2s steps(4,start) 0s;opacity: 0">
+    <div style="padding:15px">
+        <div>动画展示类型:</div>
+        <div>
+            <label onclick="switchAnimateType('always')">
+                <input type="radio" checked="checked" name="animationType"><span>总是抖。一直抖动</span>
+            </label>
+        </div>
+        <div>
+            <label onclick="switchAnimateType('active')">
+                <input type="radio" name="animationType"><span>激活时抖。仅在聚焦激活时抖动</span>
+            </label>
+        </div>
+        <div>
+            <label onclick="switchAnimateType('none')">
+                <input type="radio" name="animationType"><span>不抖.一抖不抖</span>
+            </label>
+        </div>
+    </div>
+    <hand-drawn-pad class="hand-drawn" style="text-align: left" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
+        <div style="padding :10px">
+            <div style="text-align: center">
+                <a style="color: black;font-weight: bold" href="https://github.com/MissThee/hand-drawn-component">
+                    <hand-drawn-button class="hand-drawn" roughops='{"fill":"lightBlue"}'>源码(去GitHub看看)</hand-drawn-button>
+                </a>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>button:</div>
+                <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>测试1(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="canvas" roughops='{"fill":"#F56C6C"}'><span>测试2(canvas)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" rendertype="svg" roughops='{"fill":"#67C23A"}'><span>欧了(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" disabled="disabled" rendertype="svg" roughops='{"fill":"#E6A23C"}'><span>点不了(svg)</span></hand-drawn-button>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>icon:</div>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="cross"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="svg" type="tick"></hand-drawn-icon>
+                <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>button&icon:</div>
+                <hand-drawn-button class="hand-drawn" rendertype="svg" disabled="disabled" roughops='{"fill":"#409EFF","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
+                    <span>加载中(svg)</span>
+                </hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#F56C6C","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="cross" roughops='{"stroke":"red"}'></hand-drawn-icon>
+                    <span>不行(canvas)</span>
+                </hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#67C23A","fillWeight":"0.1"}'>
+                    <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
+                    <span>可以(canvas)</span>
+                </hand-drawn-button>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>input:</div>
+                <hand-drawn-input class="hand-drawn" value="你好(svg)" rendertype="svg" placeholder="你能在这打字儿" style="width: 300px"></hand-drawn-input>
+                <hand-drawn-input class="hand-drawn" value="默认是这个内容(canvas)" rendertype="canvas" placeholder="可以打字了" style="width: 300px"></hand-drawn-input>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>textarea:</div>
+                <hand-drawn-textarea class="hand-drawn" value="在PC端可以拖拽尺寸(svg)" rendertype="svg" placeholder="已经空了"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" resize="none" value="不能调大小(canvas)" rendertype="canvas" placeholder="已经空了"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" disabled="disabled" value="不能用了这个(svg)" rendertype="svg" placeholder="已经空了"></hand-drawn-textarea>
+                <hand-drawn-textarea class="hand-drawn" style="width: 250px" value="自动变高度(canvas)" rendertype="canvas" autoheight placeholder="已经空了"></hand-drawn-textarea>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>checkbox:</div>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="svg"><span>多选(svg)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="canvas"><span>多选(canvas)</span></hand-drawn-checkbox>
+                <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled"><span>不能选(svg)</span></hand-drawn-checkbox>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>checkbox-group:</div>
+                <hand-drawn-checkbox-group class="hand-drawn" checkedvalues='["c2","c3"]' id="hand-drawn-checkbox-group">
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="svg" value="c1" checked="checked"><span>多选(svg)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="canvas" value="c2"><span>多选(canvas)</span></hand-drawn-checkbox>
+                    <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled" value="c3"><span>不让选(svg)</span></hand-drawn-checkbox>
+                </hand-drawn-checkbox-group>
+
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>radio:</div>
+                <hand-drawn-radio class="hand-drawn" rendertype="svg"><span>单选(svg)</span></hand-drawn-radio>
+                <hand-drawn-radio class="hand-drawn" rendertype="canvas"><span>单选(canvas)</span></hand-drawn-radio>
+                <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled"><span>不能选(svg)</span></hand-drawn-radio>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>radio-group:</div>
+                <hand-drawn-radio-group class="hand-drawn" checkedvalue="r2" id="hand-drawn-radio-group">
+                    <hand-drawn-radio class="hand-drawn" rendertype="svg" value="r1"><span>单选(svg)</span></hand-drawn-radio>
+                    <hand-drawn-radio class="hand-drawn" rendertype="canvas" value="r2"><span>单选(canvas)</span></hand-drawn-radio>
+                    <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled" value="r3"><span>选不了(svg)</span></hand-drawn-radio>
+                </hand-drawn-radio-group>
+
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>dialog:</div>
+                <hand-drawn-button class="hand-drawn" rendertype="svg" roughops='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>弹窗(svg)</span></hand-drawn-button>
+                <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>弹窗(canvas)</span></hand-drawn-button>
+                <hand-drawn-dialog class="hand-drawn" id="dialogSvg" rendertype="svg" appendtobody closeonclickmask>
+                    <div style="padding:5px">
+                        SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+                        SVG 用来定义用于网络的基于矢量的图形
+                        SVG 使用 XML 格式定义图形
+                        SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失
+                        SVG 是万维网联盟的标准
+                        SVG 与诸如 DOM 和 XSL 之类的 W3C 标准是一个整体
+                        在 2003 年一月，SVG 1.1 被确立为 W3C 标准。
+                        参与定义 SVG 的组织有：Sun公司（已被Oracle公司收购）、Adobe、苹果公司、IBM 以及柯达。
+                        与其他图像格式相比，使用 SVG 的优势在于：
+                        SVG 可被非常多的工具读取和修改（比如记事本）
+                        SVG 与 JPEG 和 GIF 图像比起来，尺寸更小，且可压缩性更强。
+                        SVG 是可伸缩的
+                        SVG 图像可在任何的分辨率下被高质量地打印
+                        SVG 可在图像质量不下降的情况下被放大
+                        SVG 图像中的文本是可选的，同时也是可搜索的（很适合制作地图）
+                        SVG 可以与 Java 技术一起运行
+                        SVG 是开放的标准
+                        SVG 文件是纯粹的 XML
+                        SVG 的主要竞争者是 Flash。
+                        与 Flash 相比，SVG 最大的优势是与其他标准（比如 XSL 和 DOM）相兼容。而 Flash 则是未开源的私有技术。
+                    </div>
+                </hand-drawn-dialog>
+                <hand-drawn-dialog class="hand-drawn" id="dialogCanvas" rendertype="canvas" appendtobody closeonclickmask>
+                    <div style="padding:5px">
+                        &lt;canvas&gt; 是 HTML5 新增的，一个可以使用脚本(通常为 JavaScript) 在其中绘制图像的 HTML 元素。它可以用来制作照片集或者制作简单(也不是那么简单)的动画，甚至可以进行实时视频处理和渲染。
+                        它最初由苹果内部使用自己 MacOS X WebKit 推出，供应用程序使用像仪表盘的构件和 Safari 浏览器使用。后来，有人通过 Gecko 内核的浏览器 (尤其是 Mozilla和Firefox)，Opera 和 Chrome 和超文本网络应用技术工作组建议为下一代的网络技术使用该元素。
+                        Canvas 是由 HTML 代码配合高度和宽度属性而定义出的可绘制区域。JavaScript 代码可以访问该区域，类似于其他通用的二维 API，通过一套完整的绘图函数来动态生成图形。
+                        Mozilla 程序从 Gecko 1.8 (Firefox 1.5) 开始支持 &lt;canvas&gt;, Internet Explorer 从 IE9 开始 &lt;canvas&gt; 。Chrome 和 Opera 9+ 也支持 &lt;canvas&gt;。
+                    </div>
+                </hand-drawn-dialog>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>switch:</div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <hand-drawn-switch rendertype="svg" class="hand-drawn">
+                    </hand-drawn-switch>
+                </div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <hand-drawn-switch rendertype="canvas" lefttogglefill="pink" righttogglefill="blue" leftbgfill="red" rightbgfill="lime" class="hand-drawn">
+                        <span slot="left">关</span>
+                        <span slot="right">开</span>
+                    </hand-drawn-switch>
+                </div>
+                <div style="margin: 0 20px 0 0;display: inline-block">
+                    <hand-drawn-switch rendertype="svg" class="hand-drawn" disabled="disabled"></hand-drawn-switch>
+                </div>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>anchor:</div>
+                <span>点击<hand-drawn-anchor target="_blank" linecolor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">这个链接</hand-drawn-anchor>查看源码。</span>
+                <br>
+                <span>点击<hand-drawn-anchor target="_blank" rendertype="canvas" linecolor="lightblue" style="color: mediumpurple" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">这个链接</hand-drawn-anchor>查看源码。</span>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>progress:</div>
+                <div style="width: 300px">
+                    <hand-drawn-progress id="progress1" rendertype="svg" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 300px">
+                    <hand-drawn-progress id="progress2" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 60%">
+                    <hand-drawn-progress id="progress3" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="20" class="hand-drawn"></hand-drawn-progress>
+                </div>
+                <div style="width: 60%">
+                    <hand-drawn-progress id="progress4" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="100" class="hand-drawn"></hand-drawn-progress>
+                </div>
+            </div>
+        </div>
+    </hand-drawn-pad>
+</div>
+<script>
+    function dialogSvgShowHandler() {
+        document.getElementById('dialogSvg').visible = true
+    }
+
+    function dialogCanvasShowHandler() {
+        document.getElementById('dialogCanvas').visible = true
+    }
+
+    function switchAnimateType(animationType) {
+        const handDrawnEls = document.getElementsByClassName("hand-drawn")
+        for (let i of handDrawnEls) {
+            i.animationType = animationType
+        }
+    }
+
+    -function () {
+        const progressEl = document.getElementById('progress1')
+        let progressPercent = 0
+        setInterval(function () {
+            progressEl.value = progressPercent
+            progressPercent += 10
+            if (progressPercent > 100) {
+                progressPercent = 0
+            }
+        }, 1000)
+    }();
+    -function () {
+        const progressEl = document.getElementById('progress2')
+        let progressPercent = 0
+        setInterval(function () {
+            progressEl.value = Math.max(0, Math.min(progressPercent, 100))
+            progressPercent += 1
+            if (progressPercent > 120) {
+                progressPercent = -10
+            }
+        }, 100)
+    }();
+</script>
+
+
+  <script src="index.js"></script></body>
+</html>
+

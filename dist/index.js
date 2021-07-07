@@ -1140,9 +1140,10 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
     return T$1`
         <label class="checkbox" ?disabled="${this.disabled}">
             <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <span class="checkbox-rect rough">
+            <div class="checkbox-wrapper rough">
                 <div id="tick" style=${this.checked ? "display:inline-block" : "display:none"} class="checkbox-tick rough"></div>
-            </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
+            </div>
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </label>
     `;
   }
@@ -1190,6 +1191,7 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
       super.styles,
       i$4`
         .slot {
+          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -1211,7 +1213,9 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
           position: absolute;
         }
 
-        .checkbox-rect {
+        .checkbox-wrapper {
+          margin: 0.25em 0 0 0;
+          float: left;
           display: inline-block;
           overflow: hidden;
           position: relative;
@@ -1365,11 +1369,12 @@ let HandDrawnRadio = class extends HandDrawnBase {
   render() {
     return T$1`
         <label class="radio" ?disabled="${this.disabled}">
-            <!--     note: using type="checkbox" to focus on unchecked node by Tab   -->
+            <!-- note: using type="checkbox" to focus on unchecked node by Tab   -->
             <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <span id="dot-wrapper" class="radio-rect rough">
-          <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
-        </span><span><slot class="slot" @slotchange="${this.roughRender}"></slot></span>
+            <div id="dotWrapper" class="radio-wrapper rough">
+                <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
+            </div>
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </label>
     `;
   }
@@ -1403,10 +1408,9 @@ let HandDrawnRadio = class extends HandDrawnBase {
         (_a = roughObj.roughEl.getContext("2d")) == null ? void 0 : _a.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding) / 2, __spreadProps$3(__spreadValues$3(__spreadValues$3({}, this.roughOps), {
-        roughness: (this.roughOps.roughness || 0) * 2 / 3,
-        bowing: (this.roughOps.bowing || 0) * 2 / 3
-      }), {
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, (size.width - this.roughPadding * 1.5) / 2, __spreadProps$3(__spreadValues$3({}, this.roughOps), {
+        roughness: (this.roughOps.roughness || 0) / 3,
+        bowing: (this.roughOps.bowing || 0) / 3,
         fill: this.roughOps.stroke,
         strokeWidth: this.roughOpsOrigin.strokeWidth,
         fillStyle: "solid"
@@ -1417,12 +1421,12 @@ let HandDrawnRadio = class extends HandDrawnBase {
           roughObj.roughEl.appendChild(node);
         }
       }
-    } else if (roughObj.roughParentEl.id === "dot-wrapper") {
+    } else if (roughObj.roughParentEl.id === "dotWrapper") {
       if (roughObj.roughEl instanceof HTMLCanvasElement) {
         (_b = roughObj.roughEl.getContext("2d")) == null ? void 0 : _b.clearRect(0, 0, this.clientWidth, this.clientHeight);
       }
       const nodeArray = [];
-      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding, __spreadValues$3(__spreadValues$3({}, this.roughOps), {
+      nodeArray.push(roughObj.roughInstance.circle(size.width / 2, size.height / 2, size.width - this.roughPadding * 1.2, __spreadProps$3(__spreadValues$3({}, this.roughOps), {
         roughness: (this.roughOps.roughness || 0) * 2 / 3,
         bowing: (this.roughOps.bowing || 0) * 2 / 3
       })));
@@ -1441,6 +1445,7 @@ let HandDrawnRadio = class extends HandDrawnBase {
       super.styles,
       i$4`
         .slot {
+          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -1462,7 +1467,9 @@ let HandDrawnRadio = class extends HandDrawnBase {
           position: absolute;
         }
 
-        .radio-rect {
+        .radio-wrapper {
+          margin: 0.25em 0 0 0;
+          float: left;
           display: inline-block;
           overflow: hidden;
           position: relative;
@@ -1758,14 +1765,14 @@ let HandDrawnSwitch = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <slot name="left" class="switch-slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot>
+        <slot name="left" class="slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot>
         <label class="switch" ?disabled="${this.disabled}">
             <input class="switch-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}">
             <div id="switchWrapper" class="switch-wrapper rough ${this.checked ? "switch-wrapper--active" : ""}">
                 <div id="switchToggle" class="switch-toggle rough ${this.checked ? "switch-toggle--active" : ""}"></div>
             </div>
         </label>
-        <slot name="right" class="switch-slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
+        <slot name="right" class="slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
     `;
   }
   leftClickHandler() {
@@ -1832,6 +1839,7 @@ let HandDrawnSwitch = class extends HandDrawnBase {
       super.styles,
       i$4`
         .slot {
+          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -1858,6 +1866,7 @@ let HandDrawnSwitch = class extends HandDrawnBase {
         }
 
         .switch-wrapper {
+          float: left;
           display: inline-block;
           border-radius: 1.5em;
           overflow: hidden;
@@ -2180,7 +2189,7 @@ window.onload = function() {
     }),
     document.fonts.ready
   ]).then(() => {
-    loadingText.innerText = "Done ~";
+    loadingText.innerText = "^_^";
     loadingText.style.opacity = "0";
     loadingText.style.transform = "scale(2)";
     setTimeout(() => {

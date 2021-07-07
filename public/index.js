@@ -47,7 +47,7 @@ window.onload = function () {
         }),
         document.fonts.ready
     ]).then(() => {
-        loadingText.innerText = 'Done ~'
+        loadingText.innerText = '^_^'
         loadingText.style.opacity = '0'
         loadingText.style.transform = 'scale(2)'
         setTimeout(() => {
