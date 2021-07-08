@@ -2,7 +2,7 @@ import {css, LitElement, PropertyValues} from 'lit';
 import {property, queryAll} from 'lit/decorators.js';
 
 import rough from 'roughjs';
-import {Options} from 'roughjs/bin/core';
+import {Drawable, Options} from 'roughjs/bin/core';
 import {RoughCanvas} from 'roughjs/bin/canvas';
 import {RoughSVG} from 'roughjs/bin/svg';
 
@@ -67,8 +67,8 @@ export abstract class HandDrawnBase extends LitElement {
   private resizePreTimestamp: number = 0;
   protected roughPadding: number = 2;
   protected resizeHandler = this.resizeHandlerTmp.bind(this);
-  private isFocus = false;
-  private isMouseIn = false;
+  protected isFocus = false;
+  protected isMouseIn = false;
   protected roughOpsOrigin: Options = {};
   protected roughOpsDefault: Options = {
     bowing: 0.5,
@@ -138,17 +138,17 @@ export abstract class HandDrawnBase extends LitElement {
     }, this.animationIntervalTime);
   }
 
-  private mouseInHandler() {
+  protected mouseInHandler() {
     this.isMouseIn = true;
     this.updateAnimationState();
   }
 
-  private mouseOutHandler() {
+  protected mouseOutHandler() {
     this.isMouseIn = false;
     this.updateAnimationState();
   }
 
-  private focusHandler() {
+  protected focusHandler() {
     if (!this.isFocus) {
       // console.log('focus', this.roughOps, this.roughOpsOrigin);
       this.roughOps.stroke = '#000';
@@ -160,7 +160,7 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  private blurHandler() {
+  protected blurHandler() {
     if (this.isFocus) {
       this.isFocus = false;
       // console.log('blur', this.roughOps, this.roughOpsOrigin);
@@ -286,7 +286,7 @@ export abstract class HandDrawnBase extends LitElement {
     if (roughObj.roughEl instanceof HTMLCanvasElement) {
       roughObj.roughEl.getContext('2d')?.clearRect(0, 0, this.clientWidth, this.clientHeight);
     }
-    const nodeArray = [];
+    const nodeArray: (Drawable | SVGGElement)[] = [];
     nodeArray.push(roughObj.roughInstance.rectangle(this.roughPadding, this.roughPadding, size.width - this.roughPadding * 2, size.height - this.roughPadding * 2, roughOps || this.roughOps));
     if (roughObj.roughEl instanceof SVGSVGElement) {
       roughObj.roughEl.innerHTML = '';
@@ -302,7 +302,7 @@ export abstract class HandDrawnBase extends LitElement {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
-        -webkit-tap-highlight-color:rgba(255,0,0,0);
+        -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
       }
 
       ::-webkit-scrollbar {

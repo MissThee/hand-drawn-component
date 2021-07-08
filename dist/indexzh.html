@@ -58,14 +58,14 @@
                 </a>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>button:</div>
+                <div>按钮:</div>
                 <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="svg" roughops='{"fill":"#409EFF"}'><span>测试1(svg)</span></hand-drawn-button>
                 <hand-drawn-button class="hand-drawn" style="width: 20%;min-width: 140px" rendertype="canvas" roughops='{"fill":"#F56C6C"}'><span>测试2(canvas)</span></hand-drawn-button>
                 <hand-drawn-button class="hand-drawn" rendertype="canvas" rendertype="svg" roughops='{"fill":"#67C23A"}'><span>欧了(svg)</span></hand-drawn-button>
                 <hand-drawn-button class="hand-drawn" disabled="disabled" rendertype="svg" roughops='{"fill":"#E6A23C"}'><span>点不了(svg)</span></hand-drawn-button>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>icon:</div>
+                <div>图标:</div>
                 <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
                 <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="loading" roughops='{"stroke":"#909399"}'></hand-drawn-icon>
                 <hand-drawn-icon class="hand-drawn" rendertype="svg" type="cross"></hand-drawn-icon>
@@ -74,7 +74,7 @@
                 <hand-drawn-icon class="hand-drawn" rendertype="canvas" type="tick" roughops='{"stroke":"lime"}'></hand-drawn-icon>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>button&icon:</div>
+                <div>按钮&图标:</div>
                 <hand-drawn-button class="hand-drawn" rendertype="svg" disabled="disabled" roughops='{"fill":"#409EFF","fillWeight":"0.1"}'>
                     <hand-drawn-icon class="hand-drawn" rendertype="svg" type="loading"></hand-drawn-icon>
                     <span>加载中(svg)</span>
@@ -89,25 +89,25 @@
                 </hand-drawn-button>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>input:</div>
+                <div>输入框:</div>
                 <hand-drawn-input class="hand-drawn" value="你好(svg)" rendertype="svg" placeholder="你能在这打字儿" style="width: 300px"></hand-drawn-input>
                 <hand-drawn-input class="hand-drawn" value="默认是这个内容(canvas)" rendertype="canvas" placeholder="可以打字了" style="width: 300px"></hand-drawn-input>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>textarea:</div>
+                <div>富文本:</div>
                 <hand-drawn-textarea class="hand-drawn" value="在PC端可以拖拽尺寸(svg)" rendertype="svg" placeholder="已经空了"></hand-drawn-textarea>
                 <hand-drawn-textarea class="hand-drawn" style="width: 250px" resize="none" value="不能调大小(canvas)" rendertype="canvas" placeholder="已经空了"></hand-drawn-textarea>
                 <hand-drawn-textarea class="hand-drawn" style="width: 250px" disabled="disabled" value="不能用了这个(svg)" rendertype="svg" placeholder="已经空了"></hand-drawn-textarea>
                 <hand-drawn-textarea class="hand-drawn" style="width: 250px" value="自动变高度(canvas)" rendertype="canvas" autoheight placeholder="已经空了"></hand-drawn-textarea>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>checkbox:</div>
+                <div>多选:</div>
                 <hand-drawn-checkbox class="hand-drawn" rendertype="svg"><span>多选(svg)</span></hand-drawn-checkbox>
                 <hand-drawn-checkbox class="hand-drawn" rendertype="canvas"><span>多选(canvas)</span></hand-drawn-checkbox>
                 <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled"><span>不能选(svg)</span></hand-drawn-checkbox>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>checkbox-group:</div>
+                <div>多选组:</div>
                 <hand-drawn-checkbox-group class="hand-drawn" checkedvalues='["c2","c3"]' id="hand-drawn-checkbox-group">
                     <hand-drawn-checkbox class="hand-drawn" rendertype="svg" value="c1" checked="checked"><span>多选(svg)</span></hand-drawn-checkbox>
                     <hand-drawn-checkbox class="hand-drawn" rendertype="canvas" value="c2"><span>多选(canvas)</span></hand-drawn-checkbox>
@@ -116,13 +116,13 @@
 
             </div>
             <div style="margin:0 0 20px 0">
-                <div>radio:</div>
+                <div>单选:</div>
                 <hand-drawn-radio class="hand-drawn" rendertype="svg"><span>单选(svg)</span></hand-drawn-radio>
                 <hand-drawn-radio class="hand-drawn" rendertype="canvas"><span>单选(canvas)</span></hand-drawn-radio>
                 <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled"><span>不能选(svg)</span></hand-drawn-radio>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>radio-group:</div>
+                <div>单选组:</div>
                 <hand-drawn-radio-group class="hand-drawn" checkedvalue="r2" id="hand-drawn-radio-group">
                     <hand-drawn-radio class="hand-drawn" rendertype="svg" value="r1"><span>单选(svg)</span></hand-drawn-radio>
                     <hand-drawn-radio class="hand-drawn" rendertype="canvas" value="r2"><span>单选(canvas)</span></hand-drawn-radio>
@@ -131,7 +131,7 @@
 
             </div>
             <div style="margin:0 0 20px 0">
-                <div>dialog:</div>
+                <div>弹窗:</div>
                 <hand-drawn-button class="hand-drawn" rendertype="svg" roughops='{"fill":"#409EFF"}' onclick="dialogSvgShowHandler()"><span>弹窗(svg)</span></hand-drawn-button>
                 <hand-drawn-button class="hand-drawn" rendertype="canvas" roughops='{"fill":"#409EFF"}' onclick="dialogCanvasShowHandler()"><span>弹窗(canvas)</span></hand-drawn-button>
                 <hand-drawn-dialog class="hand-drawn" id="dialogSvg" rendertype="svg" appendtobody closeonclickmask>
@@ -168,7 +168,7 @@
                 </hand-drawn-dialog>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>switch:</div>
+                <div>开关:</div>
                 <div style="margin: 0 20px 0 0;display: inline-block">
                     <hand-drawn-switch rendertype="svg" class="hand-drawn">
                     </hand-drawn-switch>
@@ -184,13 +184,13 @@
                 </div>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>anchor:</div>
+                <div>超链接:</div>
                 <span>点击<hand-drawn-anchor target="_blank" linecolor="orange" style="color: deeppink" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">这个链接</hand-drawn-anchor>查看源码。</span>
                 <br>
                 <span>点击<hand-drawn-anchor target="_blank" rendertype="canvas" linecolor="lightblue" style="color: mediumpurple" href="https://github.com/MissThee/hand-drawn-component" rendertype="svg" class="hand-drawn" disabled="disabled">这个链接</hand-drawn-anchor>查看源码。</span>
             </div>
             <div style="margin:0 0 20px 0">
-                <div>progress:</div>
+                <div>进度条:</div>
                 <div style="width: 300px">
                     <hand-drawn-progress id="progress1" rendertype="svg" value="20" class="hand-drawn"></hand-drawn-progress>
                 </div>
@@ -202,6 +202,18 @@
                 </div>
                 <div style="width: 60%">
                     <hand-drawn-progress id="progress4" rendertype="canvas" roughops='{"fill":"#E6A23C"}' isshowpercent completecolor="#67C23A" value="100" class="hand-drawn"></hand-drawn-progress>
+                </div>
+            </div>
+            <div style="margin:0 0 20px 0">
+                <div>滑条:</div>
+                <div style="width: 300px;margin: 15px 0 0 0">
+                    <hand-drawn-slider id="slider1" renderType="svg" value="20" class="hand-drawn"></hand-drawn-slider>
+                </div>
+                <div style="width: 60%;margin: 15px 0 0 0">
+                    <hand-drawn-slider id="slider2" renderType="canvas" value="0" step="10" class="hand-drawn"></hand-drawn-slider>
+                </div>
+                <div style="height: 100px;width: 20px;margin: 15px 0 0 20px ">
+                    <hand-drawn-slider id="slider3" renderType="svg" isVertical value="0" class="hand-drawn"></hand-drawn-slider>
                 </div>
             </div>
         </div>
