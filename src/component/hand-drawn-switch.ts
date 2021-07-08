@@ -94,6 +94,7 @@ export class HandDrawnSwitch extends HandDrawnBase {
       super.styles,
       css`
         .slot {
+          cursor: pointer;
           float: left;
           display: inline-block;
           vertical-align: middle;
