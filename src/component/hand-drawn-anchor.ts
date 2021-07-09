@@ -12,9 +12,8 @@ export class HandDrawnAnchor extends HandDrawnBase {
   protected render() {
     return html`
         <a href="${this.href}" target="${this.target}" type="${this.type}">
-            <div class="rough">
-                <slot class="slot" @slotchange="${this.roughRender}"></slot>
-            </div>
+            <div class="rough"></div>
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </a>
     `;
   }
@@ -41,6 +40,23 @@ export class HandDrawnAnchor extends HandDrawnBase {
     return [
       super.styles,
       css`
+        :host {
+          display: inline;
+          position: relative;
+        }
+
+        .rough {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        .slot {
+          font-size: 1em;
+        }
+
         a {
           text-decoration: none;
           color: inherit;
