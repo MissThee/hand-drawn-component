@@ -221,8 +221,8 @@ export abstract class HandDrawnBase extends LitElement {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth,
-                height: roughParentEl.clientHeight
+                width: roughParentEl.clientWidth||roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight||roughParentEl.getBoundingClientRect().height
               }
             });
             break;
@@ -238,14 +238,12 @@ export abstract class HandDrawnBase extends LitElement {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth,
-                height: roughParentEl.clientHeight
+                width: roughParentEl.clientWidth||roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight||roughParentEl.getBoundingClientRect().height
               }
             });
             break;
           }
-          default:
-            return;
         }
       }
     }

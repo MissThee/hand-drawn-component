@@ -23,7 +23,7 @@ export class HandDrawnSlider extends HandDrawnBase {
   protected render() {
     return html`
         <label class="slider-wrapper ${this.isVertical ? "slider-wrapper--vertical" : "slider-wrapper--horizontal"}" ?disabled="${this.disabled}">
-            <input style="opacity: 0;position: absolute;z-index: -1;width: 0;height: 0">
+            <input type="range" style="opacity: 0;position: absolute;z-index: -1;width: 0;height: 0">
             <div id="sliderLine" class="slider-line ${this.isVertical ? "slider-line--vertical" : "slider-line--horizontal"} rough">
                 <div id="sliderButton"
                      class="slider-button ${this.isVertical ? "slider-button--vertical" : "slider-button--horizontal"} rough"
@@ -51,7 +51,7 @@ export class HandDrawnSlider extends HandDrawnBase {
     this.addEventListener('mousedown', this.mouseDownHandler);
     window.addEventListener('mousemove', this.slideHandler);
     window.addEventListener('mouseup', this.mouseUpHandler);
-    this.addEventListener('touchstart', this.slideHandler);
+    this.addEventListener('touchstart', this.mouseDownHandler);
     window.addEventListener('touchmove', this.slideHandler);
     window.addEventListener('touchend', this.mouseUpHandler);
     this.addEventListener('keydown', this.keyDownHandler);
@@ -62,7 +62,7 @@ export class HandDrawnSlider extends HandDrawnBase {
     this.removeEventListener('mousedown', this.mouseDownHandler);
     window.removeEventListener('mousemove', this.slideHandler);
     window.removeEventListener('mouseup', this.mouseUpHandler);
-    this.removeEventListener('touchstart', this.slideHandler);
+    this.removeEventListener('touchstart', this.mouseDownHandler);
     window.removeEventListener('touchmove', this.slideHandler);
     window.removeEventListener('touchend', this.mouseUpHandler);
     this.removeEventListener('keydown', this.keyDownHandler);
@@ -126,6 +126,8 @@ export class HandDrawnSlider extends HandDrawnBase {
 
   private slideHandlerTmp(e: UIEvent) {
     if (this.isMouseDown) {
+      e.stopPropagation()
+      e.preventDefault()
       this.value = this.getNextValueByPoint(e);
     }
   }

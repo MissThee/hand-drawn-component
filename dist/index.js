@@ -255,8 +255,8 @@ class HandDrawnBase extends h$1 {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth,
-                height: roughParentEl.clientHeight
+                width: roughParentEl.clientWidth || roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight || roughParentEl.getBoundingClientRect().height
               }
             });
             break;
@@ -272,14 +272,12 @@ class HandDrawnBase extends h$1 {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth,
-                height: roughParentEl.clientHeight
+                width: roughParentEl.clientWidth || roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight || roughParentEl.getBoundingClientRect().height
               }
             });
             break;
           }
-          default:
-            return;
         }
       }
     }
@@ -1973,9 +1971,8 @@ let HandDrawnAnchor = class extends HandDrawnBase {
   render() {
     return T$1`
         <a href="${this.href}" target="${this.target}" type="${this.type}">
-            <div class="rough">
-                <slot class="slot" @slotchange="${this.roughRender}"></slot>
-            </div>
+            <div class="rough"></div>
+            <slot class="slot" @slotchange="${this.roughRender}"></slot>
         </a>
     `;
   }
@@ -2001,6 +1998,23 @@ let HandDrawnAnchor = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
+        :host {
+          display: inline;
+          position: relative;
+        }
+
+        .rough {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        .slot {
+          font-size: 1em;
+        }
+
         a {
           text-decoration: none;
           color: inherit;
@@ -2224,7 +2238,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
   render() {
     return T$1`
         <label class="slider-wrapper ${this.isVertical ? "slider-wrapper--vertical" : "slider-wrapper--horizontal"}" ?disabled="${this.disabled}">
-            <input style="opacity: 0;position: absolute;z-index: -1;width: 0;height: 0">
+            <input type="range" style="opacity: 0;position: absolute;z-index: -1;width: 0;height: 0">
             <div id="sliderLine" class="slider-line ${this.isVertical ? "slider-line--vertical" : "slider-line--horizontal"} rough">
                 <div id="sliderButton"
                      class="slider-button ${this.isVertical ? "slider-button--vertical" : "slider-button--horizontal"} rough"
@@ -2249,7 +2263,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
     this.addEventListener("mousedown", this.mouseDownHandler);
     window.addEventListener("mousemove", this.slideHandler);
     window.addEventListener("mouseup", this.mouseUpHandler);
-    this.addEventListener("touchstart", this.slideHandler);
+    this.addEventListener("touchstart", this.mouseDownHandler);
     window.addEventListener("touchmove", this.slideHandler);
     window.addEventListener("touchend", this.mouseUpHandler);
     this.addEventListener("keydown", this.keyDownHandler);
@@ -2259,7 +2273,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
     this.removeEventListener("mousedown", this.mouseDownHandler);
     window.removeEventListener("mousemove", this.slideHandler);
     window.removeEventListener("mouseup", this.mouseUpHandler);
-    this.removeEventListener("touchstart", this.slideHandler);
+    this.removeEventListener("touchstart", this.mouseDownHandler);
     window.removeEventListener("touchmove", this.slideHandler);
     window.removeEventListener("touchend", this.mouseUpHandler);
     this.removeEventListener("keydown", this.keyDownHandler);
@@ -2314,6 +2328,8 @@ let HandDrawnSlider = class extends HandDrawnBase {
   }
   slideHandlerTmp(e) {
     if (this.isMouseDown) {
+      e.stopPropagation();
+      e.preventDefault();
       this.value = this.getNextValueByPoint(e);
     }
   }
