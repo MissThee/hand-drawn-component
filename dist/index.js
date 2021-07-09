@@ -2264,7 +2264,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
     window.addEventListener("mousemove", this.slideHandler);
     window.addEventListener("mouseup", this.mouseUpHandler);
     this.addEventListener("touchstart", this.mouseDownHandler);
-    window.addEventListener("touchmove", this.slideHandler);
+    window.addEventListener("touchmove", this.slideHandler, { passive: false });
     window.addEventListener("touchend", this.mouseUpHandler);
     this.addEventListener("keydown", this.keyDownHandler);
   }
@@ -2328,9 +2328,18 @@ let HandDrawnSlider = class extends HandDrawnBase {
   }
   slideHandlerTmp(e) {
     if (this.isMouseDown) {
-      e.stopPropagation();
-      e.preventDefault();
       this.value = this.getNextValueByPoint(e);
+      console.log("!!!", e.stopPropagation);
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      } else {
+        e.cancelBubble = true;
+      }
+      if (e.preventDefault) {
+        e.preventDefault();
+      } else {
+        e.returnValue = false;
+      }
     }
   }
   getNextValueByPoint(e) {
@@ -2429,7 +2438,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
         }
 
         .slider-wrapper--horizontal {
-          padding:0.2em 0;
+          padding: 0.2em 0;
           top: 50%;
           left: 0;
           right: 0;
@@ -2449,9 +2458,11 @@ let HandDrawnSlider = class extends HandDrawnBase {
           background: rgba(0, 0, 0, 0.08);
           cursor: not-allowed;
         }
-        .slider-line{
+
+        .slider-line {
           position: relative;
         }
+
         .slider-line--horizontal {
           min-height: 8px;
           height: 0.4em;
@@ -2478,7 +2489,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
         .slider-button--vertical {
           bottom: 0;
           left: 50%;
-          transform: translate(-50%,50%);
+          transform: translate(-50%, 50%);
         }
 
         .slider-value {
@@ -2499,7 +2510,7 @@ let HandDrawnSlider = class extends HandDrawnBase {
         .slider-value--vertical {
           left: -0.2em;
           top: 50%;
-          transform: translate(-100%,-50%);
+          transform: translate(-100%, -50%);
         }
 
       `
