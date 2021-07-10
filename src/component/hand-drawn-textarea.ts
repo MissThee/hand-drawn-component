@@ -53,12 +53,16 @@ export class HandDrawnTextarea extends HandDrawnBase {
     super.connectedCallback();
     window.addEventListener('mouseup', this.textareaResizeHandler);
     this.addEventListener('mousedown', this.mouseDownHandler);
+    window.addEventListener('touchend', this.textareaResizeHandler);
+    this.addEventListener('touchstart', this.mouseDownHandler);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('mouseup', this.textareaResizeHandler);
     this.removeEventListener('mousedown', this.mouseDownHandler);
+    window.removeEventListener('touchend', this.textareaResizeHandler);
+    this.removeEventListener('touchstart', this.mouseDownHandler);
   }
 
 
