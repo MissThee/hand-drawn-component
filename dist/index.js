@@ -1136,14 +1136,14 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <label class="checkbox" ?disabled="${this.disabled}">
-            <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <div class="checkbox-wrapper rough">
-                <div id="tick" style=${this.checked ? "display:inline-block" : "display:none"} class="checkbox-tick rough"></div>
-            </div>
-            <slot class="slot" @slotchange="${this.roughRender}"></slot>
-        </label>
-    `;
+            <label class="checkbox" ?disabled="${this.disabled}">
+                <input class="checkbox-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+                <div class="checkbox-wrapper rough">
+                    <div id="tick" style=${this.checked ? "display:inline-block" : "display:none"} class="checkbox-tick rough"></div>
+                </div><!--
+             --><slot class="slot" @slotchange="${this.roughRender}"></slot>
+            </label>
+        `;
   }
   checkSwitchHandler() {
     this.checked = this.input.checked;
@@ -1188,56 +1188,52 @@ let HandDrawnCheckbox = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        .slot {
-          float: left;
-          display: inline-block;
-          vertical-align: middle;
-        }
+              .slot {
+                display: inline-block;
+                vertical-align: middle;
+              }
 
-        .checkbox {
-          overflow: hidden;
-          position: relative;
-          border: none;
-          background: none;
-          cursor: pointer;
-          outline: none;
-          height: 100%;
-        }
+              .checkbox {
+                overflow: hidden;
+                position: relative;
+                border: none;
+                background: none;
+                cursor: pointer;
+                outline: none;
+                height: 100%;
+              }
 
-        .checkbox-input {
-          width: 0;
-          height: 0;
-          opacity: 0;
-          position: absolute;
-        }
+              .checkbox-input {
+                width: 0;
+                height: 0;
+                opacity: 0;
+                position: absolute;
+              }
 
-        .checkbox-wrapper {
-          margin: 0.25em 0 0 0;
-          float: left;
-          display: inline-block;
-          overflow: hidden;
-          position: relative;
-          border: none;
-          background: none;
-          outline: none;
-          width: 1em;
-          height: 1em;
-          line-height: 1em;
-          vertical-align: middle;
-        }
+              .checkbox-wrapper {
+                display: inline-block;
+                overflow: hidden;
+                position: relative;
+                border: none;
+                background: none;
+                outline: none;
+                width: 1em;
+                height: 1em;
+                line-height: 1em;
+                vertical-align: middle;
+              }
 
-        .checkbox-tick {
-          height: 100%;
-          width: 100%;
-          position: relative;
-        }
+              .checkbox-tick {
+                height: 100%;
+                width: 100%;
+                position: relative;
+              }
 
-        .checkbox[disabled] {
-          opacity: 0.5;
-          background: rgba(0, 0, 0, 0.03);
-          cursor: not-allowed;
-        }
-      `
+              .checkbox[disabled] {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
+            `
     ];
   }
 };
@@ -1366,15 +1362,15 @@ let HandDrawnRadio = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <label class="radio" ?disabled="${this.disabled}">
-            <!-- note: using type="checkbox" to focus on unchecked node by Tab   -->
-            <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
-            <div id="dotWrapper" class="radio-wrapper rough">
-                <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
-            </div>
-            <slot class="slot" @slotchange="${this.roughRender}"></slot>
-        </label>
-    `;
+            <label class="radio" ?disabled="${this.disabled}">
+                <!-- note: using type="checkbox" to focus on unchecked node by Tab   -->
+                <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+                <div id="dotWrapper" class="radio-wrapper rough">
+                    <div id="dot" style=${this.checked ? "display:inline-block" : "display:none"} class="radio-dot rough"></div>
+                </div><!--
+             --><slot class="slot" @slotchange="${this.roughRender}"></slot>
+            </label>
+        `;
   }
   createRenderRoot() {
     return super.createRenderRoot();
@@ -1442,56 +1438,52 @@ let HandDrawnRadio = class extends HandDrawnBase {
     return [
       super.styles,
       i$4`
-        .slot {
-          float: left;
-          display: inline-block;
-          vertical-align: middle;
-        }
+              .slot {
+                display: inline-block;
+                vertical-align: middle;
+              }
 
-        .radio {
-          overflow: hidden;
-          position: relative;
-          border: none;
-          background: none;
-          cursor: pointer;
-          outline: none;
-          height: 100%;
-        }
+              .radio {
+                overflow: hidden;
+                position: relative;
+                border: none;
+                background: none;
+                cursor: pointer;
+                outline: none;
+                height: 100%;
+              }
 
-        .radio-input {
-          width: 0;
-          height: 0;
-          opacity: 0;
-          position: absolute;
-        }
+              .radio-input {
+                width: 0;
+                height: 0;
+                opacity: 0;
+                position: absolute;
+              }
 
-        .radio-wrapper {
-          margin: 0.25em 0 0 0;
-          float: left;
-          display: inline-block;
-          overflow: hidden;
-          position: relative;
-          border: none;
-          background: none;
-          outline: none;
-          width: 1em;
-          height: 1em;
-          line-height: 1em;
-          vertical-align: middle;
-        }
+              .radio-wrapper {
+                display: inline-block;
+                overflow: hidden;
+                position: relative;
+                border: none;
+                background: none;
+                outline: none;
+                width: 1em;
+                height: 1em;
+                line-height: 1em;
+                vertical-align: middle;
+              }
 
-        .radio-dot {
-          height: 100%;
-          width: 100%;
-          position: relative;
-        }
+              .radio-dot {
+                height: 100%;
+                width: 100%;
+                position: relative;
+              }
 
-        .radio[disabled] {
-          opacity: 0.5;
-          background: rgba(0, 0, 0, 0.03);
-          cursor: not-allowed;
-        }
-      `
+              .radio[disabled] {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
+            `
     ];
   }
 };
@@ -1763,14 +1755,14 @@ let HandDrawnSwitch = class extends HandDrawnBase {
   }
   render() {
     return T$1`
-        <slot name="left" class="slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot>
-        <label class="switch" ?disabled="${this.disabled}">
-            <input class="switch-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}">
-            <div id="switchWrapper" class="switch-wrapper rough ${this.checked ? "switch-wrapper--active" : ""}">
+        <slot name="left" class="slot" @slotchange="${this.roughRender}" @click="${this.leftClickHandler}"></slot><!--
+     --><label class="switch" ?disabled="${this.disabled}"><!--
+         --><input class="switch-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}"><!--
+         --><div id="switchWrapper" class="switch-wrapper rough ${this.checked ? "switch-wrapper--active" : ""}">
                 <div id="switchToggle" class="switch-toggle rough ${this.checked ? "switch-toggle--active" : ""}"></div>
-            </div>
-        </label>
-        <slot name="right" class="slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
+            </div><!--
+     --></label><!--
+     --><slot name="right" class="slot" @slotchange="${this.roughRender}" @click="${this.rightClickHandler}"></slot>
     `;
   }
   leftClickHandler() {
@@ -1838,7 +1830,6 @@ let HandDrawnSwitch = class extends HandDrawnBase {
       i$4`
         .slot {
           cursor: pointer;
-          float: left;
           display: inline-block;
           vertical-align: middle;
         }
@@ -1865,7 +1856,6 @@ let HandDrawnSwitch = class extends HandDrawnBase {
         }
 
         .switch-wrapper {
-          float: left;
           display: inline-block;
           border-radius: 1.5em;
           overflow: hidden;
@@ -2325,11 +2315,11 @@ let HandDrawnSlider = class extends HandDrawnBase {
   }
   mouseUpHandlerTmp() {
     this.isMouseDown = false;
+    this.requestUpdate();
   }
   slideHandlerTmp(e) {
     if (this.isMouseDown) {
       this.value = this.getNextValueByPoint(e);
-      console.log("!!!", e.stopPropagation);
       if (e.stopPropagation) {
         e.stopPropagation();
       } else {
