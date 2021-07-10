@@ -122,12 +122,12 @@ export class HandDrawnSlider extends HandDrawnBase {
 
   private mouseUpHandlerTmp() {
     this.isMouseDown = false;
+    this.requestUpdate()
   }
 
   private slideHandlerTmp(e: UIEvent) {
     if (this.isMouseDown) {
       this.value = this.getNextValueByPoint(e);
-      console.log('!!!', e.stopPropagation);
       if (e.stopPropagation) {
         e.stopPropagation();
       } else {
