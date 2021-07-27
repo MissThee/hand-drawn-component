@@ -1,17 +1,17 @@
 import "src/component/hand-drawn-button.ts"
 import "src/component/hand-drawn-icon.ts"
 import "src/component/hand-drawn-pad.ts"
-import "src/component/hand-drawn-input.ts"
-import "src/component/hand-drawn-textarea.ts"
-import "src/component/hand-drawn-checkbox.ts"
-import "src/component/hand-drawn-checkbox-group.ts"
-import "src/component/hand-drawn-radio.ts"
-import "src/component/hand-drawn-radio-group.ts"
+// import "src/component/hand-drawn-input.ts"
+// import "src/component/hand-drawn-textarea.ts"
+// import "src/component/hand-drawn-checkbox.ts"
+// import "src/component/hand-drawn-checkbox-group.ts"
+// import "src/component/hand-drawn-radio.ts"
+// import "src/component/hand-drawn-radio-group.ts"
 import "src/component/hand-drawn-dialog.ts"
-import "src/component/hand-drawn-switch.ts"
+// import "src/component/hand-drawn-switch.ts"
 import "src/component/hand-drawn-anchor.ts"
-import "src/component/hand-drawn-progress.ts"
-import "src/component/hand-drawn-slider.ts"
+// import "src/component/hand-drawn-progress.ts"
+// import "src/component/hand-drawn-slider.ts"
 
 
 // import * as FontTool from "src/util/font.ts"
@@ -48,7 +48,7 @@ window.onload = function () {
         }),
         document.fonts.ready
     ]).then(() => {
-        loadingText.innerText = '^_^'
+        loadingText.innerText = 'Done'
         loadingText.style.opacity = '0'
         loadingText.style.transform = 'scale(2)'
         setTimeout(() => {
