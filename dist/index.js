@@ -785,7 +785,7 @@ let HandDrawnPad = class extends HandDrawnBase {
 
         .pad-content {
           position: relative;
-          overflow: inherit;
+          overflow: auto;
           height: 100%;
           z-index: 1000;
         }
@@ -1053,12 +1053,34 @@ HandDrawnAnchor = __decorateClass([
   n$1("hand-drawn-anchor")
 ], HandDrawnAnchor);
 
+const loadFonts = async (fontFamily, fontSrc) => {
+  const font = new FontFace(fontFamily, `url(${fontSrc})`);
+  const loadFontFace = await font.load();
+  document.fonts.add(loadFontFace);
+  return loadFontFace;
+};
+const setFont = (fontInfoArray) => {
+  let fontFamilyStr = "";
+  for (let fontInfo of fontInfoArray) {
+    fontFamilyStr += "'" + fontInfo.fontFamily + "',";
+    if (fontInfo.fontFamily && fontInfo.fontSrc) {
+      loadFonts(fontInfo.fontFamily, fontInfo.fontSrc).then(() => {
+        var _a;
+        (_a = fontInfo.loaded) == null ? void 0 : _a.call(void 0);
+      });
+    }
+  }
+  if (fontFamilyStr) {
+    document.body.style.fontFamily = fontFamilyStr.substr(0, fontFamilyStr.length - 1);
+  }
+};
+
 window.onload = function() {
   const loading = document.getElementById("loading");
   const loadingText = document.getElementById("loadingText");
-  const content = document.getElementById("content");
-  content.style.transition = "opacity 1.2s ease-out";
-  content.style.opacity = "0";
+  const main = document.getElementById("main");
+  main.style.transition = "opacity 1.2s ease-out";
+  main.style.opacity = "0";
   loadingText.style.transformOrigin = "50% 50%";
   loadingText.style.transition = "all 1s ease-out";
   Promise.all([
@@ -1067,13 +1089,24 @@ window.onload = function() {
         resolve();
       }, 500);
     }),
-    document.fonts.ready
+    new Promise((resolve) => {
+      setFont([
+        {
+          fontFamily: "comic",
+          fontSrc: "./assets/font/comic.woff2",
+          loaded: () => {
+            resolve();
+          }
+        },
+        { fontFamily: "FZMWFont", fontSrc: "./assets/font/FZMWFont.woff2" }
+      ]);
+    })
   ]).then(() => {
     loadingText.innerText = "Done";
     loadingText.style.opacity = "0";
     loadingText.style.transform = "scale(2)";
     setTimeout(() => {
-      content.style.opacity = "1";
+      main.style.opacity = "1";
       setTimeout(() => {
         loading.style.display = "none";
       }, 1e3);

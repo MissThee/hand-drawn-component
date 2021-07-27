@@ -73,7 +73,7 @@ export class HandDrawnPad extends HandDrawnBase {
 
         .pad-content {
           position: relative;
-          overflow: inherit;
+          overflow: auto;
           height: 100%;
           z-index: 1000;
         }

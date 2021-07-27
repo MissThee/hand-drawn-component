@@ -51,36 +51,113 @@
             font-size: 16px;
         }
 
-        .pic-pad {
-            font-size: 0;
-            overflow: hidden;
-            display: block;
-        }
-
-        .item {
-            width: 400px;
-            display: inline-block;
-            margin: 0 0 20px 0
-        }
-
         a {
             color: black;
             text-decoration: none;
         }
 
+        .main {
+            transition: opacity 1.2s;
+            opacity: 0;
+            max-width: 600px;
+            margin: auto;
+            padding: 8px;
+            text-align: center
+        }
+
+        .content {
+            text-align: center;
+            padding: 20px 0 0 0
+        }
+
+        .footer {
+            height: 50px;
+            text-align: center;
+        }
+
+        .footer .mail{
+            display: inline-block;
+            color: #aaa;
+            line-height: 1.5em;
+            font-size: 22px;
+            vertical-align: bottom;
+        }
+
+        .header {
+            position: relative;
+            height: 60px;
+            display: inline-block;
+            width: 80%;
+            min-width: 400px;
+            text-align: left;
+        }
+
+        .header .title {
+            display: inline-block;
+            margin: 20px 0 0 0;
+            color: #999;
+            font-size: 30px;
+        }
+
+        .header .github {
+            float: right;
+            display: inline-block;
+            margin: 20px 0 0 0;
+        }
+
+        /* chrome滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: #999;
+        }
+
+        ::-webkit-scrollbar-thumb:window-inactive {
+            background: #ddd;
+        }
+
     </style>
 </head>
 <body>
-
 <div id="loading" style="position: fixed;left: 50%;top:40%;transform: translate(-50%,-50%);display: inline-block;pointer-events: none">
     <div id="loadingText" style="font-size: 3em;color: #999;pointer-events: none">loading...</div>
 </div>
 
-<hand-drawn-pad style="margin:5px;" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
-    <div id="content" style="text-align: center;transition: opacity 1.2s;opacity: 0;padding:20px 0 0 0"></div>
-</hand-drawn-pad>
+<div id="main" class="main" style="">
+    <hand-drawn-pad style="margin:auto;" roughops='{"fill":"#dddddd","fillStyle": "cross-hatch"}' realtimeresize>
+        <div class="header">
+            <hand-drawn-anchor href="###" linecolor="#666"><h1 class="title">MissThee</h1></hand-drawn-anchor>
+            <div class="github">
+                <a href="https://github.com/MissThee" target="_blank">
+                    <hand-drawn-button roughops='{"fill":"#409EFF","fillWeight":"0.1"}'>GitHub</hand-drawn-button>
+                </a>
+            </div>
+        </div>
+        <div id="content" class="content"></div>
+        <div class="footer">
+            <hand-drawn-anchor href="mailto:missthee@icloud.com" linecolor="#666">
+                <span class="mail">missthee@icloud.com</span>
+            </hand-drawn-anchor>
+        </div>
+    </hand-drawn-pad>
 
-
+</div>
 <script>
     const contentDataList = [
         {
@@ -88,6 +165,12 @@
             description: 'three.js构建的简易我的世界静态页',
             href: 'https://missthee.github.io/threejs-minecraft/dist/index.html',
             img: 'assets/img/THREE.JS MINECRAFT.png'
+        },
+        {
+            title: '手绘风格UI组件',
+            description: 'lit-element、rough.js构建手绘风格组件',
+            href: 'https://missthee.com/hand-drawn-component/dist/index.html',
+            img: 'assets/img/HAND DRAWN COMPONENT.png'
         },
         {
             title: '表格行内编辑',
@@ -99,7 +182,7 @@
             title: '简单大数据表格',
             description: '动态渲染数据行的大数据表格',
             href: 'https://missthee.github.io/simple-big-data-table/src/big-data-table.html',
-            img: 'assets/img/TABLE CELL EDIT.png'
+            img: 'assets/img/SIMPLE BIG DATA TABLE.png'
         },
         {
             title: '像素画板',
@@ -135,16 +218,22 @@
         //     </a>
         // </div>
         const itemEl = document.createElement('div')
-        itemEl.className = 'item'
+        itemEl.style.display = 'inline-block'
+        itemEl.style.verticalAlign = 'top'
+        itemEl.style.margin = '0 0 20px 0'
         const anchorEl = document.createElement('a')
         anchorEl.href = href
         anchorEl.target = '_blank'
         const picPadEl = document.createElement('hand-drawn-pad')
-        picPadEl.className = 'pic-pad'
+        picPadEl.style.fontSize = '0';
+        picPadEl.style.overflow = 'hidden';
+        picPadEl.style.display = 'block';
         const imgEl = document.createElement('img')
         imgEl.src = img
         imgEl.alt = title
+        imgEl.style.width = '400px'
         const textWrapperEl = document.createElement('div')
+        textWrapperEl.style.width = '400px'
         const titleEl = document.createElement('span')
         titleEl.innerText = title
         const splitEl = document.createElement('span')
