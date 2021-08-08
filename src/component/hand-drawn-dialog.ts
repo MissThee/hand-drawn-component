@@ -54,7 +54,7 @@ export class HandDrawnDialog extends HandDrawnBase {
   }
 
   private keyDownHandlerTmp(e: KeyboardEvent) {
-    if (e.key === 'Escape') {// e.keyCode === 27
+    if (e.code === 'Escape') {
       this.visible = false;
     }
   }

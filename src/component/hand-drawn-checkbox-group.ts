@@ -27,12 +27,10 @@ export class HandDrawnCheckboxGroup extends HandDrawnBase {
 
   protected firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    const els = (this.slotEl?.assignedNodes() || []) as CheckboxEl[];
+    const els = ((this.slotEl?.assignedNodes() || []) as CheckboxEl[]).filter(e=>e.tagName === 'HAND-DRAWN-CHECKBOX');
     els.forEach(checkboxEl => {
-      checkboxEl.disabled = this.disabled || checkboxEl.disabled;
-      if (checkboxEl.tagName === 'HAND-DRAWN-CHECKBOX') {
+        checkboxEl.disabled = this.disabled || checkboxEl.disabled;
         checkboxEl.checked = this.checkedValues.indexOf(checkboxEl.value) >= 0;
-      }
     });
   }
 

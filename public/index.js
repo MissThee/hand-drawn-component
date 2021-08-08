@@ -12,6 +12,8 @@ import "src/component/hand-drawn-switch.ts"
 import "src/component/hand-drawn-anchor.ts"
 import "src/component/hand-drawn-progress.ts"
 import "src/component/hand-drawn-slider.ts"
+import "src/component/hand-drawn-selector.ts"
+import "src/component/hand-drawn-item.ts"
 
 
 // import * as FontTool from "src/util/font.ts"

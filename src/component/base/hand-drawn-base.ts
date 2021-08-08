@@ -45,6 +45,8 @@ export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property() protected renderType: RenderType = RenderType.SVG;
   @property() protected animationType: AnimationType = AnimationType.ALWAYS;
+  @property({state:true}) protected isFocus = false;
+  @property({state:true}) protected isMouseIn = false;
   private _roughOps: Options = {};
   @property({type: Object})
   get roughOps() {
@@ -67,8 +69,7 @@ export abstract class HandDrawnBase extends LitElement {
   private resizePreTimestamp: number = 0;
   protected roughPadding: number = 2;
   protected resizeHandler = this.resizeHandlerTmp.bind(this);
-  protected isFocus = false;
-  protected isMouseIn = false;
+
   protected roughOpsOrigin: Options = {};
   protected roughOpsDefault: Options = {
     bowing: 0.5,

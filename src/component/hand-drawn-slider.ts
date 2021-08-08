@@ -91,7 +91,7 @@ export class HandDrawnSlider extends HandDrawnBase {
   private keyDownHandler(e: KeyboardEvent) {
     let nextValue = this.value;
     if (this.isVertical) {
-      switch (e.key) {
+      switch (e.code) {
         case "ArrowUp":
           nextValue += this.step || 1;
           break;
@@ -100,7 +100,7 @@ export class HandDrawnSlider extends HandDrawnBase {
           break;
       }
     } else {
-      switch (e.key) {
+      switch (e.code) {
         case "ArrowRight":
           nextValue += this.step || 1;
           break;

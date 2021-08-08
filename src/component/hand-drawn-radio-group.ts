@@ -50,12 +50,10 @@ export class HandDrawnRadioGroup extends HandDrawnBase {
   }
 
   private setSubRadioState() {
-    const els = (this.slotEl?.assignedNodes() || []) as RadioEl[];
+    const els = ((this.slotEl?.assignedNodes() || []) as RadioEl[]).filter(e=>e.tagName === 'HAND-DRAWN-RADIO');
     els.forEach(radioEl => {
-      radioEl.disabled = this.disabled || radioEl.disabled;
-      if (radioEl.tagName === 'HAND-DRAWN-RADIO') {
+        radioEl.disabled = this.disabled || radioEl.disabled;
         radioEl.checked = this.checkedValue === radioEl.value;
-      }
     });
   }
 

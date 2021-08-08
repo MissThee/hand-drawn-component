@@ -17,7 +17,7 @@ export class HandDrawnRadio extends HandDrawnBase {
         return html`
             <label class="radio" ?disabled="${this.disabled}">
                 <!-- note: using type="checkbox" to focus on unchecked node by Tab   -->
-                <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" name="aa" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
+                <input class="radio-input" @change="${this.checkSwitchHandler}" type="checkbox" ?disabled="${this.disabled}" .checked="${this.checked}" value="${this.value}">
                 <div id="dotWrapper" class="radio-wrapper rough">
                     <div id="dot" style=${this.checked ? 'display:inline-block' : 'display:none'} class="radio-dot rough"></div>
                 </div><!--
