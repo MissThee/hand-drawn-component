@@ -9,7 +9,7 @@ export class HandDrawnItem extends HandDrawnBase {
     @property({type: Boolean}) checked = false;
     @property({type: String}) value: string | null = null;
     @property({type: String}) name: string | null = null;
-    @property({type: String}) selectedColor: string = 'deepskyblue';
+    @property({type: String}) selectedColor: string | null = null;
     @property({type: Boolean, state:true}) isHover: boolean = false
 
     private isMouseDown: boolean = false

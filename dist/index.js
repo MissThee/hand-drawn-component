@@ -2556,7 +2556,7 @@ let HandDrawnSelector = class extends HandDrawnBase {
     this.selectedName = null;
     this.isShowItemList = false;
     this.focusItem = null;
-    this.focusItemIndex = 0;
+    this.focusItemIndex = -1;
     this.itemLength = 0;
   }
   render() {
@@ -2570,8 +2570,8 @@ let HandDrawnSelector = class extends HandDrawnBase {
                     </div>
                 </div>
                 <div id="dot" class="selector-dot rough"></div>
-                <div id="itemList" class="rough selector-list" style="${this.isShowItemList ? "" : "display:none"}">
-                    <div class="selector-list-scroll">
+                <div class="rough selector-list" style="${this.isShowItemList ? "" : "display:none"}">
+                    <div id="itemListScroll" class="selector-list-scroll">
                         <slot id="slot" .class="slot"></slot>
                     </div>
                 </div>
@@ -2615,8 +2615,8 @@ let HandDrawnSelector = class extends HandDrawnBase {
       return;
     }
     if (this.itemLength >= 0) {
-      if (!this.isShowItemList || this.focusItemIndex === null) {
-        this.focusItemIndex = 0;
+      if (!this.isShowItemList) {
+        this.focusItemIndex = -1;
       }
     }
     this.setItemState();
@@ -2633,8 +2633,8 @@ let HandDrawnSelector = class extends HandDrawnBase {
           if (this.focusItem) {
             this.selectedValue = this.focusItem.value;
             this.selectedName = this.focusItem.name;
+            this.closeItemListHandler();
           }
-          this.closeItemListHandler();
         } else {
           this.showItemListHandler();
         }
@@ -2647,15 +2647,15 @@ let HandDrawnSelector = class extends HandDrawnBase {
         e.preventDefault();
         break;
       case "ArrowUp":
-        this.focusItemIndex = Math.max(0, this.focusItemIndex - 1);
         this.showItemListHandler();
+        this.focusItemIndex = Math.max(0, this.focusItemIndex - 1);
         this.setItemState();
         e.stopPropagation();
         e.preventDefault();
         break;
       case "ArrowDown":
-        this.focusItemIndex = Math.min(this.itemLength - 1, this.focusItemIndex + 1);
         this.showItemListHandler();
+        this.focusItemIndex = Math.min(this.itemLength - 1, this.focusItemIndex + 1);
         this.setItemState();
         e.stopPropagation();
         e.preventDefault();
@@ -2688,15 +2688,22 @@ let HandDrawnSelector = class extends HandDrawnBase {
     const els = (((_a = this.slotEl) == null ? void 0 : _a.assignedNodes()) || []).filter((e) => e.tagName === "HAND-DRAWN-ITEM");
     this.selectedName = this.selectedValue;
     this.itemLength = els.length;
+    this.focusItem = null;
     els.forEach((itemEl, index) => {
       itemEl.disabled = this.disabled || itemEl.disabled;
       itemEl.isHover = index === this.focusItemIndex;
       if (itemEl.isHover) {
         this.focusItem = { value: itemEl.value, name: itemEl.name };
+        if (this.itemListScrollEl) {
+          this.itemListScrollEl.scrollTop = itemEl.offsetTop;
+        }
       }
       itemEl.checked = this.selectedValue === itemEl.value;
       if (itemEl.checked) {
         this.selectedName = itemEl.name;
+      }
+      if (!itemEl.selectedColor) {
+        itemEl.selectedColor = this.selectedColor;
       }
     });
   }
@@ -2727,15 +2734,18 @@ let HandDrawnSelector = class extends HandDrawnBase {
               .selector-list {
                 position: absolute;
                 top: 2em;
+                padding: 0 2px 2px 0;
                 margin: 0;
                 overflow: hidden;
-                padding: 0.5em 0.8em;
                 z-index: 100;
                 display: block;
                 width: 100%;
               }
 
               .selector-list-scroll {
+                position: relative;
+                padding: 0.5em 0.8em;
+                max-height: 12em;
                 overflow: auto;
               }
 
@@ -2777,8 +2787,8 @@ __decorateClass$1([
   o$1("slot")
 ], HandDrawnSelector.prototype, "slotEl", 2);
 __decorateClass$1([
-  o$1("#itemList")
-], HandDrawnSelector.prototype, "itemListEl", 2);
+  o$1("#itemListScroll")
+], HandDrawnSelector.prototype, "itemListScrollEl", 2);
 __decorateClass$1([
   e$2({ type: String })
 ], HandDrawnSelector.prototype, "placeholder", 2);
@@ -2816,7 +2826,7 @@ let HandDrawnItem = class extends HandDrawnBase {
     this.checked = false;
     this.value = null;
     this.name = null;
-    this.selectedColor = "deepskyblue";
+    this.selectedColor = null;
     this.isHover = false;
     this.isMouseDown = false;
     this.itemMouseUpHandler = this.itemMouseUpHandlerTmp.bind(this);

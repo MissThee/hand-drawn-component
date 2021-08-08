@@ -4,7 +4,6 @@ import {HandDrawnBase, RoughObjCanvas, RoughObjSvg} from './base/hand-drawn-base
 import './hand-drawn-radio';
 import {HandDrawnItem} from "./hand-drawn-item";
 
-
 export interface itemEl extends HandDrawnItem, HTMLElement {
 }
 
@@ -12,14 +11,14 @@ export interface itemEl extends HandDrawnItem, HTMLElement {
 export class HandDrawnSelector extends HandDrawnBase {
     @property({type: Boolean, reflect: true}) disabled = false;
     @query('slot') slotEl: HTMLSlotElement | undefined;
-    @query('#itemList') itemListEl: HTMLElement | undefined;
+    @query('#itemListScroll') itemListScrollEl: HTMLElement | undefined;
     @property({type: String}) placeholder: string | null = null;
     @property({type: String}) selectedValue: string | null = null;
     @property({type: String}) selectedColor: string = 'deepskyblue';
     @property({type: String, state: true}) selectedName: string | null = null;
     @property({type: String, state: true}) private isShowItemList = false
     focusItem: { value: string | null, name: string | null } | null = null
-    focusItemIndex: number = 0
+    focusItemIndex: number = -1
     itemLength: number = 0
 
     protected render() {
@@ -32,8 +31,8 @@ export class HandDrawnSelector extends HandDrawnBase {
                     </div>
                 </div>
                 <div id="dot" class="selector-dot rough"></div>
-                <div id="itemList" class="rough selector-list" style="${this.isShowItemList ? '' : 'display:none'}">
-                    <div class="selector-list-scroll">
+                <div class="rough selector-list" style="${this.isShowItemList ? '' : 'display:none'}">
+                    <div id="itemListScroll" class="selector-list-scroll">
                         <slot id="slot" .class="slot"></slot>
                     </div>
                 </div>
@@ -79,9 +78,9 @@ export class HandDrawnSelector extends HandDrawnBase {
         if (this.disabled) {
             return
         }
-        if (this.itemLength >=0) {
-            if (!this.isShowItemList || this.focusItemIndex === null) {
-                this.focusItemIndex = 0
+        if (this.itemLength >= 0) {
+            if (!this.isShowItemList) {
+                this.focusItemIndex = -1
             }
         }
         this.setItemState()
@@ -97,11 +96,11 @@ export class HandDrawnSelector extends HandDrawnBase {
             case'Enter':
             case'Space':
                 if (this.isShowItemList) {
-                    if(this.focusItem){
+                    if (this.focusItem) {
                         this.selectedValue = this.focusItem.value;
                         this.selectedName = this.focusItem.name;
+                        this.closeItemListHandler()
                     }
-                    this.closeItemListHandler()
                 } else {
                     this.showItemListHandler()
                 }
@@ -114,15 +113,15 @@ export class HandDrawnSelector extends HandDrawnBase {
                 e.preventDefault()
                 break;
             case'ArrowUp':
-                this.focusItemIndex = Math.max(0, this.focusItemIndex - 1)
                 this.showItemListHandler()
+                this.focusItemIndex = Math.max(0, this.focusItemIndex - 1)
                 this.setItemState()
                 e.stopPropagation()
                 e.preventDefault()
                 break;
             case'ArrowDown':
-                this.focusItemIndex = Math.min(this.itemLength - 1, this.focusItemIndex + 1)
                 this.showItemListHandler()
+                this.focusItemIndex = Math.min(this.itemLength - 1, this.focusItemIndex + 1)
                 this.setItemState()
                 e.stopPropagation()
                 e.preventDefault()
@@ -159,15 +158,22 @@ export class HandDrawnSelector extends HandDrawnBase {
         const els = ((this.slotEl?.assignedNodes() || []) as itemEl[]).filter(e => e.tagName === 'HAND-DRAWN-ITEM');
         this.selectedName = this.selectedValue
         this.itemLength = els.length
+        this.focusItem = null
         els.forEach((itemEl, index) => {
             itemEl.disabled = this.disabled || itemEl.disabled;
             itemEl.isHover = index === this.focusItemIndex
             if (itemEl.isHover) {
                 this.focusItem = {value: itemEl.value, name: itemEl.name}
+                if (this.itemListScrollEl) {
+                    this.itemListScrollEl.scrollTop = itemEl.offsetTop
+                }
             }
             itemEl.checked = this.selectedValue === itemEl.value;
             if (itemEl.checked) {
                 this.selectedName = itemEl.name
+            }
+            if (!itemEl.selectedColor) {
+                itemEl.selectedColor = this.selectedColor
             }
         });
     }
@@ -200,15 +206,18 @@ export class HandDrawnSelector extends HandDrawnBase {
               .selector-list {
                 position: absolute;
                 top: 2em;
+                padding: 0 2px 2px 0;
                 margin: 0;
                 overflow: hidden;
-                padding: 0.5em 0.8em;
                 z-index: 100;
                 display: block;
                 width: 100%;
               }
 
               .selector-list-scroll {
+                position: relative;
+                padding: 0.5em 0.8em;
+                max-height: 12em;
                 overflow: auto;
               }
 
