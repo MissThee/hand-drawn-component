@@ -1855,7 +1855,7 @@ let HandDrawnSwitch = class extends HandDrawnBase {
         .switch-input {
           width: 0;
           height: 0;
-          opacity: 1;
+          opacity: 0;
           position: absolute;
         }
 
