@@ -23,7 +23,7 @@ export class HandDrawnItem extends HandDrawnBase {
     protected render() {
         return html`
             <div
-                    class="rough item"
+                    class="item"
                     style="${this.checked ? 'color:' + this.selectedColor : 'inherit'};${this.isHover ? 'font-weight:bold' : 'normal'}"
                     @mousedown="${this.itemMouseDownHandler}"
                     ?disabled="${this.disabled}"
