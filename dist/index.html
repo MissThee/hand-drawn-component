@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>hand-drawn-component</title>
-    
+    <!--    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
     <meta name="viewport" content="width=375">
     <style>
         /*@font-face {*/
@@ -116,7 +116,7 @@
                     <hand-drawn-checkbox class="hand-drawn" rendertype="canvas" value="c2"><span>checkbox(canvas)</span></hand-drawn-checkbox>
                     <hand-drawn-checkbox class="hand-drawn" rendertype="svg" disabled="disabled" value="c3"><span>disabled(svg)</span></hand-drawn-checkbox>
                 </hand-drawn-checkbox-group>
-                
+                <!-- document.getElementById("hand-drawn-checkbox-group").checkedValues -->
             </div>
             <div style="margin:0 0 20px 0">
                 <div>radio:</div>
@@ -131,7 +131,7 @@
                     <hand-drawn-radio class="hand-drawn" rendertype="canvas" value="r2"><span>radio(canvas)</span></hand-drawn-radio>
                     <hand-drawn-radio class="hand-drawn" rendertype="svg" disabled="disabled" value="r3"><span>disabled(svg)</span></hand-drawn-radio>
                 </hand-drawn-radio-group>
-                
+                <!-- document.getElementById("hand-drawn-radio-group").checkedValue -->
             </div>
             <div style="margin:0 0 20px 0">
                 <div>dialog:</div>
@@ -180,8 +180,8 @@
                     <hand-drawn-switch rendertype="canvas" lefttogglefill="pink" righttogglefill="blue" leftbgfill="red" rightbgfill="lime" class="hand-drawn">
                         <span slot="left">OFF</span>
                         <span slot="right">ON</span>
-                    </hand-drawn-switch>
-                </div>
+                    
+                </hand-drawn-switch></div>
                 <div style="margin: 0 20px 0 0;display: inline-block">
                     <hand-drawn-switch rendertype="svg" class="hand-drawn" disabled="disabled"></hand-drawn-switch>
                 </div>
@@ -303,6 +303,6 @@
 </script>
 
 
-  <script src="index.js"></script></body>
+  <script src="/index.js"></script></body>
 </html>
 

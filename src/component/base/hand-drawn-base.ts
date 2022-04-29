@@ -1,4 +1,4 @@
-import {css, LitElement, PropertyValues} from 'lit';
+import {css, CSSResultGroup, LitElement, PropertyValues} from 'lit';
 import {property, queryAll} from 'lit/decorators.js';
 
 import rough from 'roughjs';
@@ -23,21 +23,21 @@ export interface RoughSize {
 }
 
 export interface RoughObj {
-  roughFirstRendered: boolean
-  roughParentEl: HTMLElement
-  roughParentElSizePre: RoughSize
+  roughFirstRendered: boolean;
+  roughParentEl: HTMLElement;
+  roughParentElSizePre: RoughSize;
 
 }
 
 export interface RoughObjSvg extends RoughObj {
-  roughEl: SVGSVGElement
-  roughInstance: RoughSVG
+  roughEl: SVGSVGElement;
+  roughInstance: RoughSVG;
 
 }
 
 export interface RoughObjCanvas extends RoughObj {
-  roughEl: HTMLCanvasElement
-  roughInstance: RoughCanvas
+  roughEl: HTMLCanvasElement;
+  roughInstance: RoughCanvas;
 }
 
 
@@ -45,8 +45,8 @@ export abstract class HandDrawnBase extends LitElement {
   @queryAll('.rough') private roughParentElArray: HTMLElement[] | undefined;
   @property() protected renderType: RenderType = RenderType.SVG;
   @property() protected animationType: AnimationType = AnimationType.ALWAYS;
-  @property({state:true}) protected isFocus = false;
-  @property({state:true}) protected isMouseIn = false;
+  @property({state: true}) protected isFocus = false;
+  @property({state: true}) protected isMouseIn = false;
   private _roughOps: Options = {};
   @property({type: Object})
   get roughOps() {
@@ -222,8 +222,8 @@ export abstract class HandDrawnBase extends LitElement {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth||roughParentEl.getBoundingClientRect().width,
-                height: roughParentEl.clientHeight||roughParentEl.getBoundingClientRect().height
+                width: roughParentEl.clientWidth || roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight || roughParentEl.getBoundingClientRect().height
               }
             });
             break;
@@ -239,8 +239,8 @@ export abstract class HandDrawnBase extends LitElement {
               roughEl: roughDrawEl,
               roughInstance: roughDrawInstance,
               roughParentElSizePre: {
-                width: roughParentEl.clientWidth||roughParentEl.getBoundingClientRect().width,
-                height: roughParentEl.clientHeight||roughParentEl.getBoundingClientRect().height
+                width: roughParentEl.clientWidth || roughParentEl.getBoundingClientRect().width,
+                height: roughParentEl.clientHeight || roughParentEl.getBoundingClientRect().height
               }
             });
             break;
@@ -295,7 +295,7 @@ export abstract class HandDrawnBase extends LitElement {
     }
   }
 
-  static get styles() {
+  static get styles(): CSSResultGroup {
     return css`
       * {
         padding: 0;

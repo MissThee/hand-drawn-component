@@ -2,14 +2,14 @@ import path from 'path'
 import resolve from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
 import replace from '@rollup/plugin-replace';
-import serve from 'rollup-plugin-dev-server'
+import dev from 'rollup-plugin-dev'
 import esbuild from 'rollup-plugin-esbuild'
 import html2 from 'rollup-plugin-html2'
 import alias from '@rollup/plugin-alias';
 const isProd = process.env.NODE_ENV === 'production'
 
 const outputPath = process.env.NODE_PACKAGED_PATH
-const config = {
+export default {
     input: 'public/index.js',
     output: {
         dir: outputPath,
@@ -49,13 +49,9 @@ const config = {
             sourceMap: true,
             minify: isProd,
         }),
-        serve({
-            contentBase: '.',
-            port: 8000,
-            // historyApiFallback: true
+        dev({
+            dirs:['dist'],
         })
     ],
     preserveEntrySignatures: false,
 };
-
-export default config;
